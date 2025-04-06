@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard-home
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard-home
+  template:
+    metadata:
+      labels:
+        app: adguard-home
+    spec:
+      containers:
+        - name: adguard-home
+          image: adguard/adguardhome:latest
+          ports:
+            - containerPort: 53  # DNS
+            - containerPort: 80  # Web UI
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/adguardhome
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: adguard-home-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguard-home
+  namespace: default
+spec:
+  selector:
+    app: adguard-home
+  ports:
+    - protocol: TCP
+      port: 53  # DNS
+      targetPort: 53
+    - protocol: TCP
+      port: 80  # Web UI (Optional)
+      targetPort: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-home-dns
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: dns.forcebyte.org  # ExternalDNS hostname
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`dns.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 53  # DNS Port
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-home-web
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: adguard.forcebyte.org  # Optional Web UI URL
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`adguard.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 80  # Web UI Port
