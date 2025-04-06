@@ -13,8 +13,7 @@ provider "helm" {
 }
 
 
-provider "fluxcd/flux" {
-    source  = "fluxcd/flux"
+provider "flux" {
     kubernetes {
         host                   = var.k8s_api_server
         token                  = var.k8s_api_token
@@ -33,4 +32,13 @@ provider "fluxcd/flux" {
 provider "github" {
   owner = "forcebyte"
   token = var.github_token
+}
+
+terraform {
+  required_providers {
+    flux = {
+      source = "fluxcd/flux"
+      version = "1.5.1"
+    }
+  }
 }
