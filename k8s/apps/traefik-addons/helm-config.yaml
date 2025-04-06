@@ -48,3 +48,8 @@ spec:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: api-token
+      - name: CF_API_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-token-secret
+            key: email
