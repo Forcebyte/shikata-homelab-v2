@@ -11,7 +11,7 @@ resource "kubernetes_secret" "flux_git_credentials" {
   }
 
   data = {
-    "api-token" = base64encode(var.github_token)
+    "identity" = base64encode(var.github_ssh_key)
   }
 
   type = "Opaque"
