@@ -4,7 +4,7 @@ resource "kubernetes_namespace" "flux-system" {
   }
 }
 
-resource "kubernetes_secret" "cloudflare_api_token" {
+resource "kubernetes_secret" "flux_git_credentials" {
   metadata {
     name      = "flux-git-credentials"
     namespace = kubernetes_namespace.flux-system.metadata[0].name
