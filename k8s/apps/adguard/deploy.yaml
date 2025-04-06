@@ -22,7 +22,7 @@ spec:
             - containerPort: 853 # QUIC/DNS
           volumeMounts:
             - name: config-volume
-              mountPath: /etc/adguardhome
+              mountPath: /opt/adguardhome/conf
       volumes:
         - name: config-volume
           persistentVolumeClaim:
