@@ -59,6 +59,7 @@ spec:
             - --source=traefik-proxy
             - --domain-filter=forcebyte.org
             - --provider=cloudflare
+            - --default-targets=140.238.159.81
             - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
             - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
             - --traefik-disable-legacy
