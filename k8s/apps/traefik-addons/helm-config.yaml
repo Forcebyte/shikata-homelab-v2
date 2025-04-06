@@ -9,7 +9,7 @@ spec:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      - "--entryPoints.dns.address=:53/udp"
+      - "--entryPoints.dns.address=:53/tcp"
       - "--entryPoints.quic.address=:853/tcp"
       - "--entryPoints.dns.address=:53/udp"
       - "--entryPoints.quic.address=:853/tcp"
