@@ -1,4 +1,4 @@
-resource "kubernetes_secret" "cloudflare_api_token" {
+resource "kubernetes_secret" "cloudflare_api_token-kubesystem" {
   metadata {
     name      = "cloudflare-api-token-secret"
     namespace = "kube-system"
