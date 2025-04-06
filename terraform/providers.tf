@@ -14,6 +14,7 @@ provider "helm" {
 
 
 provider "flux" {
+    source  = "fluxcd/flux"
     kubernetes {
         host                   = var.k8s_api_server
         token                  = var.k8s_api_token
@@ -33,3 +34,4 @@ provider "github" {
   owner = "forcebyte"
   token = var.github_token
 }
+
