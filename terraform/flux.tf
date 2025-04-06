@@ -19,10 +19,9 @@ resource "kubernetes_secret" "flux_git_credentials" {
 
 
 resource "helm_release" "flux" {
-  name       = "flux"
-  namespace  = "flux-system"
-  repository = "https://charts.fluxcd.io"
-  chart      = "flux"
-  version    = "1.23.0"  # Adjust according to the latest stable version
+  chart            = "flux2"
+  name             = "flux2"
+  namespace        = "flux-system"
   create_namespace = true
+  repository = "https://fluxcd-community.github.io/helm-charts"
 }
