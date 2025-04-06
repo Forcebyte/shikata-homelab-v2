@@ -10,9 +10,8 @@ spec:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--entryPoints.dnstcp.address=:53/tcp"
-      - "--entryPoints.quic.address=:853/tcp"
       - "--entryPoints.dnsudp.address=:53/udp"
-      - "--entryPoints.quic.address=:853/tcp"
+      - "--entryPoints.quic.address=:853/ucp"
     ports:
       traefik:
         expose: true
@@ -30,7 +29,7 @@ spec:
         port: 853
         expose: true
         exposedPort: 853
-        protocol: TCP
+        protocol: UDP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
