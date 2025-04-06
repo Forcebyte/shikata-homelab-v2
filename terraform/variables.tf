@@ -22,6 +22,13 @@ variable "cloudflare_api_token" {
   sensitive   = true
 }
 
+variable "cloudflare_email" {
+  description = "Cloudflare Email"
+  type        = string
+}
+
+
+
 variable "github_token" {
   description = "Github PAT (https://github.com/settings/tokens)"
   type        = string
