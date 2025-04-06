@@ -16,17 +16,16 @@ spec:
     ports:
       traefik:
         expose: true
+      dns:
+        port: 53
+        expose: true
+        exposedPort: 53
+        protocol: TCP
+      quic:
+        port: 853
+        expose: true
+        exposedPort: 853
+        protocol: TCP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
-  ports:
-    dns:
-      port: 53
-      expose: true
-      exposedPort: 53
-      protocol: TCP
-    quic:
-      port: 853
-      expose: true
-      exposedPort: 853
-      protocol: TCP
