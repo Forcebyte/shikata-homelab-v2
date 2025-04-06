@@ -22,7 +22,7 @@ variable "cloudflare_api_token" {
   sensitive   = true
 }
 
-variable "github_token" {
+variable "github_ssh_key" {
   description = "Github PAT (https://github.com/settings/tokens)"
   type        = string
   sensitive   = true
