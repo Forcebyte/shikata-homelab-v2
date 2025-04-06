@@ -5,8 +5,8 @@ resource "kubernetes_secret" "cloudflare_api_token-kubesystem" {
   }
 
   data = {
-    #"api-token" = var.cloudflare_api_token
-    "api-token" = var.cloudflare_api_key
+    "api-token" = var.cloudflare_api_token
+    #"api-token" = var.cloudflare_api_key
     "email" = var.cloudflare_email
   }
 
