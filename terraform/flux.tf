@@ -1,9 +1,3 @@
-resource "kubernetes_namespace" "flux-system" {
-  metadata {
-    name = "flux-system"
-  }
-}
-
 resource "flux_bootstrap_git" "this" {
   embedded_manifests = true
   path               = "k8s/apps"
