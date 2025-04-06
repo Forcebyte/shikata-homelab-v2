@@ -12,6 +12,7 @@ resource "kubernetes_secret" "flux_git_credentials" {
 
   data = {
     "identity" = base64encode(var.github_ssh_key)
+    "ssh-privatekey" = base64encode(var.github_ssh_key)
     "known_hosts" = var.known_hosts_ssh
   }
 
@@ -40,7 +41,7 @@ resource "kubernetes_manifest" "flux_gitrepository" {
       ref = {
         branch = "main"
       }
-      interval        = "1m"
+      interval = "1m"
       secretRef  = {
         name = kubernetes_secret.flux_git_credentials.metadata[0].name
       }
