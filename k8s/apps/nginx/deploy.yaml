@@ -16,21 +16,37 @@ spec:
       - image: nginx
         name: nginx
         ports:
-        - containerPort: 80
+          - name: web
+            containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx
   namespace: nginx
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: nginx2.forcebyte.org
-    external-dns.alpha.kubernetes.io/ttl: "120" #optional
 spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
   selector:
     app: nginx
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress
+  annotations:
+    external-dns.alpha.kubernetes.io/target: nginx2.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx
+            port:
+              name: web
