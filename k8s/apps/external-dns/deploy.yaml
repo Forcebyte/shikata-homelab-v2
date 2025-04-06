@@ -69,11 +69,11 @@ spec:
             - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
             - --traefik-disable-legacy
           env:
-            - name: CF_API_TOKEN
+            - name: CF_API_KEY 
               valueFrom:
                 secretKeyRef:
                   name: cloudflare-api-token
-                  key: api-token
+                  key: api-key
             - name: CF_API_EMAIL
               valueFrom:
                 secretKeyRef:
