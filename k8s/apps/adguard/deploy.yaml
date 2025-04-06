@@ -77,3 +77,16 @@ spec:
       services:
         - name: adguard-home
           port: 80  # Web UI Port
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: adguard-home-config
+  namespace: adguard
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi  # Adjust the size as needed
+  storageClassName: local-path
