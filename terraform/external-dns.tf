@@ -12,6 +12,7 @@ resource "kubernetes_secret" "cloudflare_api_token" {
 
   data = {
     "api-token" = var.cloudflare_api_token
+    "api-key" = var.cloudflare_api_key
     "email" = var.cloudflare_email
   }
 
