@@ -53,9 +53,6 @@ kind: IngressRouteUDP
 metadata:
   name: adguard-home-dns-udp
   namespace: adguard
-  annotations:
-    external-dns.alpha.kubernetes.io/target: dns.forcebyte.org  # ExternalDNS hostname
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   entryPoints:
     - dnsudp
@@ -69,6 +66,9 @@ kind: IngressRoute
 metadata:
   name: adguard-home-dns
   namespace: adguard
+  annotations:
+    external-dns.alpha.kubernetes.io/target: dns.forcebyte.org  # ExternalDNS hostname
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   entryPoints:
     - dnstcp
@@ -87,6 +87,7 @@ metadata:
   namespace: adguard
   annotations:
     external-dns.alpha.kubernetes.io/target: adguard.forcebyte.org  # Optional Web UI URL
+    kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
     - web
