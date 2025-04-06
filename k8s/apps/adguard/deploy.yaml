@@ -58,7 +58,8 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   entryPoints:
-    - web
+    - dns
+    - quic
   routes:
     - match: Host(`dns.forcebyte.org`)
       kind: Rule
