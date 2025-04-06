@@ -43,12 +43,12 @@ spec:
       kubernetesCRD:
         allowCrossNamespace: true
     env:
-      - name: CF_API_TOKEN
+      - name: CLOUDFLARE_API_KEY
         valueFrom:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: api-token
-      - name: CF_API_EMAIL
+      - name: CLOUDFLARE_EMAIL
         valueFrom:
           secretKeyRef:
             name: cloudflare-api-token-secret
