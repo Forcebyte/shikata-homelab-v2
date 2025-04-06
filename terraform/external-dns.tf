@@ -32,7 +32,7 @@ resource "kubernetes_manifest" "flux_kustomization" {
       prune           = true
       interval        = "1m"
       gitRepositoryRef = {
-        name = kubernetes_manifest.flux_gitrepository.metadata[0].name
+        name = "shikata-homelab"
       }
     }
   }
