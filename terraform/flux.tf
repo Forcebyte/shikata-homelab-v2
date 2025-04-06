@@ -29,7 +29,7 @@ resource "helm_release" "flux" {
 
 resource "kubernetes_manifest" "flux_gitrepository" {
   manifest = {
-    apiVersion = "source.toolkit.fluxcd.io/v1beta2"
+    apiVersion = "source.toolkit.fluxcd.io/v1"
     kind       = "GitRepository"
     metadata = {
       name      = "shikata-homelab"
@@ -37,11 +37,12 @@ resource "kubernetes_manifest" "flux_gitrepository" {
     }
     spec = {
       url        = "https://github.com/forcebyte/shikata-homelab.git"
-      branch     = "main"
+      ref = {
+        branch = "main"
+      }
       secretRef  = {
         name = kubernetes_secret.flux_git_credentials.metadata[0].name
       }
-      branch          = "main"
     }
   }
 }

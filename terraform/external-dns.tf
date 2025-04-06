@@ -18,7 +18,7 @@ resource "kubernetes_secret" "cloudflare_api_token" {
 }
 
 
-resource "kubernetes_manifest" "flux_kustomization" {
+resource "kubernetes_manifest" "externaldns_kustomization" {
   manifest = {
     apiVersion = "kustomize.toolkit.fluxcd.io/v1"
     kind       = "Kustomization"
@@ -31,7 +31,10 @@ resource "kubernetes_manifest" "flux_kustomization" {
       path            = "./k8s/apps/external-dns"
       prune           = true
       interval        = "1m"
-      gitRepositoryRef = "shikata-homelab"
+      sourceRef = {
+        kind = "GitRepository"
+        name = "shikata-homelab"
+      }
     }
   }
 }
