@@ -106,7 +106,9 @@ spec:
       kind: Rule
       services:
         - name: adguard-home
-          port: 3000  # Web UI Port
+          port: 443  # Web UI Port
+  tls:
+    certResolver: cloudflare  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
