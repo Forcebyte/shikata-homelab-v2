@@ -41,6 +41,7 @@ resource "kubernetes_manifest" "flux_gitrepository" {
       secretRef  = {
         name = kubernetes_secret.flux_git_credentials.metadata[0].name
       }
+      branch          = "main"
     }
   }
 }
