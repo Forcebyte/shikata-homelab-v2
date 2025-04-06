@@ -36,7 +36,7 @@ resource "kubernetes_manifest" "flux_gitrepository" {
       namespace = "flux-system"
     }
     spec = {
-      url        = "git@github.com:forcebyte/shikata-homelab-v2.git"
+      url        = "ssh://git@github.com:forcebyte/shikata-homelab-v2.git"
       ref = {
         branch = "main"
       }
