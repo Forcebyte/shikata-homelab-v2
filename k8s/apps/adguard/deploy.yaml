@@ -20,6 +20,7 @@ spec:
             - containerPort: 53  # DNS
             - containerPort: 3000  # Web UI
             - containerPort: 853 # QUIC/DNS
+            - containerPort: 443 # DNS Over HTTPS
           volumeMounts:
             - name: config-volume
               mountPath: /opt/adguardhome/conf
@@ -46,6 +47,9 @@ spec:
     - name: web
       port: 3000  # Web UI (Optional)
       targetPort: 3000
+    - name: dnshttps
+      port: 443  # Web UI (Optional)
+      targetPort: 443
   type: NodePort  # Expose as NodePort
 ---
 apiVersion: traefik.io/v1alpha1
@@ -79,6 +83,8 @@ spec:
       services:
         - name: adguard-home
           port: 53
+        - name: adguard-home
+          port: 443
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
