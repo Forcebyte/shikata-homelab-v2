@@ -14,22 +14,26 @@ spec:
       - "--entryPoints.quic.address=:853/ucp"
     ports:
       traefik:
-        expose: true
+        expose:
+          default: true
       dnsudp:
         port: 53
         exposedPort: 53
-        expose: true
+        expose:
+          default: true
         protocol: UDP
       dnstcp:
         port: 53
         exposedPort: 53
-        expose: true
+        expose:
+          default: true
         protocol: TCP
       quic:
         port: 853
-        expose: true
         exposedPort: 853
-        protocol: UDP
+        expose:
+          default: true
+        protocol: TCP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
