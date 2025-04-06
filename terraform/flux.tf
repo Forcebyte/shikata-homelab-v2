@@ -17,6 +17,19 @@ resource "kubernetes_secret" "flux_git_credentials" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "flux_ssh_known_hosts" {
+  metadata {
+    name      = "flux-ssh-known-hosts"
+    namespace = kubernetes_namespace.flux-system.metadata[0].name
+  }
+
+  data = {
+    "known_hosts" = base64encode(var.known_hosts_ssh)
+  }
+
+  type = "Opaque"
+}
+
 
 resource "helm_release" "flux" {
   chart            = "flux2"
@@ -43,6 +56,9 @@ resource "kubernetes_manifest" "flux_gitrepository" {
       interval        = "1m"
       secretRef  = {
         name = kubernetes_secret.flux_git_credentials.metadata[0].name
+      }
+      knownHostsSecretRef = {
+        name = kubernetes_secret.flux_ssh_known_hosts.metadata[0].name
       }
     }
   }
