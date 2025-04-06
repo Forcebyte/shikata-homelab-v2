@@ -70,7 +70,7 @@ spec:
             - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
             - --cloudflare-region-key="eu" # (optional) configure which region can decrypt HTTPS requests
           env:
-            - name: CF_API_TOKEN
+            - name: CF_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: cloudflare-api-token
