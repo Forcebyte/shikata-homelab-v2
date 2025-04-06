@@ -19,6 +19,7 @@ resource "kubernetes_secret" "cloudflare_api_token" {
 
 
 resource "kubernetes_manifest" "externaldns_kustomization" {
+  depends_on = [kubernetes_manifest.flux_gitrepository]  # Dependency on the GitRepository resource
   manifest = {
     apiVersion = "kustomize.toolkit.fluxcd.io/v1"
     kind       = "Kustomization"
