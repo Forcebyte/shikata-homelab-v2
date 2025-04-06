@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: darkroom
+  namespace: darkroom
+spec:
+  selector:
+    matchLabels:
+      app: darkroom
+  template:
+    metadata:
+      labels:
+        app: darkroom
+    spec:
+      containers:
+      - image: dahuss/a-dark-room
+        name: darkroom
+        ports:
+          - name: web
+            containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: darkroom
+  namespace: darkroom
+spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+  selector:
+    app: darkroom
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-ingress
+  namespace: darkroom
+  annotations:
+    external-dns.alpha.kubernetes.io/target: darkroom.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: darkroom
+            port:
+              name: web
