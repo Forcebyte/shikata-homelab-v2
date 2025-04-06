@@ -9,17 +9,22 @@ spec:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      - "--entryPoints.dns.address=:53/tcp"
+      - "--entryPoints.dnstcp.address=:53/tcp"
       - "--entryPoints.quic.address=:853/tcp"
-      - "--entryPoints.dns.address=:53/udp"
+      - "--entryPoints.dnsudp.address=:53/udp"
       - "--entryPoints.quic.address=:853/tcp"
     ports:
       traefik:
         expose: true
-      dns:
+      dnsudp:
         port: 53
-        expose: true
         exposedPort: 53
+        expose: true
+        protocol: UDP
+      dnstcp:
+        port: 53
+        exposedPort: 53
+        expose: true
         protocol: TCP
       quic:
         port: 853
