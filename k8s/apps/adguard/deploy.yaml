@@ -39,6 +39,7 @@ spec:
     - name: dns
       port: 53  # DNS
       targetPort: 53
+      nodePort: 53  # Expose port 53 externally
     - name: web
       port: 80  # Web UI (Optional)
       targetPort: 80
