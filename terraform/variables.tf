@@ -14,3 +14,19 @@ variable "ca_certificate" {
   type        = string
   sensitive   = true
 }
+
+
+variable "cloudflare_api_token" {
+  description = "Cloudflare API Token"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_token" {
+  description = "Github PAT (https://github.com/settings/tokens)"
+  type        = string
+  sensitive   = true
+}
+
+
+
