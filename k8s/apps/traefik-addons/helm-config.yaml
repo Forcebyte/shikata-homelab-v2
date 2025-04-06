@@ -12,6 +12,11 @@ spec:
       - "--entryPoints.dnstcp.address=:53/tcp"
       - "--entryPoints.dnsudp.address=:53/udp"
       - "--entryPoints.quic.address=:853/udp"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
+      - "--certificatesresolvers.cloudflare.acme.email=hyperpatrick@gmail.com"
+      - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
     ports:
       traefik:
         expose:
@@ -37,3 +42,9 @@ spec:
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-token-secret
+            key: api-token
