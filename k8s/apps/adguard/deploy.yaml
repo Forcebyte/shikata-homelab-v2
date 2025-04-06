@@ -78,7 +78,6 @@ metadata:
 spec:
   entryPoints:
     - dnstcp
-    - quic
   routes:
     - match: Host(`dns.forcebyte.org`)
       kind: Rule
