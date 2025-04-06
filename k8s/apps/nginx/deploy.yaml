@@ -33,21 +33,19 @@ spec:
     app: nginx
 ---
 apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: IngressRoute
 metadata:
-  name: traefik-ingress
+  name: traefik-ingress-nginx
   namespace: nginx
   annotations:
-    external-dns.alpha.kubernetes.io/target: nginx3.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: nginx2.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nginx
-            port:
-              name: web
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`nginx.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80

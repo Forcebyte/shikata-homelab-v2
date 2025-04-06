@@ -33,21 +33,19 @@ spec:
     app: darkroom
 ---
 apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: IngressRoute
 metadata:
-  name: traefik-ingress
+  name: traefik-ingress-darkroom
   namespace: darkroom
   annotations:
     external-dns.alpha.kubernetes.io/target: darkroom.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: darkroom
-            port:
-              name: web
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`darkroom.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: darkroom
+          port: 80
