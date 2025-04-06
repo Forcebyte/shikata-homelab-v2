@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qemu-binfmt
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: qemu-binfmt
+  template:
+    metadata:
+      labels:
+        app: qemu-binfmt
+    spec:
+      containers:
+      - name: qemu-binfmt
+        image: multiarch/qemu-user-static
+        args: ["--reset", "-p", "yes"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: binfmt
+          mountPath: /proc/sys/fs/binfmt_misc
+      volumes:
+      - name: binfmt
+        hostPath:
+          path: /proc/sys/fs/binfmt_misc
