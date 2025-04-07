@@ -77,15 +77,17 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   entryPoints:
-    #- dnstcp
-    #- web
-    - websecure
+    - dnstcp
+    - web
+    #- websecure
   routes:
     - match: Host(`dns.forcebyte.org`)
       kind: Rule
       services:
         - name: adguard-home
           port: 443
+        - name: adguard-home
+          port: 53
   tls:
     certResolver: cloudflare
 ---
@@ -100,7 +102,6 @@ metadata:
 spec:
   entryPoints:
     - web
-    - websecure
   routes:
     - match: Host(`adguard.forcebyte.org`)
       kind: Rule
