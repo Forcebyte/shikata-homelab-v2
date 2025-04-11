@@ -28,23 +28,29 @@ spec:
     spec:
       containers:
         - name: readarr
-          image: readarr/readarr:latest
+          image: lscr.io/linuxserver/readarr:develop
           ports:
             - containerPort: 8787  # Default port for Readarr
           volumeMounts:
             - name: readarr-data
               mountPath: /config  # Configuration and database files
+            - name: calibre-library
+              mountPath: /books  # Path to your eBook library
           env:
             - name: PUID
-              value: "0"  # Adjust to match your user ID
+              value: "1000"  # Adjust to match your user ID
             - name: PGID
-              value: "0"  # Adjust to match your group ID
+              value: "1000"  # Adjust to match your group ID
+
             - name: TZ
               value: "Etc/UTC"  # Set your timezone
       volumes:
         - name: readarr-data
           persistentVolumeClaim:
             claimName: readarr-data
+        - name: calibre-library
+          persistentVolumeClaim:
+            claimName: calibre-library
 ---
 apiVersion: v1
 kind: Service
