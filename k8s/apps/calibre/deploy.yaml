@@ -11,6 +11,19 @@ spec:
       storage: 5Gi  # Adjust storage size as needed
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-library
+  namespace: calibre-web
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi  # Adjust storage size as needed for your eBooks
+  storageClassName: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -48,9 +61,8 @@ spec:
           persistentVolumeClaim:
             claimName: calibre-web-data
         - name: calibre-library
-          hostPath:
-            path: /books  # Replace with the path to your eBook library
-            type: Directory
+          persistentVolumeClaim:
+            claimName: calibre-library
 ---
 apiVersion: v1
 kind: Service
