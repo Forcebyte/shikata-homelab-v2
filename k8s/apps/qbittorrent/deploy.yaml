@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent-config
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi  # Adjust storage size as needed
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent-downloads
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi  # Adjust storage size as needed
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:latest
+          ports:
+            - containerPort: 8080  # Web UI port
+            - containerPort: 6881  # Torrent port
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config  # Configuration files
+            - name: qbittorrent-downloads
+              mountPath: /downloads  # Downloads directory
+          env:
+            - name: PUID
+              value: "1000"  # Adjust to match your user ID
+            - name: PGID
+              value: "1000"  # Adjust to match your group ID
+            - name: TZ
+              value: "Etc/UTC"  # Set your timezone
+            - name: WEBUI_PORT
+              value: "8080"  # Web UI port
+      volumes:
+        - name: qbittorrent-config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: qbittorrent-downloads
+          persistentVolumeClaim:
+            claimName: qbittorrent-downloads
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent
+  namespace: qbittorrent
+spec:
+  selector:
+    app: qbittorrent
+  ports:
+    - name: webui
+      port: 8080
+      targetPort: 8080
+    - name: torrent
+      port: 6881
+      targetPort: 6881
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: qbittorrent
+  namespace: qbittorrent
+  annotations:
+    external-dns.alpha.kubernetes.io/target: qbittorrent.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`qbittorrent.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: 8080
