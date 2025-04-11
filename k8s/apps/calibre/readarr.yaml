@@ -11,6 +11,19 @@ spec:
       storage: 5Gi  # Adjust storage size as needed
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readarr-downloads
+  namespace: calibre-web
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi  # Adjust storage size as needed
+  storageClassName: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,12 +49,13 @@ spec:
               mountPath: /config  # Configuration and database files
             - name: calibre-library
               mountPath: /books  # Path to your eBook library
+            - name: readarr-downloads
+              mountPath: /downloads # Path to your download folder
           env:
             - name: PUID
               value: "1000"  # Adjust to match your user ID
             - name: PGID
               value: "1000"  # Adjust to match your group ID
-
             - name: TZ
               value: "Etc/UTC"  # Set your timezone
       volumes:
@@ -51,6 +65,9 @@ spec:
         - name: calibre-library
           persistentVolumeClaim:
             claimName: calibre-library
+        - name: readarr-downloads
+          persistentVolumeClaim:
+            claimName: readarr-downloads
 ---
 apiVersion: v1
 kind: Service
