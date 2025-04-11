@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readarr-data
+  namespace: calibre-web
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi  # Adjust storage size as needed
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readarr
+  namespace: calibre-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: readarr
+  template:
+    metadata:
+      labels:
+        app: readarr
+    spec:
+      containers:
+        - name: readarr
+          image: readarr/readarr:latest
+          ports:
+            - containerPort: 8787  # Default port for Readarr
+          volumeMounts:
+            - name: readarr-data
+              mountPath: /config  # Configuration and database files
+          env:
+            - name: PUID
+              value: "0"  # Adjust to match your user ID
+            - name: PGID
+              value: "0"  # Adjust to match your group ID
+            - name: TZ
+              value: "Etc/UTC"  # Set your timezone
+      volumes:
+        - name: readarr-data
+          persistentVolumeClaim:
+            claimName: readarr-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readarr
+  namespace: calibre-web
+spec:
+  selector:
+    app: readarr
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8787
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: readarr
+  namespace: calibre-web
+  annotations:
+    external-dns.alpha.kubernetes.io/target: readarr.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`readarr.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: readarr
+          port: 80
