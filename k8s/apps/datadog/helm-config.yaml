@@ -10,7 +10,7 @@ metadata:
   namespace: flux-system
 spec:
   url: https://helm.datadoghq.com
-  interval: 1h
+  interval: 5m
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
