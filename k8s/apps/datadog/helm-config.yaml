@@ -1,0 +1,33 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: datadog
+  namespace: flux-system
+spec:
+  url: https://helm.datadoghq.com
+  interval: 1h
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: datadog-operator
+  namespace: datadog
+spec:
+  interval: 5m
+  releaseName: datadog-operator
+  chart:
+    spec:
+      chart: datadog-operator
+      sourceRef:
+        kind: HelmRepository
+        name: datadog
+        namespace: flux-system
+      version: 0.12.0 # Replace with the desired version
+  values:
+    datadog:
+      apiKey: "c8084bf2a26277f04a3f7bf659a83b54" # Replace with your Datadog API key
+      appKey: "4434e081dc5db24dbeacd598069ecbd5d81a1b60" # Replace with your Datadog App key
+    operator:
+      enabled: true
+      metrics:
+        enabled: true
