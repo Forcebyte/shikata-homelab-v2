@@ -44,7 +44,7 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:latest
           ports:
             - containerPort: 8080  # Web UI port
-            - containerPort: 6881  # Torrent port
+            - containerPort: 49155  # Torrent port
           volumeMounts:
             - name: qbittorrent-config
               mountPath: /config  # Configuration files
@@ -80,8 +80,8 @@ spec:
       port: 8080
       targetPort: 8080
     - name: torrent
-      port: 6881
-      targetPort: 6881
+      port: 49155
+      targetPort: 49155
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
@@ -101,3 +101,8 @@ spec:
       services:
         - name: qbittorrent
           port: 8080
+    - match: Host(`qbittorrent.forcebyte.org`) && PathPrefix(`/torrent`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: 49155
