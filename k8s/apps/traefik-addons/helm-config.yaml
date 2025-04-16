@@ -9,6 +9,8 @@ spec:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--entryPoints.bittorrenttcp.address=:49155/tcp"
+      - "--entryPoints.bittorrentudp.address=:49155/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -19,6 +21,18 @@ spec:
       traefik:
         expose:
           default: true
+      bittorrenttcp:
+        port: 49155
+        exposedPort: 49155
+        expose:
+          default: true
+        protocol: TCP
+      bittorrentudp:
+        port: 49155
+        exposedPort: 49155
+        expose:
+          default: true
+        protocol: UDP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
