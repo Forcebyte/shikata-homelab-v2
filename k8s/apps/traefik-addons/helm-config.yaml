@@ -12,7 +12,6 @@ spec:
       - "--entryPoints.dnstcp.address=:53/tcp"
       - "--entryPoints.dnsudp.address=:53/udp"
       - "--entryPoints.quic.address=:853/udp"
-      - "--entryPoints.torrent.address=:49155/tcp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -41,12 +40,6 @@ spec:
         expose:
           default: true
         protocol: UDP
-      torrent:
-        port: 49155
-        exposedPort: 49155
-        expose:
-          default: true
-        protocol: TCP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
