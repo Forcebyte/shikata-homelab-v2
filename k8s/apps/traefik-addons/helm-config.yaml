@@ -9,10 +9,6 @@ spec:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      - "--entryPoints.dnstcp.address=:53/tcp"
-      - "--entryPoints.dnsudp.address=:53/udp"
-      - "--entryPoints.quic.address=:853/udp"
-      - "--entryPoints.torrent.address=:49155/tcp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -23,30 +19,6 @@ spec:
       traefik:
         expose:
           default: true
-      dnsudp:
-        port: 53
-        exposedPort: 53
-        expose:
-          default: true
-        protocol: UDP
-      dnstcp:
-        port: 53
-        exposedPort: 53
-        expose:
-          default: true
-        protocol: TCP
-      quic:
-        port: 853
-        exposedPort: 853
-        expose:
-          default: true
-        protocol: UDP
-      torrent:
-        port: 49155
-        exposedPort: 49155
-        expose:
-          default: true
-        protocol: TCP
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
