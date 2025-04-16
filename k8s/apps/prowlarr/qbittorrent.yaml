@@ -79,6 +79,9 @@ spec:
     - name: webui
       port: 8080
       targetPort: 8080
+    - name: qbittorrent
+      port: 49155
+      targetPort: 49155
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
@@ -99,17 +102,30 @@ spec:
         - name: qbittorrent
           port: 8080
 ---
-apiVersion: v1
-kind: Service
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteUDP
 metadata:
-  name: qbittorrent-nodeport
+  name: qbittorrent-udp
   namespace: media
 spec:
-  selector:
-    app: qbittorrent
-  ports:
-    - name: torrent
-      port: 49155
-      targetPort: 49155
-  type: NodePort
+  entryPoints:
+    - bittorrentudp  # Ensure this entry point is defined in Traefik
+  routes:
+    - match: HostSNI(`*`)  # Match all incoming UDP traffic
+      services:
+        - name: qbittorrent
+          port: 49155
 ---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: qbittorrent-tcp
+  namespace: media
+spec:
+  entryPoints:
+    - bittorrenttcp  # Ensure this entry point is defined in Traefik
+  routes:
+    - match: HostSNI(`*`)  # Match all incoming TCP traffic
+      services:
+        - name: qbittorrent
+          port: 49155
