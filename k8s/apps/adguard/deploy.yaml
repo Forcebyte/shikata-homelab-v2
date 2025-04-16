@@ -1,122 +1,122 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: adguard-home
-#   namespace: adguard
-# spec:
-#   replicas: 0
-#   selector:
-#     matchLabels:
-#       app: adguard-home
-#   template:
-#     metadata:
-#       labels:
-#         app: adguard-home
-#     spec:
-#       containers:
-#         - name: adguard-home
-#           image: adguard/adguardhome:latest
-#           ports:
-#             - containerPort: 53  # DNS
-#             - containerPort: 3000  # Web UI
-#             - containerPort: 853 # QUIC/DNS
-#             - containerPort: 443 # DNS Over HTTPS
-#           volumeMounts:
-#             - name: config-volume
-#               mountPath: /opt/adguardhome/conf
-#       volumes:
-#         - name: config-volume
-#           persistentVolumeClaim:
-#             claimName: adguard-home-config
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: adguard-home
-#   namespace: adguard
-# spec:
-#   selector:
-#     app: adguard-home
-#   ports:
-#     - name: dns
-#       port: 53  # DNS
-#       targetPort: 53
-#     - name: quic
-#       port: 853  # DNS
-#       targetPort: 853
-#     - name: web
-#       port: 3000  # Web UI (Optional)
-#       targetPort: 3000
-#     - name: dnshttps
-#       port: 443  # Web UI (Optional)
-#       targetPort: 443
-#   type: NodePort  # Expose as NodePort
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRouteUDP
-# metadata:
-#   name: adguard-home-dns-udp
-#   namespace: adguard
-# spec:
-#   entryPoints:
-#     - dnsudp
-#   routes:
-#   - services:
-#     - name: adguard-home
-#       port: 53
-#     - name: adguard-home
-#       port: 853
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: adguard-home-dns
-#   namespace: adguard
-#   annotations:
-#     external-dns.alpha.kubernetes.io/target: dns.forcebyte.org  # ExternalDNS hostname
-#     #external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-# spec:
-#   entryPoints:
-#     - dnstcp
-#     - web
-#   routes:
-#     - match: Host(`dns.forcebyte.org`)
-#       kind: Rule
-#       services:
-#         - name: adguard-home
-#           port: 443
-#         - name: adguard-home
-#           port: 53
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: adguard-home-web
-#   namespace: adguard
-#   annotations:
-#     external-dns.alpha.kubernetes.io/target: adguard.forcebyte.org  # Optional Web UI URL
-#     kubernetes.io/ingress.class: traefik
-# spec:
-#   entryPoints:
-#     - web
-#   routes:
-#     - match: Host(`adguard.forcebyte.org`)
-#       kind: Rule
-#       services:
-#         - name: adguard-home
-#           port: 3000  # Web UI Port
-#   #tls:
-#   #  certResolver: cloudflare  
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: adguard-home-config
-#   namespace: adguard
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 50Mi  # Adjust the size as needed
-#   storageClassName: local-path
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard-home
+  namespace: adguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard-home
+  template:
+    metadata:
+      labels:
+        app: adguard-home
+    spec:
+      containers:
+        - name: adguard-home
+          image: adguard/adguardhome:latest
+          ports:
+            - containerPort: 53  # DNS
+            - containerPort: 3000  # Web UI
+            - containerPort: 853 # QUIC/DNS
+            - containerPort: 443 # DNS Over HTTPS
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/adguardhome/conf
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: adguard-home-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguard-home
+  namespace: adguard
+spec:
+  selector:
+    app: adguard-home
+  ports:
+    - name: dns
+      port: 53  # DNS
+      targetPort: 53
+    - name: quic
+      port: 853  # DNS
+      targetPort: 853
+    - name: web
+      port: 3000  # Web UI (Optional)
+      targetPort: 3000
+    - name: dnshttps
+      port: 443  # Web UI (Optional)
+      targetPort: 443
+  type: NodePort  # Expose as NodePort
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name: adguard-home-dns-udp
+  namespace: adguard
+spec:
+  entryPoints:
+    - dnsudp
+  routes:
+  - services:
+    - name: adguard-home
+      port: 53
+    - name: adguard-home
+      port: 853
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-home-dns
+  namespace: adguard
+  annotations:
+    external-dns.alpha.kubernetes.io/target: dns.forcebyte.org  # ExternalDNS hostname
+    #external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  entryPoints:
+    - dnstcp
+    - web
+  routes:
+    - match: Host(`dns.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 443
+        - name: adguard-home
+          port: 53
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-home-web
+  namespace: adguard
+  annotations:
+    external-dns.alpha.kubernetes.io/target: adguard.forcebyte.org  # Optional Web UI URL
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`adguard.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 3000  # Web UI Port
+  #tls:
+  #  certResolver: cloudflare  
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: adguard-home-config
+  namespace: adguard
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi  # Adjust the size as needed
+  storageClassName: local-path
