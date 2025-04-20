@@ -1,3 +1,4 @@
+# PersistentVolumeClaim for Calibre-Web data
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -11,6 +12,7 @@ spec:
       storage: 5Gi  # Adjust storage size as needed
   storageClassName: local-path
 ---
+# PersistentVolumeClaim for Calibre library
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -24,6 +26,7 @@ spec:
       storage: 10Gi  # Adjust storage size as needed for your eBooks
   storageClassName: local-path
 ---
+# Deployment for Calibre-Web
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,6 +67,48 @@ spec:
           persistentVolumeClaim:
             claimName: calibre-library
 ---
+# Deployment for Calibre
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre
+  template:
+    metadata:
+      labels:
+        app: calibre
+    spec:
+      containers:
+        - name: calibre
+          image: linuxserver/calibre:latest
+          ports:
+            - containerPort: 8080  # Default port for Calibre
+          volumeMounts:
+            - name: calibre-config
+              mountPath: /config  # Configuration files
+            - name: calibre-library
+              mountPath: /books  # Path to your eBook library
+          env:
+            - name: PUID
+              value: "1000"  # Adjust to match your user ID
+            - name: PGID
+              value: "1000"  # Adjust to match your group ID
+            - name: TZ
+              value: "Etc/UTC"  # Set your timezone
+      volumes:
+        - name: calibre-config
+          persistentVolumeClaim:
+            claimName: calibre-web-data
+        - name: calibre-library
+          persistentVolumeClaim:
+            claimName: calibre-library
+---
+# Service for Calibre-Web
 apiVersion: v1
 kind: Service
 metadata:
@@ -78,6 +123,22 @@ spec:
       targetPort: 8083
   type: ClusterIP
 ---
+# Service for Calibre
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre
+  namespace: qbittorrent
+spec:
+  selector:
+    app: calibre
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+# IngressRoute for Calibre-Web
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -95,3 +156,22 @@ spec:
       services:
         - name: calibre-web
           port: 80
+---
+# IngressRoute for Calibre
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre
+  namespace: qbittorrent
+  annotations:
+    external-dns.alpha.kubernetes.io/target: calibre-reader.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`calibre-reader.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: calibre
+          port: 8080
