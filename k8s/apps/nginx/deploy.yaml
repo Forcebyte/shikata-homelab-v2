@@ -46,6 +46,9 @@ spec:
   routes:
     - match: Host(`nginx.forcebyte.org`)
       kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
       services:
         - name: nginx
           port: 80
