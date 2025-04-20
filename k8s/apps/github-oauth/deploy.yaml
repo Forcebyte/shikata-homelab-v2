@@ -29,6 +29,8 @@ spec:
                   key: clientSecret
             - name: API_BASE_URL
               value: "https://github-oauth.forcebyte.org/"
+            - name: DEBUG_MODE
+              value: "true"
           ports:
             - containerPort: 80
 ---
