@@ -192,4 +192,4 @@ spec:
       apiBaseUrl: "https://github-oauth.forcebyte.org"
       whitelist:
         logins:
-          - "forcebyte"  # Replace with your GitHub username
+          - "Forcebyte"  # Replace with your GitHub username
