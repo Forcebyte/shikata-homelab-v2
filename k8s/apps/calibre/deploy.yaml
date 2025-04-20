@@ -202,5 +202,5 @@ spec:
     - match: Host(`calibre-server.forcebyte.org`)
       kind: Rule
       services:
-        - name: server
+        - name: calibre
           port: 8081
