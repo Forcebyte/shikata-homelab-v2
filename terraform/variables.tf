@@ -33,10 +33,23 @@ variable "cloudflare_email" {
   type        = string
 }
 
-
-
+# Github token for FluxCD
 variable "github_token" {
   description = "Github PAT (https://github.com/settings/tokens)"
   type        = string
   sensitive   = true
 }
+
+# Github OAuth Client ID and Secret for FluxCD
+variable "github_oauth_client_id" {
+  description = "Github OAuth Client ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_oauth_client_secret" {
+  description = "Github OAuth Client Secret"
+  type        = string
+  sensitive   = true
+}
+
