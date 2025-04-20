@@ -65,3 +65,18 @@ spec:
       services:
         - name: github-oauth-server
           port: 80
+---
+# Middleware for GitHub OAuth
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: github-oauth
+  namespace: kube-system
+spec:
+  plugin:
+    github-oauth:
+      logLevel: debug
+      apiBaseUrl: "https://github-oauth.forcebyte.org"
+      whitelist:
+        logins:
+          - "Forcebyte"  # Replace with your GitHub username
