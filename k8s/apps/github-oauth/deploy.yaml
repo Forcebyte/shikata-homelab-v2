@@ -45,3 +45,21 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: github-oauth-server
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: github-oauth.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`github-oauth.forcebyte.org`)  # Replace with your domain
+      kind: Rule
+      services:
+        - name: github-oauth-server
+          port: 80
