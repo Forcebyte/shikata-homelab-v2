@@ -157,7 +157,7 @@ spec:
         - name: calibre-web
           port: 80
 ---
-# IngressRoute for Calibre
+# IngressRoute for Calibre with GitHub OAuth
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -172,6 +172,22 @@ spec:
   routes:
     - match: Host(`calibre-reader.forcebyte.org`)
       kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
       services:
         - name: calibre
           port: 8080
+---
+# Middleware for GitHub OAuth
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: github-oauth
+  namespace: qbittorrent
+spec:
+  plugin:
+    github:
+      clientId: "Ov23liLbh2E6Dl0khCjU"  # Replace with your GitHub OAuth app client ID
+      clientSecret: "b22e1d054965429aff8dd3a8c973f294a4452258"  # Replace with your GitHub OAuth app client secret
+      baseURL: "https://calibre-reader.forcebyte.org"  # Replace with your Calibre domain
+      organization: "forcebyte"  # Optional: Restrict access to a specific GitHub organization
