@@ -17,6 +17,7 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.email=hyperpatrick@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--log.level=DEBUG"  # Enable debug logging
+      - "--global.sendAnonymousUsage=false"  # Disable anonymous statistics
     ports:
       traefik:
         expose:
