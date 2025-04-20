@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "traefik_github_oauth-kubesystem" {
   metadata {
-    name      = "cloudflare-api-token-secret"
+    name      = "github-oauth-secret"
     namespace = "kube-system"
   }
 
