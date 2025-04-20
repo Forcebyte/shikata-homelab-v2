@@ -28,7 +28,7 @@ spec:
                   name: github-oauth-secret
                   key: clientSecret
             - name: API_BASE_URL
-              value: "http://github-oauth-server.kube-system.svc.cluster.local"
+              value: "https://github-oauth.forcebyte.org/"
           ports:
             - containerPort: 80
 ---

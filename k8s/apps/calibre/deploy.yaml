@@ -188,7 +188,7 @@ metadata:
 spec:
   plugin:
     github-oauth:
-      apiBaseUrl: "http://github-oauth-server.kube-system.svc.cluster.local"
+      apiBaseUrl: "https://github-oauth.forcebyte.org/"
       whitelist:
         logins:
           - "forcebyte"  # Replace with your GitHub username
