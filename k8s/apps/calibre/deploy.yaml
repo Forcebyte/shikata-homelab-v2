@@ -188,6 +188,7 @@ metadata:
 spec:
   plugin:
     github-oauth:
+      logLevel: debug
       apiBaseUrl: "https://github-oauth.forcebyte.org"
       whitelist:
         logins:

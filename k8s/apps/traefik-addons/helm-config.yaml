@@ -52,4 +52,4 @@ spec:
       plugins:
         github-oauth:
           moduleName: "github.com/MuXiu1997/traefik-github-oauth-plugin"
-          version: "latest"
+          version: "v0.3.1"
