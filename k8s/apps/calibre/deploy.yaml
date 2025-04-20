@@ -137,7 +137,7 @@ spec:
     - name: http
       port: 8080
       targetPort: 8080
-    - name: http
+    - name: server
       port: 8081
       targetPort: 8081
   type: ClusterIP
@@ -202,5 +202,5 @@ spec:
     - match: Host(`calibre-server.forcebyte.org`)
       kind: Rule
       services:
-        - name: calibre
+        - name: server
           port: 8081
