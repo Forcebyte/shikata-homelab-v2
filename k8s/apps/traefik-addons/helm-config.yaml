@@ -47,3 +47,8 @@ spec:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: email
+    experimental:
+      plugins:
+        github-oauth:
+          moduleName: "github.com/MuXiu1997/traefik-github-oauth-plugin"
+          version: "latest"

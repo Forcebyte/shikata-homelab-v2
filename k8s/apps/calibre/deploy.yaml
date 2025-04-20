@@ -186,8 +186,8 @@ metadata:
   namespace: qbittorrent
 spec:
   plugin:
-    github:
-      clientId: "Ov23liLbh2E6Dl0khCjU"  # Replace with your GitHub OAuth app client ID
-      clientSecret: "b22e1d054965429aff8dd3a8c973f294a4452258"  # Replace with your GitHub OAuth app client secret
-      baseURL: "https://calibre-reader.forcebyte.org"  # Replace with your Calibre domain
-      organization: "forcebyte"  # Optional: Restrict access to a specific GitHub organization
+    github-oauth:
+      apiBaseUrl: "http://github-oauth-server.kube-system.svc.cluster.local"
+      whitelist:
+        logins:
+          - "forcebyte"  # Replace with your GitHub username
