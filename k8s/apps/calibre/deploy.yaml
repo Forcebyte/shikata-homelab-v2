@@ -172,9 +172,9 @@ spec:
   routes:
     - match: Host(`calibre-reader.forcebyte.org`)
       kind: Rule
-      #middlewares:
-      #  - name: github-oauth  # Apply the GitHub OAuth middleware
-      #    namespace: qbittorrent
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: qbittorrent
       services:
         - name: calibre
           port: 8080
