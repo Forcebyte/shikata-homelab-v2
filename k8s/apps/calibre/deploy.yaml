@@ -193,7 +193,7 @@ metadata:
   name: calibre
   namespace: qbittorrent
   annotations:
-    external-dns.alpha.kubernetes.io/target: calibre-reader.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: calibre-server.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
