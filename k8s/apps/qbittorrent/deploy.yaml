@@ -98,6 +98,9 @@ spec:
   routes:
     - match: Host(`qbittorrent.forcebyte.org`)
       kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
       services:
         - name: qbittorrent
           port: 8080
