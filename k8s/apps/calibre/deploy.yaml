@@ -47,6 +47,7 @@ spec:
           image: linuxserver/calibre-web:0.6.24
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
+            - containerPort: 8089  # Kobo Port
           volumeMounts:
             - name: calibre-web-data
               mountPath: /config  # Configuration and database files
@@ -132,6 +133,9 @@ spec:
     - name: http
       port: 80
       targetPort: 8083
+    - name: http
+      port: 8089
+      targetPort: 8089
   type: ClusterIP
 ---
 # Service for Calibre
@@ -167,12 +171,32 @@ spec:
   routes:
     - match: Host(`calibre.forcebyte.org`)
       kind: Rule
-      #middlewares:
-      #  - name: github-oauth  # Apply the GitHub OAuth middleware
-      #    namespace: kube-system
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
       services:
         - name: calibre-web
           port: 80
+---
+# IngressRoute for Calibre-Web
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre-web-kobo
+  namespace: qbittorrent
+  annotations:
+    external-dns.alpha.kubernetes.io/target: calibre-kobo.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    # This CANNOT use a middleware, as it will not work with kobo devices to access the content server
+    - match: Host(`calibre-kobo.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: calibre-web
+          port: 8081
 ---
 # IngressRoute for Calibre with GitHub OAuth
 apiVersion: traefik.io/v1alpha1
@@ -211,6 +235,9 @@ spec:
   routes:
     - match: Host(`calibre-server.forcebyte.org`)
       kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
       services:
         - name: calibre
           port: 8081
