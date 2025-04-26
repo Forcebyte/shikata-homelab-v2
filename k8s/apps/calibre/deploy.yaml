@@ -133,7 +133,7 @@ spec:
     - name: http
       port: 80
       targetPort: 8083
-    - name: http
+    - name: kobo
       port: 8089
       targetPort: 8089
   type: ClusterIP
