@@ -167,9 +167,9 @@ spec:
   routes:
     - match: Host(`calibre.forcebyte.org`)
       kind: Rule
-      middlewares:
-        - name: github-oauth  # Apply the GitHub OAuth middleware
-          namespace: kube-system
+      #middlewares:
+      #  - name: github-oauth  # Apply the GitHub OAuth middleware
+      #    namespace: kube-system
       services:
         - name: calibre-web
           port: 80
