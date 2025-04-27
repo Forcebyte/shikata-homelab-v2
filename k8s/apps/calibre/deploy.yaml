@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
         - name: calibre-web
-          image: linuxserver/calibre-web:0.6.24
+          image: linuxserver/calibre-web
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
           volumeMounts:
@@ -54,6 +54,18 @@ spec:
               mountPath: /books  # Path to your eBook library
             - name: qbittorrent-downloads
               mountPath: /downloads # Path to your download folder
+            - name: custom-files
+              mountPath: /custom-files
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - >
+                    cp /custom-files/kobo.py /app/calibre-web/cps/kobo.py &&
+                    cp /custom-files/kobo_auth.py /app/calibre-web/cps/kobo_auth.py &&
+                    cp /custom-files/kobo_sync_status.py /app/calibre-web/cps/kobo_sync_status.py
           env:
             - name: PUID
               value: "1000"  # Adjust to match your user ID
@@ -71,6 +83,9 @@ spec:
         - name: qbittorrent-downloads
           persistentVolumeClaim:
             claimName: qbittorrent-downloads
+        - name: custom-files
+          configMap:
+            name: calibre-web-custom-files
 ---
 # Deployment for Calibre
 apiVersion: apps/v1
