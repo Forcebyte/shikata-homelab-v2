@@ -60,7 +60,7 @@ spec:
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
   name: minecraft
   namespace: minecraft
@@ -72,8 +72,7 @@ spec:
   entryPoints:
     - minecraft
   routes:
-    - match: Host(`minecraft.forcebyte.org`)
-      kind: Rule
+    - match: HostSNI(`*`)
       services:
         - name: minecraft
           port: 25565
