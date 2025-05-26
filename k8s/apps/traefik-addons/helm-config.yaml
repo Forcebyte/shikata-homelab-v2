@@ -11,7 +11,6 @@ spec:
       - "--api.insecure=true"
       - "--entryPoints.bittorrenttcp.address=:49155/tcp"
       - "--entryPoints.bittorrentudp.address=:49155/udp"
-      - "--entryPoints.minecraft.address=:25565/tcp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -26,12 +25,6 @@ spec:
       bittorrenttcp:
         port: 49155
         exposedPort: 49155
-        expose:
-          default: true
-        protocol: TCP
-      minecraft:
-        port: 25565
-        exposedPort: 25565
         expose:
           default: true
         protocol: TCP
