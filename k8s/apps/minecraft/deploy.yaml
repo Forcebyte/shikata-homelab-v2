@@ -66,10 +66,11 @@ metadata:
   namespace: minecraft
   annotations:
     external-dns.alpha.kubernetes.io/target: minecraft.forcebyte.org
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
-    - web
+    - minecraft
   routes:
     - match: Host(`minecraft.forcebyte.org`)
       kind: Rule
