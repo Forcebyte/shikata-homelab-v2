@@ -1,9 +1,8 @@
 <div align="center">
 
-# Shikata Homelab (v2)
-
 <img src=".github/logo.png" alt="Shikata Homelab Logo" width="200"/>
 
+# Shikata Homelab (v2)
 
 <p><i>Homelab Configurations for Shikata, a OCI-Based HomeLab I use for random stuff</i></p>
 
