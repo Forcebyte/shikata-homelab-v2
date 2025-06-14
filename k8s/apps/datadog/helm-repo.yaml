@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: datadog
-      version: "3.x.x" # Use the latest stable version or pin as needed
+      version: "3.118.3" # Use the latest stable version or pin as needed
       sourceRef:
         kind: HelmRepository
         name: datadog
