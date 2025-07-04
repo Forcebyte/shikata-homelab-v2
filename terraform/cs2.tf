@@ -1,3 +1,9 @@
+resource "kubernetes_namespace" "external_dns" {
+  metadata {
+    name = "game-server"
+  }
+}
+
 resource "kubernetes_secret" "cs2-secrets" {
   metadata {
     name      = "cs2-secrets"

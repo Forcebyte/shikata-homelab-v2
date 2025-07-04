@@ -45,8 +45,13 @@ spec:
             - name: STEAM_ACCOUNT
               valueFrom:
                 secretKeyRef:
-                  name: cs2-secret
-                  key: STEAM_ACCOUNT
+                  name: cs2-secrets
+                  key: steamAccount
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cs2-secrets
+                  key: apiKey
             - name: API_KEY
               value: "test"
           volumeMounts:
