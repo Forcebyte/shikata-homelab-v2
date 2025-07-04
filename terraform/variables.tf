@@ -59,3 +59,14 @@ variable "datadog_api_key" {
   sensitive   = true
 }
 
+variable "steam_api_key" {
+  description = "Steam API Key"
+  type        = string
+  sensitive   = true
+}
+
+variable "steam_account_key" {
+  description = "Steam Account API Key"
+  type        = string
+  sensitive   = true
+}
