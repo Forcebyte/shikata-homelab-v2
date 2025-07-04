@@ -52,8 +52,6 @@ spec:
                 secretKeyRef:
                   name: cs2-secrets
                   key: apiKey
-            - name: API_KEY
-              value: "test"
           volumeMounts:
             - name: cs2-data
               mountPath: /home/steam/cs2
