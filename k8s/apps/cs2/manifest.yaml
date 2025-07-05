@@ -18,7 +18,7 @@ metadata:
   name: cs2-modded-server
   namespace: game-server
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: cs2-modded-server
