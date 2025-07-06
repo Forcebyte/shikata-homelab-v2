@@ -32,6 +32,8 @@ spec:
               value: "140.238.159.81"
             - name: RWA_RCON_PORT
               value: "27015"
+            - name: RWA_GAME
+              value: "csgo"
             - name: RWA_RCON_PASSWORD
               valueFrom:
                 secretKeyRef:
