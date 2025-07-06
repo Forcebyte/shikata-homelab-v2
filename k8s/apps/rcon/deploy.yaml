@@ -20,7 +20,7 @@ spec:
             - containerPort: 4327
           env:
             - name: RWA_USERNAME
-              value: ""
+              value: "forcebyte"
             - name: RWA_PASSWORD
               valueFrom:
                 secretKeyRef:
