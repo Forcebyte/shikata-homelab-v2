@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rcon-web-admin
+  namespace: rcon
+spec:
+  selector:
+    matchLabels:
+      app: rcon-web-admin
+  template:
+    metadata:
+      labels:
+        app: rcon-web-admin
+    spec:
+      containers:
+        - name: rcon-web-admin
+          image: itzg/rcon:latest
+          ports:
+            - containerPort: 4326
+          env:
+            - name: RWA_USERNAME
+              value: "forcebyte"
+            - name: RWA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rcon-secret
+                  key: rcon-password
+            - name: RWA_ADMIN
+              value: "true"
+            - name: RWA_RCON_HOST
+              value: "localhost"
+            - name: RWA_RCON_PORT
+              value: "27015"
+            - name: RWA_RCON_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rcon-secret
+                  key: rcon-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rcon-web-admin
+  namespace: rcon
+spec:
+  selector:
+    app: rcon-web-admin
+  ports:
+    - name: web
+      port: 8080
+      targetPort: 4326
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rcon-web-admin
+  namespace: rcon
+  annotations:
+    external-dns.alpha.kubernetes.io/target: qbittorrent.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`rcon.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
+      services:
+        - name: rcon-web-admin
+          port: 8080

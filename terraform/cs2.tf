@@ -1,6 +1,6 @@
-resource "kubernetes_namespace" "external_dns" {
+resource "kubernetes_namespace" "rcon" {
   metadata {
-    name = "game-server"
+    name = "rcon"
   }
 }
 
@@ -13,6 +13,20 @@ resource "kubernetes_secret" "cs2-secrets" {
   data = {
     "steamAccount" = var.steam_account_key
     "apiKey" = var.steam_api_key
+  }
+
+  type = "Opaque"
+}
+
+
+resource "kubernetes_secret" "rcon-secrets" {
+  metadata {
+    name      = "cs2-secrets"
+    namespace = "rcon"
+  }
+
+  data = {
+    "rcon-password" = var.rcon_secret
   }
 
   type = "Opaque"

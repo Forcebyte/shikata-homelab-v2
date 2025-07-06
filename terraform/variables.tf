@@ -70,3 +70,9 @@ variable "steam_account_key" {
   type        = string
   sensitive   = true
 }
+
+variable "rcon_secret" {
+  description = "RCON Password for CS2"
+  type        = string
+  sensitive   = true
+}
