@@ -20,7 +20,7 @@ spec:
             - containerPort: 4327
           env:
             - name: RWA_USERNAME
-              value: "forcebyte"
+              value: ""
             - name: RWA_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -63,14 +63,14 @@ metadata:
   name: rcon-web-admin
   namespace: rcon
   annotations:
-    external-dns.alpha.kubernetes.io/target: rcon.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: cs2rcon.forcebyte.org
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`rcon.forcebyte.org`)
+    - match: Host(`cs2rcon.forcebyte.org`)
       kind: Rule  
       services:
         - name: rcon-web-admin
