@@ -71,9 +71,6 @@ spec:
   routes:
     - match: Host(`rcon.forcebyte.org`)
       kind: Rule
-      middlewares:
-        - name: github-oauth  # Apply the GitHub OAuth middleware
-          namespace: kube-system
       services:
         - name: rcon-web-admin
           port: 8080
