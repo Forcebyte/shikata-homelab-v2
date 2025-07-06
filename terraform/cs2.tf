@@ -21,7 +21,7 @@ resource "kubernetes_secret" "cs2-secrets" {
 
 resource "kubernetes_secret" "rcon-secrets" {
   metadata {
-    name      = "cs2-secrets"
+    name      = "rcon-secrets"
     namespace = "rcon"
   }
 
