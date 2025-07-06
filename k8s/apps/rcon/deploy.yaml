@@ -57,7 +57,7 @@ metadata:
   name: rcon-web-admin
   namespace: rcon
   annotations:
-    external-dns.alpha.kubernetes.io/target: qbittorrent.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: rcon.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
