@@ -28,7 +28,7 @@ spec:
             - name: RWA_ADMIN
               value: "true"
             - name: RWA_RCON_HOST
-              value: "localhost"
+              value: "cs2.forcebyte.org"
             - name: RWA_RCON_PORT
               value: "27015"
             - name: RWA_RCON_PASSWORD
