@@ -17,6 +17,7 @@ spec:
           image: itzg/rcon:latest
           ports:
             - containerPort: 4326
+            - containerPort: 4327
           env:
             - name: RWA_USERNAME
               value: "forcebyte"
@@ -26,9 +27,9 @@ spec:
                   name: rcon-secrets
                   key: rcon-password
             - name: RWA_ADMIN
-              value: "true"
+              value: "false"
             - name: RWA_RCON_HOST
-              value: "cs2.forcebyte.org"
+              value: "140.238.159.81"
             - name: RWA_RCON_PORT
               value: "27015"
             - name: RWA_RCON_PASSWORD
@@ -49,6 +50,9 @@ spec:
     - name: web
       port: 8080
       targetPort: 4326
+    - name: rcon
+      port: 4327
+      targetPort: 4327
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
