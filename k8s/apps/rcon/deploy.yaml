@@ -23,7 +23,7 @@ spec:
             - name: RWA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: rcon-secret
+                  name: rcon-secrets
                   key: rcon-password
             - name: RWA_ADMIN
               value: "true"
@@ -34,7 +34,7 @@ spec:
             - name: RWA_RCON_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: rcon-secret
+                  name: rcon-secrets
                   key: rcon-password
 ---
 apiVersion: v1
