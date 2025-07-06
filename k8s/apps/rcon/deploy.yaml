@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: rcon-web-admin
-          image: itzg/rcon:latest
+          image: kdog31/rcon:latest
           ports:
             - containerPort: 4326
             - containerPort: 4327
