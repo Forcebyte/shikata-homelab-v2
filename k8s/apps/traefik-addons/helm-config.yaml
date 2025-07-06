@@ -11,6 +11,8 @@ spec:
       - "--api.insecure=true"
       - "--entryPoints.bittorrenttcp.address=:49155/tcp"
       - "--entryPoints.bittorrentudp.address=:49155/udp"
+      - "--entryPoints.rcontcp.address=:4327/tcp"
+      - "--entryPoints.rconudp.address=:4327/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
@@ -32,6 +34,18 @@ spec:
       bittorrentudp:
         port: 49155
         exposedPort: 49155
+        expose:
+          default: true
+        protocol: UDP
+      rcontcp:
+        port: 4327
+        exposedPort: 4327
+        expose:
+          default: true
+        protocol: TCP
+      rconudp:
+        port: 4327
+        exposedPort: 4327
         expose:
           default: true
         protocol: UDP
