@@ -12,9 +12,6 @@ spec:
       - "--entryPoints.bittorrenttcp.address=:49155/tcp"
       - "--entryPoints.bittorrentudp.address=:49155/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
-      - "--entryPoints.cs2tcp.address=:27015/tcp"
-      - "--entryPoints.cs2udp.address=:27015/udp"
-      - "--entryPoints.cs2udp2.address=:27020/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -44,18 +41,6 @@ spec:
         expose:
           default: true
         protocol: TCP
-      cs2tcp:
-        port: 27015
-        exposedPort: 27015
-        expose:
-          default: true
-        protocol: TCP
-      cs2udp:
-        port: 27015
-        exposedPort: 27015
-        expose:
-          default: true
-        protocol: UDP
       cs2udp2:
         port: 27020
         exposedPort: 27020
