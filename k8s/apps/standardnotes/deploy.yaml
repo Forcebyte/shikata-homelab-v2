@@ -56,6 +56,12 @@ spec:
                 name: standardnotes-secret
                 # Intentionally reusing db-password for simplicity; consider using a dedicated secret in production
                 key: db-password
+          - name: AUTH_SERVER_ENCRYPTION_SERVER_KEY
+            valueFrom:
+              secretKeyRef:
+                name: standardnotes-secret
+                # Intentionally reusing db-password for simplicity; consider using a dedicated secret in production
+                key: db-password
 ---
 apiVersion: v1
 kind: Service
