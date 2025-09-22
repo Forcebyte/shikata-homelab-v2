@@ -28,8 +28,6 @@ spec:
             value: "standardnotes-db"
           - name: DB_PORT
             value: "3306"
-          - name: DB_DATABASE
-            value: "standardnotes"
           - name: DB_USERNAME
             value: "standardnotes"
           - name: DB_PASSWORD
@@ -37,11 +35,31 @@ spec:
               secretKeyRef:
                 name: standardnotes-secret
                 key: db-password
-          - name: JWT_SECRET
+          - name: DB_DATABASE
+            value: "standardnotes"
+          - name: DB_TYPE
+            value: "mysql"
+          - name: REDIS_PORT
+            value: "6379"
+          - name: REDIS_HOST
+            value: "standardnotes-cache"
+          - name: CACHE_TYPE
+            value: "redis"
+          - name: AUTH_JWT_SECRET
             valueFrom:
               secretKeyRef:
                 name: standardnotes-secret
                 key: jwt-secret
+          - name: AUTH_SERVER_ENCRYPTION_SERVER_KEY
+            valueFrom:
+              secretKeyRef:
+                name: standardnotes-secret
+                key: server-key
+          - name: VALET_TOKEN_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: standardnotes-secret
+                key: valet-token
 ---
 apiVersion: v1
 kind: Service
@@ -144,4 +162,64 @@ spec:
       targetPort: 3306
   selector:
     app: standardnotes-db
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: standardnotes-cache-data
+  namespace: standardnotes
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: standardnotes-cache
+  namespace: standardnotes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: standardnotes-cache
+  template:
+    metadata:
+      labels:
+        app: standardnotes-cache
+    spec:
+      containers:
+      - image: redis:6.0-alpine
+        name: redis
+        ports:
+          - containerPort: 6379
+        env:
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: standardnotes-secret
+                key: db-password
+        volumeMounts:
+          - name: redis-data
+            mountPath: /data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: standardnotes-cache-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: standardnotes-cache
+  namespace: standardnotes
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: standardnotes-cache
   type: ClusterIP
