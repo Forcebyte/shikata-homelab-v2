@@ -1,8 +1,3 @@
-resource "kubernetes_namespace" "standardnotes" {
-  metadata {
-    name = "standardnotes"
-  }
-}
 
 resource "kubernetes_secret" "standardnotes-secrets" {
   metadata {
