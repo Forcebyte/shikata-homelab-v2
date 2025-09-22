@@ -95,3 +95,15 @@ variable "standardnotes_jwt_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "standardnotes_server_key" {
+  description = "Server encryption key for Standard Notes"
+  type        = string
+  sensitive   = true
+}
+
+variable "standardnotes_valet_token" {
+  description = "Valet token secret for Standard Notes"
+  type        = string
+  sensitive   = true
+}
