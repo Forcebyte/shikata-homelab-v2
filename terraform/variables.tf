@@ -76,3 +76,22 @@ variable "rcon_secret" {
   type        = string
   sensitive   = true
 }
+
+# Standard Notes variables
+variable "standardnotes_db_password" {
+  description = "Database password for Standard Notes"
+  type        = string
+  sensitive   = true
+}
+
+variable "standardnotes_mysql_root_password" {
+  description = "MySQL root password for Standard Notes database"
+  type        = string
+  sensitive   = true
+}
+
+variable "standardnotes_jwt_secret" {
+  description = "JWT secret for Standard Notes authentication"
+  type        = string
+  sensitive   = true
+}
