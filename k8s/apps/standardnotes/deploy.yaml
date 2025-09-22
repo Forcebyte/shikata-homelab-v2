@@ -50,16 +50,6 @@ spec:
               secretKeyRef:
                 name: standardnotes-secret
                 key: jwt-secret
-          - name: AUTH_SERVER_ENCRYPTION_SERVER_KEY
-            valueFrom:
-              secretKeyRef:
-                name: standardnotes-secret
-                key: server-key
-          - name: VALET_TOKEN_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: standardnotes-secret
-                key: valet-token
 ---
 apiVersion: v1
 kind: Service
