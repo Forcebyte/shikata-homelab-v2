@@ -50,6 +50,12 @@ spec:
               secretKeyRef:
                 name: standardnotes-secret
                 key: jwt-secret
+          - name: VALET_TOKEN_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: standardnotes-secret
+                # Intentionally reusing db-password for simplicity; consider using a dedicated secret in production
+                key: db-password
 ---
 apiVersion: v1
 kind: Service
