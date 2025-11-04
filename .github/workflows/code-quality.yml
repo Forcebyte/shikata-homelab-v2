@@ -43,32 +43,7 @@ jobs:
           **/*.yaml
           **/*.yml
           **/*.tf
-        config: |
-          {
-            "version": "0.2",
-            "language": "en",
-            "words": [
-              "kubernetes",
-              "kubectl",
-              "kustomize",
-              "terraform",
-              "shikata",
-              "homelab",
-              "traefik",
-              "qbittorrent", 
-              "minecraft",
-              "standardnotes",
-              "prowlarr",
-              "readarr",
-              "nginx",
-              "redis",
-              "mysql",
-              "localstack",
-              "github",
-              "oauth",
-              "forcebyte"
-            ]
-          }
+        config: ./cspell.json
 
   structure-validation:
     name: Repository Structure Validation
