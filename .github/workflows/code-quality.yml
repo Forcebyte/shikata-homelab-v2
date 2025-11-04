@@ -1,0 +1,122 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install markdownlint
+      run: npm install -g markdownlint-cli
+
+    - name: Lint Markdown files
+      run: |
+        markdownlint . --ignore node_modules --ignore .git || true
+
+  spellcheck:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Spell Check
+      uses: streetsidesoftware/cspell-action@v6
+      with:
+        files: |
+          **/*.md
+          **/*.yaml
+          **/*.yml
+          **/*.tf
+        config: |
+          {
+            "version": "0.2",
+            "language": "en",
+            "words": [
+              "kubernetes",
+              "kubectl",
+              "kustomize",
+              "terraform",
+              "shikata",
+              "homelab",
+              "traefik",
+              "qbittorrent", 
+              "minecraft",
+              "standardnotes",
+              "prowlarr",
+              "readarr",
+              "nginx",
+              "redis",
+              "mysql",
+              "localstack",
+              "github",
+              "oauth",
+              "forcebyte"
+            ]
+          }
+
+  structure-validation:
+    name: Repository Structure Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate directory structure
+      run: |
+        echo "Validating repository structure..."
+        
+        # Check for required directories
+        required_dirs=("k8s" "terraform" ".github/workflows")
+        for dir in "${required_dirs[@]}"; do
+          if [ ! -d "$dir" ]; then
+            echo "❌ Required directory missing: $dir"
+            exit 1
+          else
+            echo "✅ Found required directory: $dir"
+          fi
+        done
+
+    - name: Check for kustomization files
+      run: |
+        echo "Checking for kustomization files in k8s directories..."
+        find k8s/ -type d -mindepth 2 | while read -r dir; do
+          if [ ! -f "$dir/kustomization.yaml" ] && [ ! -f "$dir/kustomization.yml" ]; then
+            echo "⚠️ Missing kustomization file in: $dir"
+          fi
+        done
+
+    - name: Validate Terraform structure
+      run: |
+        echo "Validating Terraform structure..."
+        if [ ! -f "terraform/providers.tf" ]; then
+          echo "⚠️ Missing providers.tf in terraform/"
+        fi
+        if [ ! -f "terraform/variables.tf" ]; then
+          echo "⚠️ Missing variables.tf in terraform/"
+        fi
+
+    - name: Check for documentation
+      run: |
+        echo "Checking for documentation files..."
+        if [ ! -f "README.md" ]; then
+          echo "❌ Missing README.md"
+          exit 1
+        fi
+        echo "✅ Found README.md"
