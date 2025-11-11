@@ -1,4 +1,4 @@
-resource "kubernetes_secret" "cloudflare_api_token-kubesystem" {
+resource "kubernetes_secret_openai" "cloudflare_api_token-kubesystem" {
   metadata {
     name      = "openwebui-secret"
     namespace = "openwebui"
