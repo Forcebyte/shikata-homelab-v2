@@ -95,33 +95,33 @@ variable "openwebui_secret_key" {
   sensitive   = true
 }
 
-# Standard Notes variables
-variable "standardnotes_db_password" {
-  description = "Database password for Standard Notes"
-  type        = string
-  sensitive   = true
-}
+# # Standard Notes variables
+# variable "standardnotes_db_password" {
+#   description = "Database password for Standard Notes"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "standardnotes_mysql_root_password" {
-  description = "MySQL root password for Standard Notes database"
-  type        = string
-  sensitive   = true
-}
+# variable "standardnotes_mysql_root_password" {
+#   description = "MySQL root password for Standard Notes database"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "standardnotes_jwt_secret" {
-  description = "JWT secret for Standard Notes authentication"
-  type        = string
-  sensitive   = true
-}
+# variable "standardnotes_jwt_secret" {
+#   description = "JWT secret for Standard Notes authentication"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "standardnotes_server_key" {
-  description = "Server encryption key for Standard Notes"
-  type        = string
-  sensitive   = true
-}
+# variable "standardnotes_server_key" {
+#   description = "Server encryption key for Standard Notes"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "standardnotes_valet_token" {
-  description = "Valet token secret for Standard Notes"
-  type        = string
-  sensitive   = true
-}
+# variable "standardnotes_valet_token" {
+#   description = "Valet token secret for Standard Notes"
+#   type        = string
+#   sensitive   = true
+# }
