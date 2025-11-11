@@ -17,3 +17,17 @@ resource "kubernetes_secret" "discord_webhook" {
 
   type = "Opaque"
 }
+
+
+resource "kubernetes_secret" "github_token" {
+  metadata {
+    name      = "github-token"
+    namespace = "flux-system"
+  }
+
+  data = {
+    "address" = var.github_fluxcd_token
+  }
+
+  type = "Opaque"
+}

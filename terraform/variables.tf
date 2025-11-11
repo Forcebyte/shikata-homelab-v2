@@ -83,6 +83,13 @@ variable "discord_webhook" {
   sensitive   = true
 }
 
+variable "github_fluxcd_token" {
+  description = "Github Personal Access Token"
+  type        = string
+  sensitive   = true
+}
+
+
 # Standard Notes variables
 variable "standardnotes_db_password" {
   description = "Database password for Standard Notes"
