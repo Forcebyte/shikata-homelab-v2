@@ -77,6 +77,12 @@ variable "rcon_secret" {
   sensitive   = true
 }
 
+variable "discord_webhook" {
+  description = "Discord Webhook URL"
+  type        = string
+  sensitive   = true
+}
+
 # Standard Notes variables
 variable "standardnotes_db_password" {
   description = "Database password for Standard Notes"
