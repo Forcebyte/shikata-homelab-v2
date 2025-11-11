@@ -89,6 +89,11 @@ variable "github_fluxcd_token" {
   sensitive   = true
 }
 
+variable "openwebui_secret_key" {
+  description = "Secret key for OpenWebUI"
+  type        = string
+  sensitive   = true
+}
 
 # Standard Notes variables
 variable "standardnotes_db_password" {
