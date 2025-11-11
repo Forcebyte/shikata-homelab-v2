@@ -36,7 +36,9 @@
     "matchlabels",
     "targetport",
     "containerport",
-    "storageclass"
+    "storageclass",
+    "lissy",
+    "fluxcd"
   ],
   "ignorePaths": [
     "node_modules/**",
