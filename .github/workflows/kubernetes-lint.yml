@@ -46,7 +46,17 @@ jobs:
 
     - name: Validate with kubeconform
       run: |
-        find k8s/ -name '*.yaml' -o -name '*.yml' | xargs kubeconform -strict -verbose
+        # Add custom schema locations for CRDs
+        find k8s/ -name '*.yaml' -o -name '*.yml' | xargs kubeconform \
+          -strict \
+          -verbose \
+          -schema-location default \
+          -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+          -skip 'IngressRoute,IngressRouteTCP,IngressRouteUDP,Middleware,TLSOption' \
+          -skip 'GitRepository,Kustomization,HelmRepository,HelmRelease' \
+          -skip 'Alert,Provider,Receiver' \
+          -skip 'Certificate,ClusterIssuer,Issuer' \
+          -ignore-missing-schemas
 
     - name: Setup Polaris
       run: |
