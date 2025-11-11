@@ -32,17 +32,15 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: WEBUI_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: openwebui-secret
-                  key: api-token
-            - name: OLLAMA_BASE_URL
-              value: "https://forcebyte.hyperpatrick.workers.dev"  # Update if you have Ollama
+            # - name: WEBUI_SECRET_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: openwebui-secret
+            #       key: api-token
+            # - name: OLLAMA_BASE_URL
+            #   value: "https://forcebyte.hyperpatrick.workers.dev"  # Update if you have Ollama
             - name: DEFAULT_LOCALE
               value: "en-US"
-            - name: ENABLE_SIGNUP
-              value: "true"
             - name: WEBUI_AUTH
               value: "true"
           volumeMounts:
