@@ -47,10 +47,14 @@ jobs:
         tflint_version: latest
 
     - name: Init TFLint
-      run: tflint --init
+      run: |
+        cd terraform/
+        tflint --init
 
     - name: Run TFLint
-      run: tflint --recursive terraform/
+      run: |
+        cd terraform/
+        tflint .
 
     - name: Comment PR (if PR)
       if: github.event_name == 'pull_request'
