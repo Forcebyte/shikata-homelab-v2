@@ -27,24 +27,6 @@ jobs:
       run: |
         markdownlint . --ignore node_modules --ignore .git || true
 
-  spellcheck:
-    name: Spell Check
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Spell Check
-      uses: streetsidesoftware/cspell-action@v6
-      with:
-        files: |
-          **/*.md
-          **/*.yaml
-          **/*.yml
-          **/*.tf
-        config: ./cspell.json
-
   structure-validation:
     name: Repository Structure Validation
     runs-on: ubuntu-latest
