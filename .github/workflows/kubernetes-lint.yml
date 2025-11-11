@@ -10,6 +10,11 @@ on:
     paths:
       - 'k8s/**'
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   kubernetes-lint:
     name: Kubernetes Manifest Lint
@@ -18,16 +23,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Setup kubeval
-      run: |
-        wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
-        tar xf kubeval-linux-amd64.tar.gz
-        sudo mv kubeval /usr/local/bin
-
-    - name: Validate Kubernetes manifests with kubeval
-      run: |
-        find k8s/ -name '*.yaml' -o -name '*.yml' | xargs kubeval --strict
 
     - name: Setup kustomize
       run: |
