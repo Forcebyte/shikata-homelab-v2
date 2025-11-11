@@ -11,13 +11,13 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
-  name: slack
+  name: github
   namespace: flux-system
 spec:
   type: github
   address: https://github.com/forcebyte/shikata-homelab-v2
   secretRef:
-    name: github
+    name: github-token
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -44,7 +44,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: slack
+    name: github
   eventSeverity: info
   eventSources:
     - kind: Kustomization
