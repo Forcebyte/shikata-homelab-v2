@@ -21,7 +21,7 @@ Thus, in 2025, I decided to try to replicate this into a single set of OCI (Orac
 In general, this repository is split into the following:
 
 ```
-C:.
+> shikata-homelab-v2
 ├───k8s
 │   └───apps                 # Contains Flux configurations for various homelab projects
 │       ├───calibre
