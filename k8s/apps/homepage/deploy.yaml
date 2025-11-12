@@ -33,24 +33,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
-      initContainers:
-        - name: config-init
-          image: busybox:latest
-          command:
-            - sh
-            - -c
-            - |
-              # Copy config from ConfigMap to PV
-              cp -r /tmp/config-source/* /app/config/ || true
-              # Set proper permissions
-              chmod -R 755 /app/config
-              chown -R 1000:1000 /app/config
-          volumeMounts:
-            - name: homepage-config-source
-              mountPath: /tmp/config-source
-              readOnly: true
-            - name: homepage-config
-              mountPath: /app/config
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:latest
@@ -90,9 +72,6 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
       volumes:
-        - name: homepage-config-source
-          configMap:
-            name: homepage-config
         - name: homepage-config
           persistentVolumeClaim:
             claimName: homepage-config
