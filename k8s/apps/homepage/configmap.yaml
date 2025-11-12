@@ -3,10 +3,14 @@ kind: ConfigMap
 metadata:
   name: homepage-config
   namespace: homepage
+  labels:
+    app.kubernetes.io/name: homepage
 data:
+  kubernetes.yaml: |
+    mode: cluster
   settings.yaml: |
     title: Shikata Homelab
-    subtitle: Underlying Homelab Dashboard
+    subtitle: Dashboard for your homelab
     logo: https://github.com/gethomepage/homepage/raw/main/public/android-chrome-192x192.png
     favicon: https://github.com/gethomepage/homepage/raw/main/public/favicon.ico
     theme: dark
@@ -20,9 +24,29 @@ data:
       Infrastructure:
         style: row
         columns: 2
-        
+  custom.css: ""
+  custom.js: ""
+  bookmarks.yaml: |
+    - Homelab:
+        - GitHub Repo:
+            - abbr: GH
+              href: https://github.com/forcebyte/shikata-homelab-v2
+              icon: github.png
+        - Documentation:
+            - K8s Docs:
+                - abbr: K8s
+                  href: https://kubernetes.io/docs/
+                  icon: kubernetes.png
+            - Traefik Docs:
+                - abbr: TRK
+                  href: https://doc.traefik.io/traefik/
+                  icon: traefik.png
   services.yaml: |
     - Services:
+        - Traefik:
+            href: https://traefik.forcebyte.org
+            description: Reverse Proxy & Load Balancer
+            icon: traefik.png
         - OpenWebUI:
             href: https://openwebui.forcebyte.org
             description: AI Chat Interface
@@ -31,6 +55,7 @@ data:
             href: https://forcebyte.org
             description: This Dashboard
             icon: homepage.png
+            
     - Infrastructure:
         - Tools:
             href: https://tools.forcebyte.org
@@ -40,31 +65,25 @@ data:
             href: https://standardnotes.forcebyte.org
             description: Note Taking App
             icon: standard-notes.png
-            
   widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
     - resources:
         backend: resources
         expanded: true
         cpu: true
         memory: true
-        
     - search:
         provider: duckduckgo
         target: _blank
-        
-  bookmarks.yaml: |
-    - Homelab:
-        - GitHub Repo:
-            - href: https://github.com/forcebyte/shikata-homelab-v2
-              icon: github.png
-        - Documentation:
-            - K8s Docs:
-                - href: https://kubernetes.io/docs/
-                  icon: kubernetes.png
-            - Traefik Docs:
-                - href: https://doc.traefik.io/traefik/
-                  icon: traefik.png
-    
-  kubernetes.yaml: |
-    # Kubernetes integration
-    mode: cluster
+  docker.yaml: ""
