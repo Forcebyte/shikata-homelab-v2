@@ -3,6 +3,19 @@ kind: Namespace
 metadata:
   name: homepage
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homepage-config
+  namespace: homepage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +33,24 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      initContainers:
+        - name: config-init
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              # Copy config from ConfigMap to PV
+              cp -r /tmp/config-source/* /app/config/ || true
+              # Set proper permissions
+              chmod -R 755 /app/config
+              chown -R 1000:1000 /app/config
+          volumeMounts:
+            - name: homepage-config-source
+              mountPath: /tmp/config-source
+              readOnly: true
+            - name: homepage-config
+              mountPath: /app/config
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:latest
@@ -35,9 +66,6 @@ spec:
           volumeMounts:
             - name: homepage-config
               mountPath: /app/config
-              readOnly: true
-            - name: homepage-logs
-              mountPath: /app/config/logs
           resources:
             requests:
               memory: "128Mi"
@@ -62,11 +90,12 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
       volumes:
-        - name: homepage-config
+        - name: homepage-config-source
           configMap:
             name: homepage-config
-        - name: homepage-logs
-          emptyDir: {}
+        - name: homepage-config
+          persistentVolumeClaim:
+            claimName: homepage-config
 ---
 apiVersion: v1
 kind: Service
