@@ -36,6 +36,8 @@ spec:
             - name: homepage-config
               mountPath: /app/config
               readOnly: true
+            - name: homepage-logs
+              mountPath: /app/config/logs
           resources:
             requests:
               memory: "128Mi"
@@ -63,6 +65,8 @@ spec:
         - name: homepage-config
           configMap:
             name: homepage-config
+        - name: homepage-logs
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
