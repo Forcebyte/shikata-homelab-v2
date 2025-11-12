@@ -21,50 +21,89 @@ data:
       Services:
         style: row
         columns: 3
+      "Media & Downloads":
+        style: row
+        columns: 4
+      Gaming:
+        style: row
+        columns: 2
       Infrastructure:
         style: row
         columns: 2
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
-    - Homelab:
-        - GitHub Repo:
+    - Developer:
+        - Github:
             - abbr: GH
-              href: https://github.com/forcebyte/shikata-homelab-v2
-              icon: github.png
-        - Documentation:
-            - K8s Docs:
-                - abbr: K8s
-                  href: https://kubernetes.io/docs/
-                  icon: kubernetes.png
-            - Traefik Docs:
-                - abbr: TRK
-                  href: https://doc.traefik.io/traefik/
-                  icon: traefik.png
+              href: https://github.com/forcebyte
+        - Blog:
+            - abbr: BG
+              href: https://forcebyte.github.io
   services.yaml: |
     - Services:
-        - Traefik:
-            href: https://traefik.forcebyte.org
-            description: Reverse Proxy & Load Balancer
-            icon: traefik.png
-        - OpenWebUI:
-            href: https://openwebui.forcebyte.org
-            description: AI Chat Interface
-            icon: open-webui.png
         - Homepage:
             href: https://forcebyte.org
             description: This Dashboard
             icon: homepage.png
-            
-    - Infrastructure:
+        - OpenWebUI:
+            href: https://chat.forcebyte.org
+            description: AI Chat Interface
+            icon: open-webui.png
         - Tools:
             href: https://tools.forcebyte.org
             description: Network Toolbox
             icon: mdi-tools
-        - Standard Notes:
-            href: https://standardnotes.forcebyte.org
-            description: Note Taking App
-            icon: standard-notes.png
+            
+    - Media & Downloads:
+        - qBittorrent:
+            href: https://qbittorrent.forcebyte.org
+            description: Torrent Client
+            icon: qbittorrent.png
+        - Prowlarr:
+            href: https://prowlarr.forcebyte.org
+            description: Indexer Manager
+            icon: prowlarr.png
+        - Readarr:
+            href: https://readarr.forcebyte.org
+            description: Book Manager
+            icon: readarr.png
+        - NZBGet:
+            href: https://nzbget.forcebyte.org
+            description: Usenet Downloader
+            icon: nzbget.png
+        - Calibre:
+            href: https://calibre.forcebyte.org
+            description: Ebook Library Manager
+            icon: calibre.png
+        - Calibre Reader:
+            href: https://calibre-reader.forcebyte.org
+            description: Web Ebook Reader
+            icon: calibre.png
+        - Calibre Server:
+            href: https://calibre-server.forcebyte.org
+            description: Ebook Content Server
+            icon: calibre.png
+            
+    - Gaming:
+        - CS2 RCON:
+            href: https://cs2rcon.forcebyte.org
+            description: Counter-Strike 2 Admin
+            icon: mdi-gamepad-variant
+        - RCON Alt:
+            href: https://rcon2.forcebyte.org
+            description: Alternative RCON Interface
+            icon: mdi-console
+            
+    - Infrastructure:
+        - Nginx:
+            href: https://nginx.forcebyte.org
+            description: Web Server
+            icon: nginx.png
+        - GitHub OAuth:
+            href: https://github-oauth.forcebyte.org
+            description: OAuth Provider
+            icon: github.png
   widgets.yaml: |
     - kubernetes:
         cluster:
