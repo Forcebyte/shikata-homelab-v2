@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+data:
+  settings.yaml: |
+    title: Shikata Homelab
+    subtitle: Underlying Homelab Dashboard
+    logo: https://github.com/gethomepage/homepage/raw/main/public/android-chrome-192x192.png
+    favicon: https://github.com/gethomepage/homepage/raw/main/public/favicon.ico
+    theme: dark
+    color: slate
+    target: _self
+    
+    layout:
+      Services:
+        style: row
+        columns: 3
+      Infrastructure:
+        style: row
+        columns: 2
+        
+  services.yaml: |
+    - Services:
+        - OpenWebUI:
+            href: https://openwebui.forcebyte.org
+            description: AI Chat Interface
+            icon: open-webui.png
+        - Homepage:
+            href: https://forcebyte.org
+            description: This Dashboard
+            icon: homepage.png
+    - Infrastructure:
+        - Tools:
+            href: https://tools.forcebyte.org
+            description: Network Toolbox
+            icon: mdi-tools
+        - Standard Notes:
+            href: https://standardnotes.forcebyte.org
+            description: Note Taking App
+            icon: standard-notes.png
+            
+  widgets.yaml: |
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+        
+    - search:
+        provider: duckduckgo
+        target: _blank
+        
+  bookmarks.yaml: |
+    - Homelab:
+        - GitHub Repo:
+            - href: https://github.com/forcebyte/shikata-homelab-v2
+              icon: github.png
+        - Documentation:
+            - K8s Docs:
+                - href: https://kubernetes.io/docs/
+                  icon: kubernetes.png
+            - Traefik Docs:
+                - href: https://doc.traefik.io/traefik/
+                  icon: traefik.png
+    
+  kubernetes.yaml: |
+    # Kubernetes integration
+    mode: cluster
