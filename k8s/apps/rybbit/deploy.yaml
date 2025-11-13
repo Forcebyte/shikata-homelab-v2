@@ -148,7 +148,7 @@ spec:
   selector:
     app: clickhouse
   ports:
-    - name: http
+    - name: httpclickhouse
       port: 8123
       targetPort: 8123
     - name: native
@@ -264,7 +264,7 @@ spec:
         image: ghcr.io/rybbit-io/rybbit-client:latest
         ports:
         - containerPort: 3002
-          name: http
+          name: httprybbit
         env:
         - name: NODE_ENV
           value: "production"
@@ -298,7 +298,7 @@ spec:
   selector:
     app: rybbit-client
   ports:
-    - name: http
+    - name: httprybbit
       port: 3002
       targetPort: 3002
   type: ClusterIP
