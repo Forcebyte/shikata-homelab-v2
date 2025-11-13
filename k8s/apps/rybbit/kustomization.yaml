@@ -4,3 +4,4 @@ namespace: rybbit
 resources:
   - namespace.yaml
   - deploy.yaml
+  - rybbit-middleware.yaml
