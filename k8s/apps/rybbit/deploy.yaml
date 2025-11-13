@@ -1,63 +1,330 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: rybbit-oci
+  name: postgres-data
   namespace: rybbit
 spec:
-  interval: 1h
-  type: oci
-  url: oci://harbor.lag0.com.br/library
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: rybbit
+  name: clickhouse-data
   namespace: rybbit
 spec:
-  interval: 10m
-  chart:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: rybbit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
     spec:
-      chart: rybbit
-      sourceRef:
-        kind: HelmRepository
-        name: rybbit-oci
-        namespace: rybbit
-      version: "*"
-  values:
-    client:
-      image:
-        tag: v1.2.0
-      env:
-        NEXT_PUBLIC_BACKEND_URL: "https://rybbit.forcebyte.org"
-        NEXT_PUBLIC_DISABLE_SIGNUP: "false"
-    backend:
-      image:
-        tag: v1.2.0
-      env:
-        BASE_URL: "https://rybbit.forcebyte.org"
-        DISABLE_SIGNUP: "false"
-    ingress:
-      # API Ingress (no regex, Traefik-friendly)
-      api:
-        enabled: true
-        className: "traefik"
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
-        hosts:
-        - host: rybbit.forcebyte.org
-          paths:
-          - path: /api
-            pathType: Prefix
-      # Client Ingress
-      client:
-        enabled: true
-        className: "traefik"
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
-        hosts:
-        - host: rybbit.forcebyte.org
-          paths:
-          - path: /
-            pathType: Prefix
+      containers:
+      - name: postgres
+        image: postgres:17.4
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: "frog"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rybbit-postgres
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: "analytics"
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: rybbit
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: tcp
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clickhouse
+  namespace: rybbit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+    spec:
+      containers:
+      - name: clickhouse
+        image: clickhouse/clickhouse-server:25.4.2
+        ports:
+        - containerPort: 8123
+          name: http
+        - containerPort: 9000
+          name: native
+        env:
+        - name: CLICKHOUSE_DB
+          value: "analytics"
+        - name: CLICKHOUSE_USER
+          value: "default"
+        - name: CLICKHOUSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rybbit-clickhouse
+              key: CLICKHOUSE_PASSWORD
+        volumeMounts:
+        - name: clickhouse-data
+          mountPath: /var/lib/clickhouse
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8123
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8123
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      volumes:
+      - name: clickhouse-data
+        persistentVolumeClaim:
+          claimName: clickhouse-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clickhouse
+  namespace: rybbit
+spec:
+  selector:
+    app: clickhouse
+  ports:
+    - name: http
+      port: 8123
+      targetPort: 8123
+    - name: native
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rybbit-backend
+  namespace: rybbit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rybbit-backend
+  template:
+    metadata:
+      labels:
+        app: rybbit-backend
+    spec:
+      containers:
+      - name: rybbit-backend
+        image: ghcr.io/rybbit-io/rybbit-backend:latest
+        ports:
+        - containerPort: 3001
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: CLICKHOUSE_HOST
+          value: "http://clickhouse:8123"
+        - name: CLICKHOUSE_DB
+          value: "analytics"
+        - name: CLICKHOUSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rybbit-clickhouse
+              key: CLICKHOUSE_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "analytics"
+        - name: POSTGRES_USER
+          value: "frog"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rybbit-postgres
+              key: POSTGRES_PASSWORD
+        - name: BETTER_AUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: rybbit-backend
+              key: BETTER_AUTH_SECRET
+        - name: BASE_URL
+          value: "https://rybbit.forcebyte.org"
+        - name: DISABLE_SIGNUP
+          value: "false"
+        - name: DISABLE_TELEMETRY
+          value: "true"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3001
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rybbit-backend
+  namespace: rybbit
+spec:
+  selector:
+    app: rybbit-backend
+  ports:
+    - name: http
+      port: 3001
+      targetPort: 3001
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rybbit-client
+  namespace: rybbit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rybbit-client
+  template:
+    metadata:
+      labels:
+        app: rybbit-client
+    spec:
+      containers:
+      - name: rybbit-client
+        image: ghcr.io/rybbit-io/rybbit-client:latest
+        ports:
+        - containerPort: 3002
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: NEXT_PUBLIC_BACKEND_URL
+          value: "https://rybbit.forcebyte.org"
+        - name: NEXT_PUBLIC_DISABLE_SIGNUP
+          value: "false"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rybbit-client
+  namespace: rybbit
+spec:
+  selector:
+    app: rybbit-client
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-rybbit
+  namespace: rybbit
+  annotations:
+    external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`rybbit.forcebyte.org`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: rybbit-backend
+          port: 3001
+    - match: Host(`rybbit.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: rybbit-client
+          port: 3002
