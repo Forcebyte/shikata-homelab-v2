@@ -33,7 +33,7 @@ data:
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
-    - Developer:
+    - Shortcuts:
         - Github:
             - abbr: GH
               href: https://github.com/forcebyte
@@ -123,6 +123,6 @@ data:
         cpu: true
         memory: true
     - search:
-        provider: duckduckgo
+        provider: google
         target: _blank
   docker.yaml: ""
