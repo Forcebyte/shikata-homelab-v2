@@ -1,0 +1,63 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: rybbit-oci
+  namespace: rybbit
+spec:
+  interval: 1h
+  type: oci
+  url: oci://harbor.lag0.com.br/library
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: rybbit
+  namespace: rybbit
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: rybbit
+      sourceRef:
+        kind: HelmRepository
+        name: rybbit-oci
+        namespace: rybbit
+      version: "*"
+  values:
+    client:
+      image:
+        tag: v1.2.0
+      env:
+        NEXT_PUBLIC_BACKEND_URL: "https://rybbit.forcebyte.org"
+        NEXT_PUBLIC_DISABLE_SIGNUP: "false"
+    backend:
+      image:
+        tag: v1.2.0
+      env:
+        BASE_URL: "https://rybbit.forcebyte.org"
+        DISABLE_SIGNUP: "false"
+    ingress:
+      # API Ingress (no regex, Traefik-friendly)
+      api:
+        enabled: true
+        className: "traefik"
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
+        hosts:
+        - host: rybbit.forcebyte.org
+          paths:
+          - path: /api
+            pathType: Prefix
+      # Client Ingress
+      client:
+        enabled: true
+        className: "traefik"
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
+        hosts:
+        - host: rybbit.forcebyte.org
+          paths:
+          - path: /
+            pathType: Prefix
