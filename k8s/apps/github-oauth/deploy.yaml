@@ -92,8 +92,8 @@ spec:
     rybbit-feeder:
       debug: true
       trackErrors: true
-      trackAllResources: true
+      trackAllResources: false
       host: "https://google.ca"
       apiKey: "rb_3d8fa5b3ed46acbccb7937300d10cea1"
       websites:
-        "aa.forcebyte.org": "1"
+        "forcebyte.org": "1"
