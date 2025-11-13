@@ -210,7 +210,7 @@ spec:
         - name: BASE_URL
           value: "https://rybbit.forcebyte.org"
         - name: DISABLE_SIGNUP
-          value: "false"
+          value: "true"
         - name: DISABLE_TELEMETRY
           value: "true"
         livenessProbe:
@@ -271,7 +271,7 @@ spec:
         - name: NEXT_PUBLIC_BACKEND_URL
           value: "https://rybbit.forcebyte.org"
         - name: NEXT_PUBLIC_DISABLE_SIGNUP
-          value: "false"
+          value: "true"
         livenessProbe:
           httpGet:
             path: /
