@@ -70,9 +70,6 @@ spec:
   routes:
     - match: Host(`tools.forcebyte.org`)
       kind: Rule
-      middlewares:
-        - name: github-oauth  # Apply the GitHub OAuth middleware
-          namespace: kube-system
       services:
         - name: networking-toolbox
           port: 3000
