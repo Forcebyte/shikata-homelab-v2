@@ -199,7 +199,8 @@ spec:
           namespace: kube-system
         - name: rybbit-feeder
           namespace: kube-system
-          api_key: rb_3d8fa5b3ed46acbccb7937300d10cea1
+          apiKey: rb_3d8fa5b3ed46acbccb7937300d10cea1
+          host: "https://rybbit.forcebyte.org"
       services:
         - name: homepage
           port: 3000
