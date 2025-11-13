@@ -176,7 +176,7 @@ spec:
         image: ghcr.io/rybbit-io/rybbit-backend:latest
         ports:
         - containerPort: 3001
-          name: http
+          name: api
         env:
         - name: NODE_ENV
           value: "production"
@@ -239,7 +239,7 @@ spec:
   selector:
     app: rybbit-backend
   ports:
-    - name: http
+    - name: api
       port: 3001
       targetPort: 3001
   type: ClusterIP
