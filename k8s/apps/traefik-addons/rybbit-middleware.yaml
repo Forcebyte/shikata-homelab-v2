@@ -9,7 +9,7 @@ spec:
       debug: true
       trackErrors: true
       trackAllResources: true
-      host: "https://rybbit-tracker.forcebyte.org"
+      host: "https://rybbit.forcebyte.org"
       apiKey: "rb_3d8fa5b3ed46acbccb7937300d10cea1"
       websites:
         "forcebyte.org": "cf97ee2f8fa8"
