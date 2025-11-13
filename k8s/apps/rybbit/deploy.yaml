@@ -208,7 +208,7 @@ spec:
               name: rybbit-backend
               key: BETTER_AUTH_SECRET
         - name: BASE_URL
-          value: "https://rybbit.forcebyte.org"
+          value: "rybbit"
         - name: DISABLE_SIGNUP
           value: "true"
         - name: DISABLE_TELEMETRY
