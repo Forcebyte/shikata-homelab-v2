@@ -332,7 +332,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-ingress-rybbit
+  name: traefik-ingress-rybbit-backend
   namespace: rybbit
   annotations:
     external-dns.alpha.kubernetes.io/target: rybbit-tracker.forcebyte.org
