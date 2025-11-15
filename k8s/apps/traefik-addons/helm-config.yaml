@@ -19,6 +19,16 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
       - "--certificatesresolvers.cloudflare.acme.email=hyperpatrick@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
+      - "--accesslog=true"
+      - "--accesslog.format=json"
+      - "--accesslog.filters.statuscodes=200,300-302"
+      - "--accesslog.filters.retryattempts=true"
+      - "--accesslog.filters.minduration=10ms"
+      - "--accesslog.fields.defaultmode=keep"
+      - "--accesslog.fields.names.ClientUsername=drop"
+      - "--accesslog.fields.headers.defaultmode=keep"
+      - "--accesslog.fields.headers.names.User-Agent=redact"
+      - "--accesslog.fields.headers.names.Authorization=drop"
       - "--log.level=DEBUG"  # Enable debug logging
       - "--global.sendAnonymousUsage=false"  # Disable anonymous statistics
     ports:
