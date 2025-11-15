@@ -10,7 +10,8 @@ data:
     mode: cluster
   settings.yaml: |
     title: Shikata Homelab
-    subtitle: Dashboard for your homelab
+    subtitle: Underlying Homelab Configuration
+    description: 
     logo: https://github.com/gethomepage/homepage/raw/main/public/android-chrome-192x192.png
     favicon: https://github.com/gethomepage/homepage/raw/main/public/favicon.ico
     theme: dark
