@@ -80,3 +80,17 @@ spec:
       whitelist:
         logins:
           - "Forcebyte"  # Replace with your GitHub username
+---
+# Middleware for Rybbit
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: rybbit
+  namespace: kube-system
+spec:
+  plugin:
+    rewrite-body:
+      rewrites:
+        - regex: </head>
+          replacement: <script defer data-site-id="9" src="https://rybbit.forcebyte.org/api/script.js"></script></head>
+
