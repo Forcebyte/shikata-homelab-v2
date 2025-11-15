@@ -197,8 +197,6 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth
-          namespace: kube-system
       services:
         - name: homepage
           port: 3000
