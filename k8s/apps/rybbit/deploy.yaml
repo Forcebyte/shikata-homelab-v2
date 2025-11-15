@@ -324,6 +324,9 @@ spec:
           port: 3001
     - match: Host(`rybbit.forcebyte.org`)
       kind: Rule
+      middlewares:
+        - name: github-oauth  # Apply the GitHub OAuth middleware
+          namespace: kube-system
       services:
         - name: rybbit-client
           port: 3002
