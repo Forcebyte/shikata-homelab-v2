@@ -202,6 +202,8 @@ spec:
     - match: Host(`calibre-reader.forcebyte.org`)
       kind: Rule
       middlewares:
+        - name: rybbit
+          namespace: kube-system
         - name: github-oauth  # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
@@ -224,6 +226,8 @@ spec:
     - match: Host(`calibre-server.forcebyte.org`)
       kind: Rule
       middlewares:
+        - name: rybbit
+          namespace: kube-system
         - name: github-oauth  # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
