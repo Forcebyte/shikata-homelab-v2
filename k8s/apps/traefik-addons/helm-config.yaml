@@ -88,9 +88,6 @@ spec:
             key: email
     experimental:
       plugins:
-        rybbit-feeder:
-          moduleName: github.com/foxxmd/traefik-rybbit-feeder
-          version: v0.13.4
         github-oauth:
           moduleName: "github.com/MuXiu1997/traefik-github-oauth-plugin"
           version: "v0.3.1"
