@@ -80,20 +80,3 @@ spec:
       whitelist:
         logins:
           - "Forcebyte"  # Replace with your GitHub username
----
-# rybbit-feeder Middleware
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: rybbit-feeder
-  namespace: kube-system
-spec:
-  plugin:
-    rybbit-feeder:
-      debug: true
-      trackErrors: true
-      trackAllResources: false
-      host: "https://google.ca"
-      apiKey: "rb_3d8fa5b3ed46acbccb7937300d10cea1"
-      websites:
-        "forcebyte.org": "1"
