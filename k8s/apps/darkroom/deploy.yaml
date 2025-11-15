@@ -42,7 +42,8 @@ spec:
     spec:
       containers:
         - name: darkroom
-          image: "dahuss/a-dark-room:latest"
+          # Custom-made image
+          image: "ghcr.io/forcebyte/adarkroom:latest"
           ports:
             - name: http
               containerPort: 80
