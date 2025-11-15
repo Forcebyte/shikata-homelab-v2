@@ -19,6 +19,7 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
       - "--certificatesresolvers.cloudflare.acme.email=hyperpatrick@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
+      - "--entrypoints.websecure.http.tls=true"
       - "--accesslog=true"
       - "--accesslog.format=json"
       - "--accesslog.filters.statuscodes=200,300-302"
