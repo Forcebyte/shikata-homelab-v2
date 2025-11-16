@@ -95,8 +95,15 @@ variable "openwebui_secret_key" {
   sensitive   = true
 }
 
-variable "openwebui_secret_key" {
-  description = "Secret key for OpenWebUI"
+# Github OAuth Client ID and Secret for FluxCD
+variable "headlamp_github_oauth_client_id" {
+  description = "Github OAuth Client ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "headlamp_github_oauth_client_secret" {
+  description = "Github OAuth Client Secret"
   type        = string
   sensitive   = true
 }
