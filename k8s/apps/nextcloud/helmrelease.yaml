@@ -24,6 +24,8 @@ spec:
       flavor: apache
     nextcloud:
       host: nextcloud.forcebyte.org
+      trustedDomains:
+        - nextcloud.forcebyte.org
       username: admin
       password: changeme
       extraEnv:
