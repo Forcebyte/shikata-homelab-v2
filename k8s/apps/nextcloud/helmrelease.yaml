@@ -26,8 +26,6 @@ spec:
       host: nextcloud.forcebyte.org
       trustedDomains:
         - nextcloud.forcebyte.org
-      username: admin
-      password: ***REMOVED***
       extraEnv:
         - name: NEXTCLOUD_DB_TYPE
           value: mysql
