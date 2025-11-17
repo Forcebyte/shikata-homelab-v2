@@ -5,6 +5,7 @@ metadata:
   namespace: nextcloud
   annotations:
     kubernetes.io/ingress.class: traefik
+    external-dns.alpha.kubernetes.io/target: nextcloud.forcebyte.org
 spec:
   entryPoints:
     - web
