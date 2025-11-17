@@ -23,9 +23,28 @@ spec:
     image:
       flavor: apache
     nextcloud:
-      host: nextcloud.kube.home
+      host: nextcloud.forcebyte.org
       username: admin
       password: ***REMOVED***
+      extraEnv:
+        - name: NEXTCLOUD_DB_TYPE
+          value: mysql
+        - name: MYSQL_HOST
+          value: 10.0.1.170
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: nextcloud
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-mysql
+              key: db-username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-mysql
+              key: db-password
     externalDatabase:
       enabled: true
       type: mysql
@@ -36,6 +55,8 @@ spec:
         secretName: nextcloud-mysql
         usernameKey: db-username
         passwordKey: db-password
+    internalDatabase:
+      enabled: false
     persistence:
       enabled: false
     cronjob:
