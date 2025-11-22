@@ -71,7 +71,7 @@ spec:
     - web
   routes:
     - match: Host(`cs2rcon.forcebyte.org`)
-      kind: Rule  
+      kind: Rule
       services:
         - name: rcon-web-admin
           port: 8080
@@ -90,7 +90,7 @@ spec:
     - web
   routes:
     - match: Host(`rcon2.forcebyte.org`)
-      kind: Rule  
+      kind: Rule
       services:
         - name: rcon-web-admin
           port: 4327
