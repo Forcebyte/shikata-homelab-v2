@@ -15,8 +15,5 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
-          namespace: kube-system
-      services:
         - name: nextcloud
           port: 8080
