@@ -20,6 +20,7 @@ spec:
     remediation:
       retries: 3
   values:
+    replicaCount: 1
     image:
       flavor: apache
     nextcloud:
@@ -60,7 +61,7 @@ spec:
     persistence:
       enabled: false
     cronjob:
-      enabled: true
+      enabled: false
       type: cronjob
     ingress:
       enabled: false
