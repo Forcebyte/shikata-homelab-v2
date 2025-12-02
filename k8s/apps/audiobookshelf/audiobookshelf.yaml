@@ -24,6 +24,32 @@ spec:
       storage: 10Gi
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-audiobooks
+  namespace: audiobookshelf
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-podcasts
+  namespace: audiobookshelf
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,9 +75,9 @@ spec:
               mountPath: /config
             - name: metadata
               mountPath: /metadata
-            - name: calibre-library
+            - name: audiobooks
               mountPath: /audiobooks
-            - name: qbittorrent-downloads
+            - name: podcasts
               mountPath: /podcasts
           env:
             - name: TZ
@@ -63,12 +89,12 @@ spec:
         - name: metadata
           persistentVolumeClaim:
             claimName: audiobookshelf-metadata
-        - name: calibre-library
+        - name: audiobooks
           persistentVolumeClaim:
-            claimName: calibre-library
-        - name: qbittorrent-downloads
+            claimName: audiobookshelf-audiobooks
+        - name: podcasts
           persistentVolumeClaim:
-            claimName: qbittorrent-downloads
+            claimName: audiobookshelf-podcasts
 ---
 apiVersion: v1
 kind: Service
