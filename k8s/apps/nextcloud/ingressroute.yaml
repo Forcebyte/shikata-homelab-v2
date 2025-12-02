@@ -15,5 +15,6 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: nextcloud
-          port: 8080
+      services:
+      - name: nextcloud
+        port: 8080
