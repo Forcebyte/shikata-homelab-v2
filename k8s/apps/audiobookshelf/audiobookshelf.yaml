@@ -127,8 +127,6 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth
-          namespace: kube-system
       services:
         - name: audiobookshelf
           port: 80
