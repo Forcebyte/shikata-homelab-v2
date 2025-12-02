@@ -23,6 +23,9 @@ spec:
     replicaCount: 1
     image:
       flavor: apache
+    resources:
+      requests:
+        memory: 1Gi
     nextcloud:
       host: nextcloud.forcebyte.org
       trustedDomains:
