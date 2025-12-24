@@ -27,6 +27,9 @@ metadata:
   namespace: darkroom
   labels:
     app.kubernetes.io/name: darkroom
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   replicas: 1
   revisionHistoryLimit: 3

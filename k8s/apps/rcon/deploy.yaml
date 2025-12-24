@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: rcon-web-admin
   namespace: rcon
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   selector:
     matchLabels:

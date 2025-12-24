@@ -161,6 +161,9 @@ kind: Deployment
 metadata:
   name: rybbit-backend
   namespace: rybbit
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:
@@ -249,6 +252,9 @@ kind: Deployment
 metadata:
   name: rybbit-client
   namespace: rybbit
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:

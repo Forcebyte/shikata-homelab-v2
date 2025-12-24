@@ -32,6 +32,9 @@ kind: Deployment
 metadata:
   name: calibre-web
   namespace: qbittorrent
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:
