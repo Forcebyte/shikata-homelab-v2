@@ -107,7 +107,7 @@ spec:
       serviceAccountName: keel
       containers:
         - name: keel
-          image: keelhq/keel:latest
+          image: keelhq/keel-arm:latest
           imagePullPolicy: Always
           command: ["/bin/keel"]
           env:
