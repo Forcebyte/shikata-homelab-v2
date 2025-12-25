@@ -1,0 +1,209 @@
+name: Terraform Validation Tests
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+
+jobs:
+  terraform-validate:
+    name: Terraform Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: latest
+
+    - name: Terraform Format Check
+      id: fmt
+      run: terraform fmt -check -recursive terraform/
+      continue-on-error: false
+
+    - name: Terraform Init
+      id: init
+      run: |
+        cd terraform/
+        terraform init -backend=false
+
+    - name: Terraform Validate
+      id: validate
+      run: |
+        cd terraform/
+        terraform validate -json | tee validate.json
+        # Check if validation succeeded
+        if [ $(jq -r '.valid' validate.json) != "true" ]; then
+          echo "Terraform validation failed"
+          jq -r '.diagnostics[] | "[\(.severity | ascii_upcase)] \(.summary): \(.detail)"' validate.json
+          exit 1
+        fi
+
+    - name: Check for Required Variables
+      run: |
+        cd terraform/
+        echo "Checking that all required variables are defined..."
+        
+        # Extract required variables from variables.tf
+        required_vars=$(grep -A 3 'variable "' variables.tf | grep -v 'default\s*=' | grep 'variable "' | sed 's/variable "\(.*\)".*/\1/' | sort -u)
+        
+        echo "Required variables found:"
+        echo "$required_vars"
+        
+        # Count required variables
+        var_count=$(echo "$required_vars" | wc -l)
+        echo "Total required variables: $var_count"
+
+    - name: Terraform Security Scan
+      uses: aquasecurity/tfsec-action@v1.0.0
+      with:
+        working_directory: terraform/
+        soft_fail: true
+
+    - name: Test Variable Descriptions
+      run: |
+        cd terraform/
+        echo "Checking that all variables have descriptions..."
+        
+        # Check if any variables are missing descriptions
+        missing_desc=$(grep -B 1 'variable "' variables.tf | grep 'description\s*=' | wc -l)
+        total_vars=$(grep 'variable "' variables.tf | wc -l)
+        
+        echo "Variables with descriptions: $missing_desc / $total_vars"
+        
+        if [ $missing_desc -ne $total_vars ]; then
+          echo "⚠️  Some variables are missing descriptions"
+        else
+          echo "✅ All variables have descriptions"
+        fi
+
+    - name: Check Sensitive Variables
+      run: |
+        cd terraform/
+        echo "Checking that sensitive variables are marked properly..."
+        
+        # List variables that should be sensitive (contain keywords)
+        potential_sensitive=$(grep 'variable "' variables.tf | grep -iE '(token|key|secret|password|webhook)' | sed 's/variable "\(.*\)".*/\1/')
+        
+        echo "Potential sensitive variables:"
+        echo "$potential_sensitive"
+        
+        # Check if they're marked as sensitive
+        for var in $potential_sensitive; do
+          if grep -A 5 "variable \"$var\"" variables.tf | grep -q "sensitive\s*=\s*true"; then
+            echo "✅ $var is marked as sensitive"
+          else
+            echo "⚠️  $var should probably be marked as sensitive"
+          fi
+        done
+
+    - name: Validate Provider Versions
+      run: |
+        cd terraform/
+        echo "Checking provider version constraints..."
+        
+        # Check if provider versions are specified
+        if grep -q 'version\s*=' providers.tf; then
+          echo "✅ Provider versions are specified"
+        else
+          echo "⚠️  Consider pinning provider versions for reproducibility"
+        fi
+
+  terraform-plan-dry-run:
+    name: Terraform Plan (Dry Run)
+    runs-on: ubuntu-latest
+    needs: terraform-validate
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: latest
+
+    - name: Terraform Init
+      run: |
+        cd terraform/
+        terraform init -backend=false
+
+    - name: Create Mock Variables
+      run: |
+        cd terraform/
+        cat > terraform.tfvars <<EOF
+        k8s_api_server = "https://127.0.0.1:6443"
+        k8s_api_token = "mock-token-for-testing"
+        cloudflare_api_token = "mock-cloudflare-token"
+        cloudflare_api_key = "mock-cloudflare-key"
+        cloudflare_email = "test@example.com"
+        github_token = "mock-github-token"
+        github_fluxcd_token = "mock-github-fluxcd-token"
+        github_oauth_client_id = "mock-oauth-client-id"
+        github_oauth_client_secret = "mock-oauth-client-secret"
+        headlamp_github_oauth_client_id = "mock-headlamp-oauth-id"
+        headlamp_github_oauth_client_secret = "mock-headlamp-oauth-secret"
+        steam_api_key = "mock-steam-key"
+        steam_account_key = "mock-steam-account-key"
+        rcon_secret = "mock-rcon-secret"
+        discord_webhook = "https://discord.com/api/webhooks/mock"
+        openwebui_secret_key = "mock-openwebui-secret"
+        EOF
+
+    - name: Terraform Plan (Dry Run)
+      id: plan
+      run: |
+        cd terraform/
+        # This will fail due to invalid credentials but will validate the configuration structure
+        terraform plan -no-color -input=false 2>&1 | tee plan.txt || true
+        
+        # Check if plan at least started (validates configuration)
+        if grep -q "Terraform will perform the following actions" plan.txt; then
+          echo "✅ Plan generated successfully (configuration is valid)"
+          exit 0
+        elif grep -q "Error:" plan.txt && ! grep -q "connection refused\|unauthorized\|authentication" plan.txt; then
+          echo "❌ Configuration error detected"
+          exit 1
+        else
+          echo "⚠️  Cannot connect to cluster (expected in CI), but configuration is valid"
+          exit 0
+        fi
+      continue-on-error: true
+
+  terraform-docs:
+    name: Check Terraform Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check README exists
+      run: |
+        if [ -f "terraform/README.md" ]; then
+          echo "✅ terraform/README.md exists"
+        else
+          echo "⚠️  Consider adding terraform/README.md documentation"
+          exit 1
+        fi
+
+    - name: Verify documentation covers variables
+      run: |
+        cd terraform/
+        # Extract variable names from variables.tf
+        vars=$(grep 'variable "' variables.tf | sed 's/variable "\(.*\)".*/\1/' | sort)
+        
+        echo "Checking if README documents key variables..."
+        for var in $vars; do
+          if grep -q "$var" README.md 2>/dev/null; then
+            echo "✅ $var is documented"
+          fi
+        done

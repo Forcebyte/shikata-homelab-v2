@@ -1,3 +1,6 @@
+# QEMU User-Mode Emulation DaemonSet
+# This enables multi-architecture container support on ARM64 nodes
+# allowing x86_64 (AMD64) containers to run transparently via emulation
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -15,13 +18,18 @@ spec:
       containers:
       - name: qemu-binfmt
         image: multiarch/qemu-user-static
+        # --reset: Clear existing binary format handlers
+        # -p yes: Make handlers persistent across container restarts
         args: ["--reset", "-p", "yes"]
         securityContext:
+          # Privileged mode required to register binary formats in kernel
           privileged: true
         volumeMounts:
         - name: binfmt
+          # Mount host's binfmt_misc to register format handlers
           mountPath: /proc/sys/fs/binfmt_misc
       volumes:
       - name: binfmt
         hostPath:
+          # Kernel's binary format registration interface
           path: /proc/sys/fs/binfmt_misc

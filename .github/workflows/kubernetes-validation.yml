@@ -1,0 +1,366 @@
+name: Kubernetes Validation Tests
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'k8s/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'k8s/**'
+
+jobs:
+  kustomize-build-test:
+    name: Kustomize Build Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup kustomize
+      run: |
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+        sudo mv kustomize /usr/local/bin/
+        kustomize version
+
+    - name: Test All Kustomizations Build
+      run: |
+        echo "Testing all kustomization builds..."
+        failed_builds=()
+        
+        # Find all kustomization files
+        for file in $(find k8s/ -name 'kustomization.yaml' -o -name 'kustomization.yml'); do
+          dir=$(dirname "$file")
+          echo ""
+          echo "=========================================="
+          echo "Building kustomization in: $dir"
+          echo "=========================================="
+          
+          cd "$dir"
+          if kustomize build . > /dev/null; then
+            echo "✅ Build succeeded for $dir"
+          else
+            echo "❌ Build failed for $dir"
+            failed_builds+=("$dir")
+          fi
+          cd - > /dev/null
+        done
+        
+        # Report results
+        echo ""
+        echo "=========================================="
+        echo "Build Test Summary"
+        echo "=========================================="
+        if [ ${#failed_builds[@]} -eq 0 ]; then
+          echo "✅ All kustomizations built successfully!"
+          exit 0
+        else
+          echo "❌ Failed builds:"
+          printf '%s\n' "${failed_builds[@]}"
+          exit 1
+        fi
+
+    - name: Test Root Kustomization
+      run: |
+        echo "Testing root kustomization build..."
+        cd k8s/apps
+        if kustomize build . > /tmp/all-manifests.yaml; then
+          echo "✅ Root kustomization built successfully"
+          echo "Total manifests: $(grep -c '^---' /tmp/all-manifests.yaml)"
+          
+          # Show resource counts
+          echo ""
+          echo "Resource breakdown:"
+          grep '^kind:' /tmp/all-manifests.yaml | sort | uniq -c | sort -rn
+        else
+          echo "❌ Root kustomization build failed"
+          exit 1
+        fi
+
+    - name: Validate Kustomization Resources
+      run: |
+        echo "Validating that all resources in kustomization.yaml exist..."
+        
+        for kust_file in $(find k8s/ -name 'kustomization.yaml' -o -name 'kustomization.yml'); do
+          dir=$(dirname "$kust_file")
+          echo "Checking $dir"
+          
+          # Extract resources from kustomization.yaml
+          resources=$(yq eval '.resources[]' "$kust_file" 2>/dev/null | grep -v '^null$' || echo "")
+          
+          if [ -z "$resources" ]; then
+            echo "⚠️  No resources found in $kust_file"
+            continue
+          fi
+          
+          # Check if each resource exists
+          cd "$dir"
+          while IFS= read -r resource; do
+            # Skip if it's a directory reference
+            if [[ "$resource" == ./* ]] && [ -d "$resource" ]; then
+              echo "  ✅ Directory reference: $resource"
+            elif [ -f "$resource" ]; then
+              echo "  ✅ File exists: $resource"
+            else
+              echo "  ⚠️  Referenced file not found: $resource"
+            fi
+          done <<< "$resources"
+          cd - > /dev/null
+        done
+
+    - name: Check for Required Namespaces
+      run: |
+        echo "Checking namespace definitions..."
+        
+        cd k8s/apps
+        kustomize build . > /tmp/all-manifests.yaml
+        
+        # Extract all namespaces used in resources
+        used_namespaces=$(grep '^\s*namespace:' /tmp/all-manifests.yaml | awk '{print $2}' | sort -u)
+        
+        # Extract defined namespaces
+        defined_namespaces=$(grep -A 2 '^kind: Namespace' /tmp/all-manifests.yaml | grep 'name:' | awk '{print $2}' | sort -u)
+        
+        echo "Used namespaces:"
+        echo "$used_namespaces"
+        echo ""
+        echo "Defined namespaces:"
+        echo "$defined_namespaces"
+        
+        # Check if commonly used namespaces are defined or are system namespaces
+        system_namespaces="default kube-system kube-public kube-node-lease flux-system"
+        
+        for ns in $used_namespaces; do
+          if echo "$defined_namespaces" | grep -q "^${ns}$"; then
+            echo "✅ Namespace $ns is defined"
+          elif echo "$system_namespaces" | grep -q "$ns"; then
+            echo "✅ Namespace $ns is a system namespace"
+          else
+            echo "⚠️  Namespace $ns is used but may not be defined"
+          fi
+        done
+
+  yaml-validation:
+    name: YAML Syntax Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install yamllint
+      run: pip install yamllint
+
+    - name: Create yamllint config
+      run: |
+        cat > .yamllint.yml <<EOF
+        extends: default
+        rules:
+          line-length:
+            max: 120
+            level: warning
+          indentation:
+            spaces: 2
+            indent-sequences: true
+          comments:
+            min-spaces-from-content: 1
+          truthy:
+            allowed-values: ['true', 'false', 'yes', 'no']
+        ignore: |
+          .git/
+          .github/
+        EOF
+
+    - name: Lint YAML files
+      run: |
+        echo "Linting YAML files in k8s/..."
+        yamllint k8s/ || true
+        
+        # Count issues
+        issues=$(yamllint k8s/ 2>&1 | grep -c "error\|warning" || echo "0")
+        echo "Total issues found: $issues"
+
+  resource-validation:
+    name: Resource Configuration Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup kustomize
+      run: |
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+        sudo mv kustomize /usr/local/bin/
+
+    - name: Check Resource Limits
+      run: |
+        echo "Checking for resource limits in deployments..."
+        
+        cd k8s/apps
+        kustomize build . > /tmp/all-manifests.yaml
+        
+        # Extract deployments without resource limits
+        deployments_without_limits=0
+        deployments_with_limits=0
+        
+        # Simple check - count deployments and those with limits
+        total_deployments=$(grep -c '^kind: Deployment' /tmp/all-manifests.yaml || echo "0")
+        deployments_with_resources=$(grep -A 50 '^kind: Deployment' /tmp/all-manifests.yaml | grep -c 'resources:' || echo "0")
+        
+        echo "Total Deployments: $total_deployments"
+        echo "Deployments with resources section: $deployments_with_resources"
+        
+        if [ "$deployments_with_resources" -gt 0 ]; then
+          echo "✅ Some deployments have resource limits defined"
+        else
+          echo "⚠️  Consider adding resource limits to deployments"
+        fi
+
+    - name: Check for Liveness/Readiness Probes
+      run: |
+        echo "Checking for health probes in deployments..."
+        
+        cd k8s/apps
+        kustomize build . > /tmp/all-manifests.yaml
+        
+        total_deployments=$(grep -c '^kind: Deployment' /tmp/all-manifests.yaml || echo "0")
+        liveness_probes=$(grep -c 'livenessProbe:' /tmp/all-manifests.yaml || echo "0")
+        readiness_probes=$(grep -c 'readinessProbe:' /tmp/all-manifests.yaml || echo "0")
+        
+        echo "Total Deployments: $total_deployments"
+        echo "Deployments with livenessProbe: $liveness_probes"
+        echo "Deployments with readinessProbe: $readiness_probes"
+        
+        if [ "$liveness_probes" -gt 0 ] || [ "$readiness_probes" -gt 0 ]; then
+          echo "✅ Health probes found"
+        else
+          echo "⚠️  Consider adding health probes for better reliability"
+        fi
+
+    - name: Check for Security Context
+      run: |
+        echo "Checking for security contexts..."
+        
+        cd k8s/apps
+        kustomize build . > /tmp/all-manifests.yaml
+        
+        security_contexts=$(grep -c 'securityContext:' /tmp/all-manifests.yaml || echo "0")
+        
+        echo "Resources with securityContext: $security_contexts"
+        
+        if [ "$security_contexts" -gt 0 ]; then
+          echo "✅ Security contexts found"
+        else
+          echo "⚠️  Consider adding security contexts for better security"
+        fi
+
+  app-structure-validation:
+    name: Application Structure Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check Application Structure
+      run: |
+        echo "Validating application directory structure..."
+        
+        # Get all app directories
+        app_dirs=$(find k8s/apps -mindepth 1 -maxdepth 1 -type d -not -name "flux-system")
+        
+        for app_dir in $app_dirs; do
+          app_name=$(basename "$app_dir")
+          echo ""
+          echo "Checking $app_name..."
+          
+          # Check for kustomization.yaml
+          if [ -f "$app_dir/kustomization.yaml" ] || [ -f "$app_dir/kustomization.yml" ]; then
+            echo "  ✅ Has kustomization file"
+          else
+            echo "  ❌ Missing kustomization.yaml"
+          fi
+          
+          # Check for at least one YAML manifest
+          yaml_count=$(find "$app_dir" -maxdepth 1 -name "*.yaml" -o -name "*.yml" | wc -l)
+          if [ "$yaml_count" -gt 0 ]; then
+            echo "  ✅ Has $yaml_count YAML files"
+          else
+            echo "  ⚠️  No YAML files found"
+          fi
+        done
+
+    - name: Verify Apps in Root Kustomization
+      run: |
+        echo "Verifying all apps are included in root kustomization..."
+        
+        # Get all app directories
+        app_dirs=$(find k8s/apps -mindepth 1 -maxdepth 1 -type d | sed 's|k8s/apps/||' | sort)
+        
+        # Get resources from root kustomization
+        root_kust_apps=$(yq eval '.resources[]' k8s/apps/kustomization.yaml | sed 's|^\./||' | sort)
+        
+        echo "App directories:"
+        echo "$app_dirs"
+        echo ""
+        echo "Apps in root kustomization:"
+        echo "$root_kust_apps"
+        echo ""
+        
+        # Check for missing apps
+        missing_apps=()
+        for app in $app_dirs; do
+          if echo "$root_kust_apps" | grep -q "^${app}$"; then
+            echo "✅ $app is in root kustomization"
+          else
+            echo "⚠️  $app is NOT in root kustomization"
+            missing_apps+=("$app")
+          fi
+        done
+        
+        if [ ${#missing_apps[@]} -eq 0 ]; then
+          echo ""
+          echo "✅ All apps are included in root kustomization"
+        else
+          echo ""
+          echo "⚠️  Some apps may not be deployed"
+        fi
+
+  documentation-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check README exists
+      run: |
+        if [ -f "k8s/README.md" ]; then
+          echo "✅ k8s/README.md exists"
+        else
+          echo "⚠️  Consider adding k8s/README.md documentation"
+          exit 1
+        fi
+
+    - name: Check for inline documentation
+      run: |
+        echo "Checking for comments in manifests..."
+        
+        comment_count=$(find k8s/apps -name "*.yaml" -o -name "*.yml" | xargs grep -c '^#' | awk -F: '{sum+=$2} END {print sum}')
+        
+        echo "Total comment lines found: $comment_count"
+        
+        if [ "$comment_count" -gt 10 ]; then
+          echo "✅ Good amount of documentation found"
+        else
+          echo "⚠️  Consider adding more inline documentation"
+        fi
