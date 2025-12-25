@@ -6,7 +6,7 @@ provider "kubernetes" {
   insecure               = true # certificate is valid for 10.0.1.216, 10.43.0.1, 127.0.0.1, ::1, not xyz
 }
 
-# Helm Provider Configuration  
+# Helm Provider Configuration
 # Used for deploying Helm charts to the Kubernetes cluster
 provider "helm" {
     kubernetes {

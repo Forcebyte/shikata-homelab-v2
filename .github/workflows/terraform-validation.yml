@@ -72,14 +72,15 @@ jobs:
       run: |
         cd terraform/
         echo "Checking that all variables have descriptions..."
-        
+
         # Check if any variables are missing descriptions
-        missing_desc=$(grep -B 1 'variable "' variables.tf | grep 'description\s*=' | wc -l)
+        # Count variables with descriptions by looking ahead after variable declaration
+        with_desc=$(grep -A 3 'variable "' variables.tf | grep 'description\s*=' | wc -l)
         total_vars=$(grep 'variable "' variables.tf | wc -l)
-        
-        echo "Variables with descriptions: $missing_desc / $total_vars"
-        
-        if [ $missing_desc -ne $total_vars ]; then
+
+        echo "Variables with descriptions: $with_desc / $total_vars"
+
+        if [ $with_desc -ne $total_vars ]; then
           echo "⚠️  Some variables are missing descriptions"
         else
           echo "✅ All variables have descriptions"
