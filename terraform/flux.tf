@@ -18,6 +18,19 @@ resource "kubernetes_secret" "discord_webhook" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "discord_webhook_keel_copy" {
+  metadata {
+    name      = "discord-webhook"
+    namespace = "keel"
+  }
+
+  data = {
+    "address" = var.discord_webhook
+  }
+
+  type = "Opaque"
+}
+
 
 resource "kubernetes_secret" "github_token" {
   metadata {
