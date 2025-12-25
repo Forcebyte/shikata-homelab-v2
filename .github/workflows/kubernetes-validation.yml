@@ -14,6 +14,8 @@ jobs:
   kustomize-build-test:
     name: Kustomize Build Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -145,6 +147,8 @@ jobs:
   yaml-validation:
     name: YAML Syntax Validation
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -190,6 +194,8 @@ jobs:
   resource-validation:
     name: Resource Configuration Validation
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -265,6 +271,8 @@ jobs:
   app-structure-validation:
     name: Application Structure Validation
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -337,6 +345,8 @@ jobs:
   documentation-check:
     name: Documentation Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
