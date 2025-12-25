@@ -120,9 +120,12 @@ spec:
               value: "1"
             - name: POLL_SCHEDULE
               value: "@every 5m"
-            # Enable webhook endpoint
-            - name: WEBHOOK_ENDPOINT
-              value: http://keel:9300/v1/webhooks
+            # Discord webhook for notifications
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: discord-webhook
+                  key: address
           ports:
             - containerPort: 9300
           livenessProbe:
