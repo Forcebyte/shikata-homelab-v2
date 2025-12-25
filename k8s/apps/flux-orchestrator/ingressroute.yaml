@@ -1,0 +1,22 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-flux-orchestrator
+  namespace: flux-orchestrator
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    external-dns.alpha.kubernetes.io/target: flux.forcebyte.org
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`flux.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+      services:
+      - name: flux-orchestrator
+        port: 80
