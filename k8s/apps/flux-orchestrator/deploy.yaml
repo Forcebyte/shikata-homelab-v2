@@ -181,6 +181,15 @@ spec:
             configMapKeyRef:
               name: flux-orchestrator-config
               key: PORT
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fernet-key
+              key: key
+        - name: SCRAPE_IN_CLUSTER
+          value: "true"
+        - name: IN_CLUSTER_NAME
+          value: "shikata"
 ---
 apiVersion: v1
 kind: Service
