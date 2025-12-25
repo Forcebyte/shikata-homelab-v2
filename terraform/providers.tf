@@ -35,10 +35,23 @@ provider "github" {
 }
 
 terraform {
+  required_version = ">= 1.0"
   required_providers {
     flux = {
       source = "fluxcd/flux"
       version = "1.5.1"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 6.0"
     }
   }
 }
