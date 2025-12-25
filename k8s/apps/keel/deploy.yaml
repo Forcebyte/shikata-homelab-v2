@@ -107,7 +107,7 @@ spec:
       serviceAccountName: keel
       containers:
         - name: keel
-          image: ghcr.io/forcebyte/keel-arm:master-a3bb3d8
+          image: ghcr.io/forcebyte/keel-arm:master-1d4424a
           imagePullPolicy: Always
           command: ["/bin/keel"]
           env:
