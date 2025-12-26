@@ -33,19 +33,16 @@ spec:
             secretKeyRef:
               name: flux-orchestrator-db-external
               key: db-username
-              namespace: flux-orchestrator
         - name: PMA_PASSWORD
           valueFrom:
             secretKeyRef:
               name: flux-orchestrator-db-external
               key: db-password
-              namespace: flux-orchestrator
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: flux-orchestrator-db-external
               key: db-password
-              namespace: flux-orchestrator
 ---
 apiVersion: v1
 kind: Service
