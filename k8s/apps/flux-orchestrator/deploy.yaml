@@ -101,12 +101,12 @@ spec:
             configMapKeyRef:
               name: flux-orchestrator-config
               key: DB_NAME
-        - name: MYSQL_USER
+        - name: DB_USER
           valueFrom:
             secretKeyRef:
               name: flux-orchestrator-db-external
               key: db-username
-        - name: MYSQL_PASSWORD
+        - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: flux-orchestrator-db-external
