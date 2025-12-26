@@ -1,0 +1,21 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: phpmyadmin
+  namespace: phpmyadmin
+  annotations:
+    external-dns.alpha.kubernetes.io/target: phpmyadmin.forcebyte.org
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`phpmyadmin.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: phpmyadmin
+          port: 80
