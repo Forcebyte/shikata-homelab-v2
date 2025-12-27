@@ -32,6 +32,7 @@ spec:
       containers:
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 9696  # Default port for Prowlarr
           volumeMounts:

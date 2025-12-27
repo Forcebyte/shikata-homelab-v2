@@ -45,6 +45,7 @@ spec:
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Web UI port
             - containerPort: 6881  # Torrent port

@@ -32,6 +32,7 @@ spec:
       containers:
         - name: minecraft
           image: itzg/minecraft-server:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 25565  # Minecraft server port
           env:
