@@ -12,3 +12,24 @@
 5. Add `./app-name` to `k8s/apps/kustomization.yaml` resources list
 
 Flux automatically picks up changes from the kustomization files.
+
+## Storage for apps if needed
+
+Use local-path storage class for persistent volume claims. Example PVC:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-metadata
+  namespace: audiobookshelf
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
+```
+
+Obviously, update this as needed, note that we do not need a persistentvolume, just the claim, as local-path provisions them automatically.
