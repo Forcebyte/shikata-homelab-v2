@@ -48,6 +48,7 @@ spec:
           # Custom-made image
           imagePullPolicy: Always
           image: "ghcr.io/forcebyte/adarkroom:latest"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80

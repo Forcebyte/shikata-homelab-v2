@@ -42,6 +42,7 @@ spec:
       containers:
       - name: postgres
         image: postgres:17.4
+        imagePullPolicy: Always
         ports:
         - containerPort: 5432
         env:
@@ -104,6 +105,7 @@ spec:
       containers:
       - name: clickhouse
         image: clickhouse/clickhouse-server:25.4.2
+        imagePullPolicy: Always
         ports:
         - containerPort: 8123
           name: http
@@ -177,6 +179,7 @@ spec:
       containers:
       - name: rybbit-backend
         image: ghcr.io/rybbit-io/rybbit-backend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3001
           name: api
@@ -268,6 +271,7 @@ spec:
       containers:
       - name: rybbit-client
         image: ghcr.io/rybbit-io/rybbit-client:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3002
           name: httprybbit

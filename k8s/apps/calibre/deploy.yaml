@@ -48,6 +48,7 @@ spec:
       containers:
         - name: calibre-web
           image: linuxserver/calibre-web
+          imagePullPolicy: Always
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
           volumeMounts:
@@ -109,6 +110,7 @@ spec:
       containers:
         - name: calibre
           image: linuxserver/calibre:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Default port for Calibre
           volumeMounts:
