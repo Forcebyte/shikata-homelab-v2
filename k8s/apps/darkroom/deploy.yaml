@@ -46,7 +46,6 @@ spec:
       containers:
         - name: darkroom
           # Custom-made image
-          imagePullPolicy: Always
           image: "ghcr.io/forcebyte/adarkroom:latest"
           imagePullPolicy: Always
           ports:
