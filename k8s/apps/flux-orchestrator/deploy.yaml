@@ -79,7 +79,7 @@ spec:
       serviceAccountName: flux-orchestrator
       containers:
       - name: flux-orchestrator
-        image: ghcr.io/forcebyte/flux-orchestrator:pr-8
+        image: ghcr.io/forcebyte/flux-orchestrator:pr-9
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
