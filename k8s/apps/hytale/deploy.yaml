@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: hytale
-          image: brodino96/hytale-server:latest
+          image: ghcr.io/forcebyte/hytale-server:latest-arm64
           imagePullPolicy: Always
           stdin: true
           tty: true
