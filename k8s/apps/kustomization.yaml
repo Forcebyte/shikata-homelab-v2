@@ -12,6 +12,7 @@ resources:
   - ./github-oauth
   - ./headlamp
   - ./homepage
+  - ./hytale
   - ./keel
   - ./minecraft
   - ./nextcloud
