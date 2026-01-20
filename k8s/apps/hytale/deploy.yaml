@@ -11,6 +11,19 @@ spec:
       storage: 10Gi
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hytale-downloader
+  namespace: hytale
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -48,10 +61,15 @@ spec:
           volumeMounts:
             - name: hytale-data
               mountPath: /data
+            - name: hytale-downloader
+              mountPath: /downloader
       volumes:
         - name: hytale-data
           persistentVolumeClaim:
             claimName: hytale-data
+        - name: hytale-downloader
+          persistentVolumeClaim:
+            claimName: hytale-downloader
 ---
 apiVersion: v1
 kind: Service
