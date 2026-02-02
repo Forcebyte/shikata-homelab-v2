@@ -27,8 +27,11 @@ data:
         columns: 4
       Gaming:
         style: row
-        columns: 2
+        columns: 3
       Infrastructure:
+        style: row
+        columns: 3
+      Cloud & Storage:
         style: row
         columns: 2
   custom.css: ""
@@ -41,6 +44,16 @@ data:
         - Blog:
             - abbr: BG
               href: https://forcebyte.github.io
+    - Game Servers:
+        - Minecraft:
+            - abbr: MC
+              href: minecraft://minecraft.forcebyte.org:25565
+        - Minecraft FTB:
+            - abbr: FTB
+              href: minecraft://ftb.forcebyte.org:25566
+        - Terraria:
+            - abbr: TR
+              href: steam://connect/terraria.forcebyte.org:7777
   services.yaml: |
     - Services:
         - Homepage:
@@ -55,24 +68,40 @@ data:
             href: https://tools.forcebyte.org
             description: Network Toolbox
             icon: mdi-tools
+        - A Dark Room:
+            href: https://darkroom.forcebyte.org
+            description: Text-based Adventure Game
+            icon: mdi-campfire
             
     - Media & Downloads:
         - qBittorrent:
             href: https://qbittorrent.forcebyte.org
             description: Torrent Client
             icon: qbittorrent.png
+            widget:
+              type: qbittorrent
+              url: https://qbittorrent.forcebyte.org
         - Prowlarr:
             href: https://prowlarr.forcebyte.org
             description: Indexer Manager
             icon: prowlarr.png
+            widget:
+              type: prowlarr
+              url: https://prowlarr.forcebyte.org
         - Readarr:
             href: https://readarr.forcebyte.org
             description: Book Manager
             icon: readarr.png
+            widget:
+              type: readarr
+              url: https://readarr.forcebyte.org
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
             icon: nzbget.png
+            widget:
+              type: nzbget
+              url: https://nzbget.forcebyte.org
         - Calibre:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
@@ -85,6 +114,13 @@ data:
             href: https://calibre-server.forcebyte.org
             description: Ebook Content Server
             icon: calibre.png
+        - Audiobookshelf:
+            href: https://audiobookshelf.forcebyte.org
+            description: Audiobook & Podcast Server
+            icon: audiobookshelf.png
+            widget:
+              type: audiobookshelf
+              url: https://audiobookshelf.forcebyte.org
             
     - Gaming:
         - CS2 RCON:
@@ -95,6 +131,28 @@ data:
             href: https://rcon2.forcebyte.org
             description: Alternative RCON Interface
             icon: mdi-console
+        - Minecraft:
+            href: https://minecraft.forcebyte.org
+            description: "Vanilla Server (minecraft.forcebyte.org:25565)"
+            icon: minecraft.png
+            widget:
+                type: minecraft
+                url: udp://minecraft.forcebyte.org:25565
+        - Minecraft FTB:
+            href: https://ftb.forcebyte.org
+            description: "FTB Modded Server (ftb.forcebyte.org:25566)"
+            icon: mdi-pickaxe
+            widget:
+                type: minecraft
+                url: udp://ftb.forcebyte.org:25566
+        - Terraria:
+            href: https://terraria.forcebyte.org
+            description: "Terraria Server (terraria.forcebyte.org:7777)"
+            icon: mdi-sword
+        - Hytale:
+            href: https://hytale.forcebyte.org
+            description: "Hytale Server (hytale.forcebyte.org:5520)"
+            icon: mdi-gamepad-square
             
     - Infrastructure:
         - Nginx:
@@ -105,6 +163,31 @@ data:
             href: https://github-oauth.forcebyte.org
             description: OAuth Provider
             icon: github.png
+        - Headlamp:
+            href: https://headlamp.forcebyte.org
+            description: Kubernetes Dashboard
+            icon: kubernetes-dashboard.png
+        - Flux Orchestrator:
+            href: https://flux.forcebyte.org
+            description: GitOps CD Platform
+            icon: flux-cd.png
+        - Traefik:
+            href: https://traefik.forcebyte.org
+            description: Ingress Controller
+            icon: traefik.png
+            widget:
+              type: traefik
+              url: https://traefik.forcebyte.org
+        - phpMyAdmin:
+            href: https://phpmyadmin.forcebyte.org
+            description: Database Management
+            icon: phpmyadmin.png
+            
+    - Cloud & Storage:
+        - Rybbit Analytics:
+            href: https://rybbit.forcebyte.org
+            description: Web Analytics Platform
+            icon: mdi-chart-line
   widgets.yaml: |
     - kubernetes:
         cluster:
@@ -123,6 +206,9 @@ data:
         expanded: true
         cpu: true
         memory: true
+    - search:
+        provider: google
+        target: _blank
     - search:
         provider: google
         target: _blank
