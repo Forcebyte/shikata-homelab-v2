@@ -11,6 +11,27 @@ spec:
       storage: 5Gi
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: terraria-config
+  namespace: terraria
+data:
+  serverconfig.txt: |
+    # World settings
+    world=/root/.local/share/Terraria/Worlds/forcebyte.wld
+    autocreate=3
+    worldname=forcebyte
+    difficulty=0
+    # Server settings
+    maxplayers=8
+    port=7777
+    password=peter35
+    motd=Welcome to Forcebyte Terraria!
+    # World preferences
+    secure=1
+    language=en-US
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,13 +58,21 @@ spec:
           tty: true
           ports:
             - containerPort: 7777  # Terraria server port
+          env:
+            - name: WORLD_FILENAME
+              value: "forcebyte.wld"
           volumeMounts:
             - name: terraria-world
               mountPath: /root/.local/share/Terraria/Worlds
+            - name: terraria-config
+              mountPath: /config
       volumes:
         - name: terraria-world
           persistentVolumeClaim:
             claimName: terraria-world
+        - name: terraria-config
+          configMap:
+            name: terraria-config
 ---
 apiVersion: v1
 kind: Service
