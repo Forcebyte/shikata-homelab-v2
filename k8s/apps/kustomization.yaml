@@ -15,6 +15,7 @@ resources:
   - ./hytale
   - ./keel
   - ./minecraft
+  - ./minecraft-ftb
   - ./nextcloud
   - ./nginx
   - ./notifications
