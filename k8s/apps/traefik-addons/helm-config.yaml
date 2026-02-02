@@ -14,6 +14,7 @@ spec:
       - "--entryPoints.rcontcp.address=:4327/tcp"
       - "--entryPoints.rconudp.address=:4327/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
+      - "--entryPoints.terraria.address=:7777/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
@@ -64,6 +65,12 @@ spec:
       minecraft:
         port: 25565
         exposedPort: 25565
+        expose:
+          default: true
+        protocol: TCP
+      terraria:
+        port: 7777
+        exposedPort: 7777
         expose:
           default: true
         protocol: TCP
