@@ -178,7 +178,4 @@ data:
     - search:
         provider: google
         target: _blank
-    - search:
-        provider: google
-        target: _blank
   docker.yaml: ""
