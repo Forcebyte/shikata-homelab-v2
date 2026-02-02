@@ -76,28 +76,28 @@ data:
             icon: qbittorrent.png
             widget:
               type: qbittorrent
-              url: https://qbittorrent.forcebyte.org
+              url: http://qbittorrent.qbittorrent.svc.cluster.local:8080
         - Prowlarr:
             href: https://prowlarr.forcebyte.org
             description: Indexer Manager
             icon: prowlarr.png
             widget:
               type: prowlarr
-              url: https://prowlarr.forcebyte.org
+              url: http://prowlarr.prowlarr.svc.cluster.local:9696
         - Readarr:
             href: https://readarr.forcebyte.org
             description: Book Manager
             icon: readarr.png
             widget:
               type: readarr
-              url: https://readarr.forcebyte.org
+              url: http://readarr.readarr.svc.cluster.local:8787
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
             icon: nzbget.png
             widget:
               type: nzbget
-              url: https://nzbget.forcebyte.org
+              url: http://nzbget.qbittorrent.svc.cluster.local:6789
         - Calibre:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
@@ -116,7 +116,7 @@ data:
             icon: audiobookshelf.png
             widget:
               type: audiobookshelf
-              url: https://audiobookshelf.forcebyte.org
+              url: http://audiobookshelf.audiobookshelf.svc.cluster.local:80
             
     - Gaming:
         - Minecraft:
@@ -147,13 +147,6 @@ data:
             href: https://flux.forcebyte.org
             description: GitOps CD Platform
             icon: flux-cd.png
-        - Traefik:
-            href: https://traefik.forcebyte.org
-            description: Ingress Controller
-            icon: traefik.png
-            widget:
-              type: traefik
-              url: https://traefik.forcebyte.org
         - phpMyAdmin:
             href: https://phpmyadmin.forcebyte.org
             description: Database Management
