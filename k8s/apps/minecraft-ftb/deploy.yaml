@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: minecraft-ftb
-          image: itzg/minecraft-server:latest
+          image: itzg/minecraft-server:java8
           imagePullPolicy: Always
           ports:
             - containerPort: 25565  # Internal container port
