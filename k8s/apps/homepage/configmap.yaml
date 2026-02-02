@@ -60,10 +60,6 @@ data:
             href: https://forcebyte.org
             description: This Dashboard
             icon: homepage.png
-        - OpenWebUI:
-            href: https://chat.forcebyte.org
-            description: AI Chat Interface
-            icon: open-webui.png
         - Tools:
             href: https://tools.forcebyte.org
             description: Network Toolbox
@@ -123,14 +119,6 @@ data:
               url: https://audiobookshelf.forcebyte.org
             
     - Gaming:
-        - CS2 RCON:
-            href: https://cs2rcon.forcebyte.org
-            description: Counter-Strike 2 Admin
-            icon: mdi-gamepad-variant
-        - RCON Alt:
-            href: https://rcon2.forcebyte.org
-            description: Alternative RCON Interface
-            icon: mdi-console
         - Minecraft:
             href: https://minecraft.forcebyte.org
             description: "Vanilla Server (minecraft.forcebyte.org:25565)"
@@ -149,24 +137,12 @@ data:
             href: https://terraria.forcebyte.org
             description: "Terraria Server (terraria.forcebyte.org:7777)"
             icon: mdi-sword
-        - Hytale:
-            href: https://hytale.forcebyte.org
-            description: "Hytale Server (hytale.forcebyte.org:5520)"
-            icon: mdi-gamepad-square
             
     - Infrastructure:
-        - Nginx:
-            href: https://nginx.forcebyte.org
-            description: Web Server
-            icon: nginx.png
         - GitHub OAuth:
             href: https://github-oauth.forcebyte.org
             description: OAuth Provider
             icon: github.png
-        - Headlamp:
-            href: https://headlamp.forcebyte.org
-            description: Kubernetes Dashboard
-            icon: kubernetes-dashboard.png
         - Flux Orchestrator:
             href: https://flux.forcebyte.org
             description: GitOps CD Platform
