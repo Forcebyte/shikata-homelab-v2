@@ -25,5 +25,6 @@ resources:
   - ./rcon
   - ./readarr
   - ./rybbit
+  - ./terraria
   - ./toolbox
   - ./traefik-addons
