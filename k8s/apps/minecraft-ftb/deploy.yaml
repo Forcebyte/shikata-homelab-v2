@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minecraft-ftb-world
+  name: minecraft-ftb-world-infinityevolved
   namespace: minecraft-ftb
 spec:
   accessModes:
@@ -43,16 +43,18 @@ spec:
             - name: TYPE
               value: "FTBA"
             - name: FTB_MODPACK_ID
-              value: "35"
+              # Infinity evolved
+              # See https://hub.docker.com/r/pvmjay/ftb-server for list of modpack IDs
+              value: "23"
             - name: MEMORY
-              value: "4G"
+              value: "6G"
           volumeMounts:
-            - name: minecraft-ftb-world
+            - name: minecraft-ftb-world-infinityevolved
               mountPath: /data
       volumes:
-        - name: minecraft-ftb-world
+        - name: minecraft-ftb-world-infinityevolved
           persistentVolumeClaim:
-            claimName: minecraft-ftb-world
+            claimName: minecraft-ftb-world-infinityevolved
 ---
 apiVersion: v1
 kind: Service
