@@ -14,10 +14,12 @@ kind: ClusterRole
 metadata:
   name: system-upgrade-controller
 rules:
+  # Core resources
   - apiGroups:
       - ""
     resources:
       - namespaces
+      - nodes
     verbs:
       - get
       - list
@@ -27,9 +29,6 @@ rules:
     resources:
       - nodes
     verbs:
-      - get
-      - list
-      - watch
       - update
       - patch
   - apiGroups:
@@ -48,13 +47,25 @@ rules:
     verbs:
       - create
   - apiGroups:
-      - apps
+      - ""
     resources:
-      - daemonsets
+      - secrets
     verbs:
       - get
       - list
       - watch
+  # Apps
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  # Batch jobs for running upgrades
   - apiGroups:
       - batch
     resources:
@@ -64,7 +75,10 @@ rules:
       - list
       - watch
       - create
+      - update
+      - patch
       - delete
+  # Upgrade CRDs
   - apiGroups:
       - upgrade.cattle.io
     resources:
@@ -74,8 +88,10 @@ rules:
       - get
       - list
       - watch
+      - create
       - update
       - patch
+      - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
