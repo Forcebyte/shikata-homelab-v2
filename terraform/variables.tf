@@ -94,3 +94,15 @@ variable "headlamp_github_oauth_client_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "datadog_api_key" {
+  description = "Datadog API Key"
+  type        = string
+  sensitive   = true
+}
+
+variable "datadog_app_key" {
+  description = "Datadog App Key"
+  type        = string
+  sensitive   = true
+}
