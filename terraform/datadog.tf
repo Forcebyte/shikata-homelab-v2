@@ -1,13 +1,7 @@
-resource "kubernetes_namespace" "datadog" {
-  metadata {
-    name = "datadog"
-  }
-}
-
 resource "kubernetes_secret" "datadog_secret" {
   metadata {
     name      = "datadog-secret"
-    namespace = kubernetes_namespace.datadog.metadata[0].name
+    namespace = "datadog"
   }
 
   data = {
