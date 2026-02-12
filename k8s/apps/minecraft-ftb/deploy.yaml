@@ -46,7 +46,9 @@ spec:
               # Infinity evolved
               # See https://hub.docker.com/r/pvmjay/ftb-server for list of modpack IDs
               value: "23"
-            - name: MEMORY
+            - name: INIT_MEMORY
+              value: "3G"
+            - name: MAX_MEMORY
               value: "6G"
           volumeMounts:
             - name: minecraft-ftb-world-infinityevolved
