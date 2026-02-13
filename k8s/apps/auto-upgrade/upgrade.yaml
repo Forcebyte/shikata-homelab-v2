@@ -106,6 +106,19 @@ subjects:
     name: system-upgrade
     namespace: system-upgrade
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-upgrade-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+  - kind: ServiceAccount
+    name: system-upgrade
+    namespace: system-upgrade
+---
 # Server plan
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
