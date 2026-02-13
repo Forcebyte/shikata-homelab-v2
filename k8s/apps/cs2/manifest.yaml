@@ -2,90 +2,85 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cs2-modded-claim
-  namespace: game-server
+  name: cs2-server-data
+  namespace: cs2
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 60Gi #Reccomended Minimum
+      storage: 60Gi
   storageClassName: local-path
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cs2-modded-server
-  namespace: game-server
+  name: cs2-server
+  namespace: cs2
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
-      app: cs2-modded-server
+      app: cs2-server
   template:
     metadata:
       labels:
-        app: cs2-modded-server
+        app: cs2-server
     spec:
-      securityContext:
-        fsGroup: 1000
       containers:
-        - name: cs2-modded-server
-          image: ghcr.io/kus/cs2-modded-server:latest
+        - name: cs2-server
+          image: teriyakigod/cs2-server:arm64
+          stdin: true
+          tty: true
           ports:
             - containerPort: 27015
               protocol: TCP
             - containerPort: 27015
               protocol: UDP
             - containerPort: 27020
-              protocol: TCP
-            - containerPort: 27020
               protocol: UDP
-          env:
-            - name: STEAM_ACCOUNT
-              valueFrom:
-                secretKeyRef:
-                  name: cs2-secrets
-                  key: steamAccount
-            - name: API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cs2-secrets
-                  key: apiKey
+            - containerPort: 27005
+              protocol: UDP
+            - containerPort: 26900
+              protocol: UDP
           volumeMounts:
             - name: cs2-data
-              mountPath: /home/steam/cs2
+              mountPath: /opt/cs
       volumes:
         - name: cs2-data
           persistentVolumeClaim:
-            claimName: cs2-modded-claim
+            claimName: cs2-server-data
 ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: cs2-modded-service
-#   namespace: game-server
-# spec:
-#   selector:
-#     app: cs2-modded-server
-#   ports:
-#     - name: tcp-27015
-#       protocol: TCP
-#       port: 27015
-#       targetPort: 27015
-#     - name: udp-27015
-#       protocol: UDP
-#       port: 27015
-#       targetPort: 27015
-#     - name: tcp-27020
-#       protocol: TCP
-#       port: 27020
-#       targetPort: 27020
-#     - name: udp-27020
-#       protocol: UDP
-#       port: 27020
-#       targetPort: 27020
-#   type: LoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: cs2-server
+  namespace: cs2
+spec:
+  selector:
+    app: cs2-server
+  ports:
+    - name: tcp-27015
+      protocol: TCP
+      port: 27015
+      targetPort: 27015
+    - name: udp-27015
+      protocol: UDP
+      port: 27015
+      targetPort: 27015
+    - name: udp-27020
+      protocol: UDP
+      port: 27020
+      targetPort: 27020
+    - name: udp-27005
+      protocol: UDP
+      port: 27005
+      targetPort: 27005
+    - name: udp-26900
+      protocol: UDP
+      port: 26900
+      targetPort: 26900
+  type: LoadBalancer
