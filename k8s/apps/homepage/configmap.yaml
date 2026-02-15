@@ -109,7 +109,7 @@ data:
             description: Ebook Library Manager
             icon: calibre.png
             widget:
-              type: calibre
+              type: calibreweb
               url: http://calibre.calibre.svc.cluster.local:8080
               username: forcebyte
               password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
@@ -148,7 +148,6 @@ data:
             href: https://terraria.forcebyte.org
             description: "Terraria Server (terraria.forcebyte.org:7777)"
             icon: mdi-sword
-            
     - Infrastructure:
         - GitHub OAuth:
             href: https://github-oauth.forcebyte.org
@@ -192,4 +191,17 @@ data:
     - openmeteo:
         units: metric
         cache: 5
+    - calendar:
+        firstDayInWeek: sunday
+        view: monthly
+        maxEvents: 10
+        showTime: true
+        timezone: America/Toronto
+        integrations:
+          - type: ical
+            url: {{HOMEPAGE_VAR_ICAL_URL}}
+            name: My Events
+            color: zinc
+            params:
+              showName: true
   docker.yaml: ""

@@ -9,6 +9,7 @@ resource "kubernetes_secret" "homepage_secret" {
     "prowlarr-key"       = var.HOMEPAGE_VAR_PROWLARR_KEY
     "readarr-key"        = var.HOMEPAGE_VAR_READARR_KEY
     "audiobookshelf-key" = var.HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY
+    "ical-url"           = var.HOMEPAGE_VAR_ICAL_URL
   }
 
   type = "Opaque"
