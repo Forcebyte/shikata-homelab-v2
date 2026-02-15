@@ -29,7 +29,7 @@ spec:
       containers:
         - name: readarr
           # https://docs.linuxserver.io/deprecated_images/docker-readarr/#building-locally
-          image: lscr.io/linuxserver/readarr:qemu-static
+          image: lscr.io/linuxserver/readarr:arm64v8-latest
           ports:
             - containerPort: 8787  # Default port for Readarr
           volumeMounts:
