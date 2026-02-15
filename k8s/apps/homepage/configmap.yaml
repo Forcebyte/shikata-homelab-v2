@@ -76,7 +76,11 @@ data:
             icon: qbittorrent.png
             widget:
               type: qbittorrent
-              url: http://qbittorrent.qbittorrent.svc.cluster.local:8080
+              url: http://qbittorrent.qbittorrent.svc.cluster.local:6881
+              username: forcebyte
+              password: {{HOMEPAGE_VAR_QBITTORRENT_KEY}}
+              enableLeechProgress: true
+              enableLeechSize: true
         - Prowlarr:
             href: https://prowlarr.forcebyte.org
             description: Indexer Manager

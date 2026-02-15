@@ -106,3 +106,9 @@ variable "datadog_app_key" {
   type        = string
   sensitive   = true
 }
+
+variable "homepage_qbittorrent_key" {
+  description = "qBittorrent API key for Homepage"
+  type        = string
+  sensitive   = true
+}
