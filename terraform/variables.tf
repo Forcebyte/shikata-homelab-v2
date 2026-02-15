@@ -136,3 +136,9 @@ variable "HOMEPAGE_VAR_ICAL_URL" {
   type        = string
   sensitive   = true
 }
+
+variable "HOMEPAGE_VAR_NZBGET_KEY" {
+  description = "NZBGet API key for Homepage"
+  type        = string
+  sensitive   = true
+}

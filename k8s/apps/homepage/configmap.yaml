@@ -95,7 +95,7 @@ data:
             icon: readarr.png
             widget:
               type: readarr
-              url: http://readarr.readarr.svc.cluster.local:8787
+              url: http://readarr.qbittorrent.svc.cluster.local:80
               key: {{HOMEPAGE_VAR_READARR_KEY}}
         - NZBGet:
             href: https://nzbget.forcebyte.org
@@ -104,6 +104,8 @@ data:
             widget:
               type: nzbget
               url: http://nzbget.qbittorrent.svc.cluster.local:6789
+              username: forcebyte
+              password: {{HOMEPAGE_VAR_NZBGET_KEY}}
         - Calibre:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
