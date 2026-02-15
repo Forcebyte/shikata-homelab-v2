@@ -5,7 +5,7 @@ resource "kubernetes_secret" "homepage_secret" {
   }
 
   data = {
-    "qbittorrent-key" = var.homepage_qbittorrent_key
+    "qbittorrent-key" = var.HOMEPAGE_VAR_QBITTORRENT_KEY
   }
 
   type = "Opaque"
