@@ -11,7 +11,6 @@ data:
   settings.yaml: |
     title: Shikata Homelab
     subtitle: Underlying Homelab Configuration
-    description: 
     logo: https://github.com/gethomepage/homepage/raw/main/public/android-chrome-192x192.png
     favicon: https://github.com/gethomepage/homepage/raw/main/public/favicon.ico
     theme: dark
@@ -38,7 +37,7 @@ data:
       Infrastructure:
         style: row
         columns: 3
-      Cloud & Storage:
+      "Cloud & Storage":
         style: row
         columns: 2
   custom.css: ""
@@ -75,7 +74,6 @@ data:
             href: https://darkroom.forcebyte.org
             description: Text-based Adventure Game
             icon: mdi-campfire
-            
     - Books:
         - Readarr:
             href: https://readarr.forcebyte.org
@@ -162,8 +160,7 @@ data:
             href: https://phpmyadmin.forcebyte.org
             description: Database Management
             icon: phpmyadmin.png
-            
-    - Cloud & Storage:
+    - "Cloud & Storage":
         - Rybbit Analytics:
             href: https://rybbit.forcebyte.org
             description: Web Analytics Platform
