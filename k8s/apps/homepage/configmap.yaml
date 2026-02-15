@@ -108,11 +108,11 @@ data:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
             icon: calibre.png
-              widget:
-                type: calibre
-                url: http://calibre.calibre.svc.cluster.local:8080
-                username: forcebyte
-                password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
+            widget:
+              type: calibre
+              url: http://calibre.calibre.svc.cluster.local:8080
+              username: forcebyte
+              password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
@@ -189,4 +189,7 @@ data:
     - search:
         provider: google
         target: _blank
+    - openmeteo:
+        units: metric
+        cache: 5
   docker.yaml: ""
