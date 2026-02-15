@@ -89,11 +89,6 @@ data:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
             icon: calibre.png
-            widget:
-              type: calibreweb
-              url: http://calibre.qbittorrent.svc.cluster.local:8080
-              username: forcebyte
-              password: {{HOMEPAGE_VAR_READARR_KEY}}
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
@@ -197,17 +192,9 @@ data:
     - openmeteo:
         units: metric
         cache: 5
-    - calendar:
-        firstDayInWeek: sunday
-        view: monthly
-        maxEvents: 10
-        showTime: true
-        timezone: America/Toronto
-        integrations:
-          - type: ical
-            url: {{HOMEPAGE_VAR_ICAL_URL}}
-            name: My Events
-            color: zinc
-            params:
-              showName: true
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: long
+          timeStyle: short
   docker.yaml: ""

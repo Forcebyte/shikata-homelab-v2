@@ -142,3 +142,9 @@ variable "HOMEPAGE_VAR_NZBGET_KEY" {
   type        = string
   sensitive   = true
 }
+
+variable "HOMEPAGE_VAR_CALIBRE_KEY" {
+  description = "Calibre API key for Homepage"
+  type        = string
+  sensitive   = true
+}
