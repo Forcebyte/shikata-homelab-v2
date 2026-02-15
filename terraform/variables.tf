@@ -130,3 +130,9 @@ variable "HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY" {
   type        = string
   sensitive   = true
 }
+
+variable "HOMEPAGE_VAR_ICAL_URL" {
+  description = "iCal URL for Homepage calendar widget"
+  type        = string
+  sensitive   = true
+}
