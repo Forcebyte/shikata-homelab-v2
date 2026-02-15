@@ -90,7 +90,8 @@ data:
             widget:
               type: calibreweb
               url: http://calibre-web.qbittorrent.svc.cluster.local:80
-              key: "{{HOMEPAGE_VAR_READARR_KEY}}"
+              username: forcebyte
+              password: "{{HOMEPAGE_VAR_CALIBRE_KEY}}"
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
@@ -113,7 +114,7 @@ data:
             icon: prowlarr.png
             widget:
               type: prowlarr
-              url: http://prowlarr.prowlarr.svc.cluster.local:9696
+              url: http://prowlarr.prowlarr.svc.cluster.local:80
               key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
         - NZBGet:
             href: https://nzbget.forcebyte.org
