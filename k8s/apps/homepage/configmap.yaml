@@ -108,6 +108,11 @@ data:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
             icon: calibre.png
+              widget:
+                type: calibre
+                url: http://calibre.calibre.svc.cluster.local:8080
+                username: forcebyte
+                password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
@@ -123,7 +128,7 @@ data:
             widget:
               type: audiobookshelf
               url: http://audiobookshelf.audiobookshelf.svc.cluster.local:80
-            
+              key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY}}
     - Gaming:
         - Minecraft:
             href: https://minecraft.forcebyte.org
