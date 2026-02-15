@@ -138,6 +138,11 @@ spec:
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: "forcebyte.org"
+            - name: HOMEPAGE_VAR_QBITTORRENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: qbittorrent-key
           ports:
             - name: http
               containerPort: 3000
