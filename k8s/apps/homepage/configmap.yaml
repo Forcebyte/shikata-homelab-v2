@@ -99,10 +99,6 @@ data:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
             icon: calibre.png
-        - Calibre Server:
-            href: https://calibre-server.forcebyte.org
-            description: Ebook Content Server
-            icon: calibre.png
     - Torrenting:
         - qBittorrent:
             href: https://qbittorrent.forcebyte.org
@@ -146,15 +142,15 @@ data:
             description: "Vanilla Server (minecraft.forcebyte.org:25565)"
             icon: minecraft.png
             widget:
-                type: minecraft
-                url: udp://minecraft.forcebyte.org:25565
+              type: minecraft
+              url: udp://minecraft.forcebyte.org:25565
         - Minecraft FTB:
             href: https://ftb.forcebyte.org
             description: "FTB Modded Server (ftb.forcebyte.org:25566)"
             icon: mdi-pickaxe
             widget:
-                type: minecraft
-                url: udp://ftb.forcebyte.org:25566
+              type: minecraft
+              url: udp://ftb.forcebyte.org:25566
         - Terraria:
             href: https://terraria.forcebyte.org
             description: "Terraria Server (terraria.forcebyte.org:7777)"
