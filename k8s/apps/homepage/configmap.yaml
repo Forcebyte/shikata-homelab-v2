@@ -87,6 +87,10 @@ data:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
             icon: calibre.png
+            widget:
+              type: calibreweb
+              url: http://calibre-web.qbittorrent.svc.cluster.local:80
+              key: "{{HOMEPAGE_VAR_READARR_KEY}}"
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
