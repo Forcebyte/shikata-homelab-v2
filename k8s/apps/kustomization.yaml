@@ -17,6 +17,7 @@ resources:
   - ./keel
   - ./minecraft
   - ./minecraft-ftb
+  - ./n8n
   - ./nextcloud
   - ./nginx
   - ./notifications
