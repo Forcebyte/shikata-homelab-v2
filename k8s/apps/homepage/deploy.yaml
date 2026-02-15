@@ -143,6 +143,16 @@ spec:
                 secretKeyRef:
                   name: homepage-secret
                   key: qbittorrent-key
+            - name: HOMEPAGE_VAR_PROWLARR_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: prowlarr-key
+            - name: HOMEPAGE_VAR_READARR_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: readarr-key
           ports:
             - name: http
               containerPort: 3000
