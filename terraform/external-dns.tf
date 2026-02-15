@@ -2,6 +2,12 @@ resource "kubernetes_namespace" "external_dns" {
   metadata {
     name = "external-dns"
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }
 
 resource "kubernetes_secret" "cloudflare_api_token" {
