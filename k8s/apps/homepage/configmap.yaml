@@ -17,12 +17,20 @@ data:
     theme: dark
     color: slate
     target: _self
+    fiveColumns: true
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+      showSearchSuggestions: true
     
     layout:
       Services:
         style: row
         columns: 3
-      "Media & Downloads":
+      Books:
+        style: row
+        columns: 4
+      Torrenting:
         style: row
         columns: 4
       Gaming:
@@ -69,7 +77,33 @@ data:
             description: Text-based Adventure Game
             icon: mdi-campfire
             
-    - Media & Downloads:
+    - Books:
+        - Readarr:
+            href: https://readarr.forcebyte.org
+            description: Book Manager
+            icon: readarr.png
+            widget:
+              type: readarr
+              url: http://readarr.qbittorrent.svc.cluster.local:80
+              key: {{HOMEPAGE_VAR_READARR_KEY}}
+        - Calibre:
+            href: https://calibre.forcebyte.org
+            description: Ebook Library Manager
+            icon: calibre.png
+            widget:
+              type: calibreweb
+              url: http://calibre.qbittorrent.svc.cluster.local:8080
+              username: forcebyte
+              password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
+        - Calibre Reader:
+            href: https://calibre-reader.forcebyte.org
+            description: Web Ebook Reader
+            icon: calibre.png
+        - Calibre Server:
+            href: https://calibre-server.forcebyte.org
+            description: Ebook Content Server
+            icon: calibre.png
+    - Torrenting:
         - qBittorrent:
             href: https://qbittorrent.forcebyte.org
             description: Torrent Client
@@ -89,14 +123,6 @@ data:
               type: prowlarr
               url: http://prowlarr.prowlarr.svc.cluster.local:9696
               key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
-        - Readarr:
-            href: https://readarr.forcebyte.org
-            description: Book Manager
-            icon: readarr.png
-            widget:
-              type: readarr
-              url: http://readarr.qbittorrent.svc.cluster.local:80
-              key: {{HOMEPAGE_VAR_READARR_KEY}}
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
@@ -106,23 +132,6 @@ data:
               url: http://nzbget.qbittorrent.svc.cluster.local:6789
               username: forcebyte
               password: {{HOMEPAGE_VAR_NZBGET_KEY}}
-        - Calibre:
-            href: https://calibre.forcebyte.org
-            description: Ebook Library Manager
-            icon: calibre.png
-            widget:
-              type: calibreweb
-              url: http://calibre.calibre.svc.cluster.local:8080
-              username: forcebyte
-              password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
-        - Calibre Reader:
-            href: https://calibre-reader.forcebyte.org
-            description: Web Ebook Reader
-            icon: calibre.png
-        - Calibre Server:
-            href: https://calibre-server.forcebyte.org
-            description: Ebook Content Server
-            icon: calibre.png
         - Audiobookshelf:
             href: https://audiobookshelf.forcebyte.org
             description: Audiobook & Podcast Server
