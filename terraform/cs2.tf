@@ -2,6 +2,12 @@ resource "kubernetes_namespace" "rcon" {
   metadata {
     name = "rcon"
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }
 
 resource "kubernetes_secret" "cs2-secrets" {
