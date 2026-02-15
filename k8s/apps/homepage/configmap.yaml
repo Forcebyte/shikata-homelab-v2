@@ -82,7 +82,7 @@ data:
             widget:
               type: readarr
               url: http://readarr.qbittorrent.svc.cluster.local:80
-              key: {{HOMEPAGE_VAR_READARR_KEY}}
+              key: "{{HOMEPAGE_VAR_READARR_KEY}}"
         - Calibre:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
@@ -100,7 +100,7 @@ data:
               type: qbittorrent
               url: http://qbittorrent.qbittorrent.svc.cluster.local:8080
               username: forcebyte
-              password: {{HOMEPAGE_VAR_QBITTORRENT_KEY}}
+              password: "{{HOMEPAGE_VAR_QBITTORRENT_KEY}}"
               enableLeechProgress: true
               enableLeechSize: true
         - Prowlarr:
@@ -110,7 +110,7 @@ data:
             widget:
               type: prowlarr
               url: http://prowlarr.prowlarr.svc.cluster.local:9696
-              key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
+              key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
@@ -119,7 +119,7 @@ data:
               type: nzbget
               url: http://nzbget.qbittorrent.svc.cluster.local:6789
               username: forcebyte
-              password: {{HOMEPAGE_VAR_NZBGET_KEY}}
+              password: "{{HOMEPAGE_VAR_NZBGET_KEY}}"
         - Audiobookshelf:
             href: https://audiobookshelf.forcebyte.org
             description: Audiobook & Podcast Server
@@ -127,7 +127,7 @@ data:
             widget:
               type: audiobookshelf
               url: http://audiobookshelf.audiobookshelf.svc.cluster.local:80
-              key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY}}
+              key: "{{HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY}}"
     - Gaming:
         - Minecraft:
             href: https://minecraft.forcebyte.org
