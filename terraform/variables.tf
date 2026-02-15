@@ -112,3 +112,15 @@ variable "HOMEPAGE_VAR_QBITTORRENT_KEY" {
   type        = string
   sensitive   = true
 }
+
+variable "HOMEPAGE_VAR_PROWLARR_KEY" {
+  description = "Prowlarr API key for Homepage"
+  type        = string
+  sensitive   = true
+}
+
+variable "HOMEPAGE_VAR_READARR_KEY" {
+  description = "Readarr API key for Homepage"
+  type        = string
+  sensitive   = true
+}

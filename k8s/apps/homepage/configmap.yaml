@@ -88,6 +88,7 @@ data:
             widget:
               type: prowlarr
               url: http://prowlarr.prowlarr.svc.cluster.local:9696
+              key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
         - Readarr:
             href: https://readarr.forcebyte.org
             description: Book Manager
@@ -95,6 +96,7 @@ data:
             widget:
               type: readarr
               url: http://readarr.readarr.svc.cluster.local:8787
+              key: {{HOMEPAGE_VAR_READARR_KEY}}
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
