@@ -124,3 +124,9 @@ variable "HOMEPAGE_VAR_READARR_KEY" {
   type        = string
   sensitive   = true
 }
+
+variable "HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY" {
+  description = "Audiobookshelf API key for Homepage"
+  type        = string
+  sensitive   = true
+}
