@@ -10,6 +10,7 @@ resource "kubernetes_secret" "homepage_secret" {
     "readarr-key"        = var.HOMEPAGE_VAR_READARR_KEY
     "audiobookshelf-key" = var.HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY
     "ical-url"           = var.HOMEPAGE_VAR_ICAL_URL
+    "nzbget-key"         = var.HOMEPAGE_VAR_NZBGET_KEY
   }
 
   type = "Opaque"
