@@ -94,7 +94,7 @@ data:
               type: calibreweb
               url: http://calibre.qbittorrent.svc.cluster.local:8080
               username: forcebyte
-              password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
+              password: {{HOMEPAGE_VAR_READARR_KEY}}
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
