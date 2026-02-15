@@ -22,7 +22,6 @@ data:
       searchDescriptions: true
       hideInternetSearch: true
       showSearchSuggestions: true
-    
     layout:
       Services:
         style: row
