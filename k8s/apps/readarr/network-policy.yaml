@@ -67,4 +67,3 @@ spec:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-            cidr: 0.0.0.0/0
