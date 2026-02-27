@@ -29,7 +29,69 @@ spec:
       ports:
         - protocol: UDP
           port: 53
-    # Allow all other egress (API calls to services, etc.)
+    # Allow audiobookshelf
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: audiobookshelf
+      ports:
+        - protocol: TCP
+          port: 80
+    # Allow calibre and readarr (qbittorrent namespace)
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: qbittorrent
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 8787
+    # Allow gregtech
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: gregtech
+      ports:
+        - protocol: TCP
+          port: 25565
+    # Allow minecraft-ftb
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: minecraft-ftb
+      ports:
+        - protocol: TCP
+          port: 25565
+    # Allow n8n
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: n8n
+      ports:
+        - protocol: TCP
+          port: 5678
+    # Allow nextcloud
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: nextcloud
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 8080
+    # Allow all other external egress (external APIs, etc.)
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
