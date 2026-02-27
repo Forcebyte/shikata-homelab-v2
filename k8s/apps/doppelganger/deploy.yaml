@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
         - name: doppelganger
-          image: mnemosyneai/doppelganger:latest
+          image: mnemosyneai/doppelganger:v0.7.3
           imagePullPolicy: Always
           ports:
             - containerPort: 11345
