@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - deploy.yaml
   - ingressroute.yaml
+  - network-policy.yaml

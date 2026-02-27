@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: gregtech
+  namespace: gregtech
+spec:
+  podSelector:
+    matchLabels:
+      app: gregtech
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow Minecraft traffic from Traefik (TCP passthrough)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - protocol: TCP
+          port: 25565
+  egress:
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow all other egress (modpack downloads, auth, etc.)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0

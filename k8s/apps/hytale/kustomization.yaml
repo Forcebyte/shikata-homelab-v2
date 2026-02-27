@@ -4,3 +4,4 @@ resources:
   - namespace.yaml
   - deploy.yaml
   - ingressroute.yaml
+  - network-policy.yaml
