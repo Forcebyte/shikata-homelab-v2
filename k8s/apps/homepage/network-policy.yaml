@@ -87,6 +87,16 @@ spec:
           port: 80
         - protocol: TCP
           port: 8080
+    # Allow prowlarr
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: prowlarr
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 9696
     # Allow all other external egress (external APIs, etc.)
     - to:
         - ipBlock:
