@@ -4,3 +4,4 @@ namespace: rcon
 resources:
   - namespace.yaml
   - deploy.yaml
+  - network-policy.yaml

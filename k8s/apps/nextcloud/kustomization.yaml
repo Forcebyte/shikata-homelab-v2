@@ -5,3 +5,4 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - ingressroute.yaml
+  - network-policy.yaml

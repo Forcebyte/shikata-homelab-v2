@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: darkroom
 resources:
   - deploy.yaml
+  - network-policy.yaml

@@ -4,3 +4,4 @@ namespace: homepage
 resources:
   - deploy.yaml
   - configmap.yaml
+  - network-policy.yaml

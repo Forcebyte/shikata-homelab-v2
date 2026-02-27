@@ -4,3 +4,4 @@ namespace: toolbox
 resources:
   - namespace.yaml
   - deploy.yaml
+  - network-policy.yaml

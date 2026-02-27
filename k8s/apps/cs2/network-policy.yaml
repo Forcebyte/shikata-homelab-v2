@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cs2
+  namespace: game-server
+spec:
+  podSelector:
+    matchLabels:
+      app: cs2
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow game traffic from anywhere (external players)
+    - ports:
+        - protocol: TCP
+          port: 27015
+        - protocol: UDP
+          port: 27015
+        - protocol: TCP
+          port: 27020
+        - protocol: UDP
+          port: 27020
+  egress:
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow all other egress (Steam, updates, etc.)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
