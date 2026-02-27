@@ -11,6 +11,7 @@ resources:
   - ./flux-orchestrator
   - ./flux-system
   - ./github-oauth
+  - ./gregtech
   - ./headlamp
   - ./homepage
   - ./hytale

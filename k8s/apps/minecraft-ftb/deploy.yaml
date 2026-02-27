@@ -47,9 +47,9 @@ spec:
               # See https://hub.docker.com/r/pvmjay/ftb-server for list of modpack IDs
               value: "23"
             - name: INIT_MEMORY
-              value: "3G"
+              value: "2G"
             - name: MAX_MEMORY
-              value: "6G"
+              value: "3G"
           volumeMounts:
             - name: minecraft-ftb-world-infinityevolved
               mountPath: /data

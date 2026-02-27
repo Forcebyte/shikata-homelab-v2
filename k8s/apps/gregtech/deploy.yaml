@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gregtech-world
+  namespace: gregtech
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gregtech
+  namespace: gregtech
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gregtech
+  template:
+    metadata:
+      labels:
+        app: gregtech
+    spec:
+      containers:
+        - name: gregtech
+          image: itzg/minecraft-server:java21
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: TZ
+              value: "Etc/UTC"
+            - name: TYPE
+              value: "GTNH"
+            - name: GTNH_PACK_VERSION
+              value: "latest"
+            - name: INIT_MEMORY
+              value: "4G"
+            - name: MAX_MEMORY
+              value: "6G"
+          volumeMounts:
+            - name: gregtech-world
+              mountPath: /data
+      volumes:
+        - name: gregtech-world
+          persistentVolumeClaim:
+            claimName: gregtech-world
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gregtech
+  namespace: gregtech
+spec:
+  selector:
+    app: gregtech
+  ports:
+    - name: gregtech
+      port: 25567
+      targetPort: 25565
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: gregtech
+  namespace: gregtech
+  annotations:
+    external-dns.alpha.kubernetes.io/target: gregtech.forcebyte.org
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - minecraft-gregtech
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: gregtech
+          port: 25567
