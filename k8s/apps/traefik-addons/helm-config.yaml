@@ -15,6 +15,7 @@ spec:
       - "--entryPoints.rconudp.address=:4327/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
       - "--entryPoints.minecraft-ftb.address=:25566/tcp"
+      - "--entryPoints.minecraft-gregtech.address=:25567/tcp"
       - "--entryPoints.terraria.address=:7777/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
@@ -72,6 +73,12 @@ spec:
       minecraft-ftb:
         port: 25566
         exposedPort: 25566
+        expose:
+          default: true
+        protocol: TCP
+      minecraft-gregtech:
+        port: 25567
+        exposedPort: 25567
         expose:
           default: true
         protocol: TCP
