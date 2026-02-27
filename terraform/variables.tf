@@ -148,3 +148,9 @@ variable "HOMEPAGE_VAR_CALIBRE_KEY" {
   type        = string
   sensitive   = true
 }
+
+variable "doppelganger_session_secret" {
+  description = "Session secret for Doppelganger"
+  type        = string
+  sensitive   = true
+}

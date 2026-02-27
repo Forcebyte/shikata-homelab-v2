@@ -6,6 +6,7 @@ resources:
   - ./calibre
   - ./cs2
   - ./darkroom
+  - ./doppelganger
   - ./datadog
   - ./external-dns
   - ./flux-orchestrator
