@@ -40,7 +40,10 @@ spec:
               value: "TRUE"
             - name: TZ
               value: "Etc/UTC"
-            # Add other environment variables as needed
+            - name: INIT_MEMORY
+              value: "256M"
+            - name: MAX_MEMORY
+              value: "1G"
           volumeMounts:
             - name: minecraft-world
               mountPath: /data  # Minecraft world data
