@@ -24,19 +24,6 @@ spec:
       storage: 5Gi
   storageClassName: local-path
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: doppelganger-storage-state
-  namespace: doppelganger
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: local-path
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,9 +62,6 @@ spec:
               mountPath: /app/data
             - name: public
               mountPath: /app/public
-            - name: storage-state
-              mountPath: /app/storage_state.json
-              subPath: storage_state.json
           resources:
             requests:
               memory: "256Mi"
@@ -92,9 +76,6 @@ spec:
         - name: public
           persistentVolumeClaim:
             claimName: doppelganger-public
-        - name: storage-state
-          persistentVolumeClaim:
-            claimName: doppelganger-storage-state
 ---
 apiVersion: v1
 kind: Service
