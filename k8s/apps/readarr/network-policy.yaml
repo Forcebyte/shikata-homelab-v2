@@ -22,6 +22,20 @@ spec:
       ports:
         - protocol: TCP
           port: 8787
+    # Allow from homepage
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+      ports:
+        - protocol: TCP
+          port: 8787
+    # Allow from other apps in qbittorrent namespace (calibre, etc.)
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8787
   egress:
     # Allow DNS
     - to:
@@ -29,6 +43,18 @@ spec:
       ports:
         - protocol: UDP
           port: 53
+    # Allow all apps in same namespace (calibre, qbittorrent, etc.)
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 6881
     # Allow access to prowlarr
     - to:
         - namespaceSelector:
@@ -37,15 +63,8 @@ spec:
       ports:
         - protocol: TCP
           port: 9696
-    # Allow access to qbittorrent
-    - to:
-        - podSelector:
-            matchLabels:
-              app: qbittorrent
-      ports:
-        - protocol: TCP
-          port: 8080
     # Allow all other egress (metadata, etc.)
     - to:
         - ipBlock:
+            cidr: 0.0.0.0/0
             cidr: 0.0.0.0/0

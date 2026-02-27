@@ -24,6 +24,14 @@ spec:
           port: 8080
         - protocol: TCP
           port: 6881
+    # Allow from other apps in qbittorrent namespace (readarr, calibre, etc.)
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 6881
   egress:
     # Allow DNS
     - to:
@@ -31,6 +39,18 @@ spec:
       ports:
         - protocol: UDP
           port: 53
+    # Allow all apps in same namespace
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 8787
     # Allow all other egress (torrents, trackers, etc.)
     - to:
         - ipBlock:

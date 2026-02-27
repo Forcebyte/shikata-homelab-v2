@@ -26,6 +26,28 @@ spec:
           port: 8080
         - protocol: TCP
           port: 8081
+    # Allow from homepage
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+      ports:
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+    # Allow from other apps in qbittorrent namespace (readarr, etc.)
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
   egress:
     # Allow DNS
     - to:
@@ -33,6 +55,24 @@ spec:
       ports:
         - protocol: UDP
           port: 53
+    # Allow all apps in same namespace
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8787
+        - protocol: TCP
+          port: 6881
+    # Allow prowlarr
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: prowlarr
+      ports:
+        - protocol: TCP
+          port: 9696
     # Allow all other egress
     - to:
         - ipBlock:
