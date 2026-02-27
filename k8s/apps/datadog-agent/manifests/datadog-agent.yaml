@@ -30,3 +30,21 @@ spec:
       enabled: true
     clusterChecks:
       enabled: true
+
+    # Enables Misconfigurations
+    cspm:
+      enabled: true
+      hostBenchmarks:
+        enabled: true
+
+    # Enables Software Bill of Materials (SBOM) collection
+    sbom:
+      enabled: true
+
+      # Enables Container Vulnerability Management
+      containerImage:
+        enabled: true
+
+      # Enables Host Vulnerability Management
+      host:
+        enabled: true
