@@ -32,6 +32,14 @@ spec:
           port: 8080
         - protocol: TCP
           port: 6881
+    # Allow from homepage
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+      ports:
+        - protocol: TCP
+          port: 8080
   egress:
     # Allow DNS
     - to:
