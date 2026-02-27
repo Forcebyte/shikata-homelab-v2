@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: doppelganger-data
+  namespace: doppelganger
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: doppelganger-public
+  namespace: doppelganger
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: doppelganger-storage-state
+  namespace: doppelganger
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doppelganger
+  namespace: doppelganger
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doppelganger
+  template:
+    metadata:
+      labels:
+        app: doppelganger
+    spec:
+      containers:
+        - name: doppelganger
+          image: mnemosyneai/doppelganger:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 11345
+              name: web
+            - containerPort: 54311
+              name: secondary
+          env:
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: doppelganger-secret
+                  key: session_secret
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: public
+              mountPath: /app/public
+            - name: storage-state
+              mountPath: /app/storage_state.json
+              subPath: storage_state.json
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: doppelganger-data
+        - name: public
+          persistentVolumeClaim:
+            claimName: doppelganger-public
+        - name: storage-state
+          persistentVolumeClaim:
+            claimName: doppelganger-storage-state
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doppelganger
+  namespace: doppelganger
+spec:
+  selector:
+    app: doppelganger
+  ports:
+    - name: web
+      port: 11345
+      targetPort: 11345
+    - name: secondary
+      port: 54311
+      targetPort: 54311
+  type: ClusterIP
