@@ -20,7 +20,7 @@ metadata:
     keel.sh/policy: force
     keel.sh/trigger: poll
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: minecraft-ftb
@@ -47,7 +47,7 @@ spec:
               # See https://hub.docker.com/r/pvmjay/ftb-server for list of modpack IDs
               value: "23"
             - name: INIT_MEMORY
-              value: "2G"
+              value: "1G"
             - name: MAX_MEMORY
               value: "3G"
           volumeMounts:
