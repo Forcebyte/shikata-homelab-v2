@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
         - name: doppelganger
-          image: mnemosyneai/doppelganger:v0.7.3
+          image: ghcr.io/forcebyte/doppelganger-arm:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 11345
