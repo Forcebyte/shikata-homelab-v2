@@ -12,11 +12,11 @@ spec:
   routes:
     - match: Host(`doppelganger.forcebyte.org`)
       kind: Rule
-      middlewares:
-        - name: rybbit
-          namespace: kube-system
-        - name: github-oauth
-          namespace: kube-system
+      # middlewares:
+      #   - name: rybbit
+      #     namespace: kube-system
+      #   - name: github-oauth
+      #     namespace: kube-system
       services:
         - name: doppelganger
           port: 11345
