@@ -148,6 +148,13 @@ data:
             widget:
               type: minecraft
               url: udp://ftb.forcebyte.org:25566
+        - Minecraft FTB:
+            href: https://ftb.forcebyte.org
+            description: "FTB Modded Server (ftb.forcebyte.org:25567)"
+            icon: mdi-pickaxe
+            widget:
+              type: minecraft
+              url: udp://ftb.forcebyte.org:25566
         - Terraria:
             href: https://terraria.forcebyte.org
             description: "Terraria Server (terraria.forcebyte.org:7777)"
