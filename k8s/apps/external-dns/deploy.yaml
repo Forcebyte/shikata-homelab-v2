@@ -64,8 +64,6 @@ spec:
             - --default-targets=140.238.159.81
             - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
             - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
-            - --traefik-enable-legacy # This will be patched later
-            - --traefik-disable-new # This will be patched later
           env:
             - name: CF_API_TOKEN
               valueFrom:
