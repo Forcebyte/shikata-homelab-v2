@@ -71,6 +71,7 @@ spec:
       containers:
         - name: audiobookshelf
           image: ghcr.io/advplyr/audiobookshelf:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           volumeMounts:
