@@ -172,7 +172,7 @@ spec:
   type: ClusterIP
 ---
 # IngressRoute for Calibre-Web
-apiVersion: traefik.io/v1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: calibre-web
@@ -192,7 +192,7 @@ spec:
           port: 80
 ---
 # IngressRoute for Calibre with GitHub OAuth
-apiVersion: traefik.io/v1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: calibre
@@ -216,7 +216,7 @@ spec:
           port: 8080
 ---
 # IngressRoute for Calibre with GitHub OAuth
-apiVersion: traefik.io/v1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: calibre-server
