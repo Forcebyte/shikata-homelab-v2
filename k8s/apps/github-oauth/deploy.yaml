@@ -51,7 +51,7 @@ spec:
       targetPort: 80
   type: ClusterIP
 ---
-apiVersion: traefik.io/v1alpha1
+apiVersion: traefik.io/v1
 kind: IngressRoute
 metadata:
   name: github-oauth-server
@@ -70,7 +70,7 @@ spec:
           port: 80
 ---
 # Middleware for GitHub OAuth
-apiVersion: traefik.io/v1alpha1
+apiVersion: traefik.io/v1
 kind: Middleware
 metadata:
   name: github-oauth
@@ -85,7 +85,7 @@ spec:
           - "Forcebyte"  # Replace with your GitHub username
 ---
 # Middleware for Rybbit
-apiVersion: traefik.io/v1alpha1
+apiVersion: traefik.io/v1
 kind: Middleware
 metadata:
   name: rybbit
