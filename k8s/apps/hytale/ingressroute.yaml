@@ -4,7 +4,7 @@ metadata:
   name: hytale
   namespace: hytale
   annotations:
-    # external-dns.alpha.kubernetes.io/target: hytale.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: hytale.forcebyte.org
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:

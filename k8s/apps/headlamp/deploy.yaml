@@ -4,7 +4,7 @@ metadata:
   name: ingress-headlamp
   namespace: kube-system
   annotations:
-    # external-dns.alpha.kubernetes.io/target: headlamp.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: headlamp.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
