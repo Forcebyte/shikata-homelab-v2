@@ -94,7 +94,7 @@ metadata:
   name: qbittorrent
   namespace: qbittorrent
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: qbittorrent.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: qbittorrent.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

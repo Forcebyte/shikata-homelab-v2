@@ -70,9 +70,4 @@ spec:
                 secretKeyRef:
                   name: cloudflare-api-token
                   key: api-token
-            - name: EXTERNAL_DNS_SOURCE
-              value: |-
-                service
-                ingress
-                traefik-proxy
 

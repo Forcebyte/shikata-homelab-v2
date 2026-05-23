@@ -70,7 +70,7 @@ metadata:
   name: prowlarr
   namespace: prowlarr
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: prowlarr.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: prowlarr.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
