@@ -4,7 +4,7 @@ metadata:
   name: traefik-ingress-n8n
   namespace: n8n
   annotations:
-    external-dns.alpha.kubernetes.io/target: n8n.forcebyte.org
+    # external-dns.alpha.kubernetes.io/target: n8n.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

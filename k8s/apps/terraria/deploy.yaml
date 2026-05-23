@@ -72,7 +72,7 @@ metadata:
   name: terraria
   namespace: terraria
   annotations:
-    external-dns.alpha.kubernetes.io/target: terraria.forcebyte.org
+    # external-dns.alpha.kubernetes.io/target: terraria.forcebyte.org
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:

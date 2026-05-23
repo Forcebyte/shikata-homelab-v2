@@ -4,7 +4,7 @@ metadata:
   name: traefik-ingress-doppelganger
   namespace: doppelganger
   annotations:
-    external-dns.alpha.kubernetes.io/target: doppelganger.forcebyte.org
+    # external-dns.alpha.kubernetes.io/target: doppelganger.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
