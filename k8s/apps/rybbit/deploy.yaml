@@ -58,6 +58,13 @@ spec:
         volumeMounts:
         - name: postgres-data
           mountPath: /var/lib/postgresql/data
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - su postgres -c "pg_ctl -D $PGDATA -m fast -w stop"
         livenessProbe:
           tcpSocket:
             port: 5432
@@ -68,6 +75,7 @@ spec:
             port: 5432
           initialDelaySeconds: 10
           periodSeconds: 10
+      terminationGracePeriodSeconds: 120
       volumes:
       - name: postgres-data
         persistentVolumeClaim:
