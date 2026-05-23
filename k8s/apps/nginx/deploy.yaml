@@ -39,7 +39,7 @@ metadata:
   name: traefik-ingress-nginx
   namespace: nginx
   annotations:
-    external-dns.alpha.kubernetes.io/target: nginx2.forcebyte.org
+    # external-dns annotation removed
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
