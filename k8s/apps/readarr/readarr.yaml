@@ -76,7 +76,7 @@ metadata:
   name: readarr
   namespace: qbittorrent
   annotations:
-    # external-dns.alpha.kubernetes.io/target: readarr.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: readarr.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

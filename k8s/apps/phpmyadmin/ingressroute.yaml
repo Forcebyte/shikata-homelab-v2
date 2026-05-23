@@ -4,7 +4,7 @@ metadata:
   name: phpmyadmin
   namespace: phpmyadmin
   annotations:
-    # external-dns.alpha.kubernetes.io/target: phpmyadmin.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: phpmyadmin.forcebyte.org
 spec:
   entryPoints:
     - web
