@@ -59,7 +59,7 @@ metadata:
   name: traefik-ingress-darkroom
   namespace: darkroom
   annotations:
-    external-dns.alpha.kubernetes.io/target: darkroom.forcebyte.org
+    external-dns.alpha.kubernetes.io/hostname: darkroom.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
