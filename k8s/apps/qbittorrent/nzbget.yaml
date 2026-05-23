@@ -87,7 +87,7 @@ metadata:
   name: nzbget
   namespace: qbittorrent
   annotations:
-    external-dns.alpha.kubernetes.io/target: nzbget.forcebyte.org
+    # external-dns.alpha.kubernetes.io/target: nzbget.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
