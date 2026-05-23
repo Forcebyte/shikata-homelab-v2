@@ -54,8 +54,6 @@ spec:
       serviceAccountName: external-dns
       containers:
         - name: external-dns
-          # NOTE: This is expected to not be latest
-          # latest does not exist for external-dns on registry.k8s.io.
           image: registry.k8s.io/external-dns/external-dns:v0.16.1
           args:
             - --source=traefik-proxy
@@ -64,10 +62,11 @@ spec:
             - --default-targets=140.238.159.81
             - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
             - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
-            - --traefik-enable-legacy
+            - --traefik-disable-legacy
           env:
             - name: CF_API_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: cloudflare-api-token
                   key: api-token
+
