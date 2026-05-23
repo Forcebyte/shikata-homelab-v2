@@ -56,7 +56,7 @@ spec:
         - name: external-dns
           # NOTE: This is expected to not be latest
           # latest does not exist for external-dns on registry.k8s.io.
-          image: registry.k8s.io/external-dns/external-dns:v0.21.0
+          image: registry.k8s.io/external-dns/external-dns:v0.16.1
           args:
             - --source=traefik-proxy
             - --domain-filter=forcebyte.org
@@ -70,4 +70,3 @@ spec:
                 secretKeyRef:
                   name: cloudflare-api-token
                   key: api-token
-
