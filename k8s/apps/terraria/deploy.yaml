@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: terraria
-          image: ryshe/terraria:vanilla-1.4.5.5
+          image: ryshe/terraria:tshock-1.4.5.6-6.1.0
           imagePullPolicy: Always
           stdin: true
           tty: true
