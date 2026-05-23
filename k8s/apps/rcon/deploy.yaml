@@ -67,7 +67,7 @@ metadata:
   name: rcon-web-admin-tcp
   namespace: rcon
   annotations:
-    external-dns.alpha.kubernetes.io/target: cs2rcon.forcebyte.org
+    # external-dns annotation removed
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
@@ -86,7 +86,7 @@ metadata:
   name: rcon-web-admin-udp
   namespace: rcon
   annotations:
-    external-dns.alpha.kubernetes.io/target: rcon2.forcebyte.org
+    # external-dns annotation removed
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
@@ -105,7 +105,7 @@ metadata:
   name: rcon-web-admin-tcp
   namespace: rcon
   annotations:
-    external-dns.alpha.kubernetes.io/target: rcon.forcebyte.org
+    # external-dns annotation removed
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
