@@ -76,7 +76,7 @@ metadata:
   name: gregtech
   namespace: gregtech
   annotations:
-    # external-dns annotation removed
+    external-dns.alpha.kubernetes.io/target: gregtech.forcebyte.org
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
