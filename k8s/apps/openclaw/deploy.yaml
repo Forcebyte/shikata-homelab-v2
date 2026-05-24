@@ -106,9 +106,6 @@ spec:
         - name: openclaw-config
           configMap:
             name: openclaw-config
-        - name: openclaw-config
-          configMap:
-            name: openclaw-config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
