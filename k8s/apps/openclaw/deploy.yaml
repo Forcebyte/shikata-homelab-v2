@@ -52,6 +52,9 @@ spec:
         - name: openclaw
           image: ghcr.io/openclaw/openclaw:latest
           imagePullPolicy: IfNotPresent
+          command:
+            - /usr/local/bin/openclaw-gateway
+            - --allow-unconfigured
           ports:
             - containerPort: 8080
           env:
