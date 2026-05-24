@@ -85,7 +85,7 @@ spec:
           image: ghcr.io/openclaw/openclaw:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 18791
           env:
             - name: DOMAIN
               value: "openclaw.forcebyte.org"
@@ -134,5 +134,5 @@ spec:
   ports:
     - name: http
       port: 8080
-      targetPort: 8080
+      targetPort: 18791
   type: ClusterIP
