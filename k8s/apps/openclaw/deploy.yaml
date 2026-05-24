@@ -28,6 +28,13 @@ spec:
                 echo "Onboarding marker exists, skipping"
                 exit 0
               fi
+              # Seed config if missing
+              SRC="/config/openclaw.json"
+              DST="/home/node/.openclaw/openclaw.json"
+              if [ -f "$SRC" ] && [ ! -f "$DST" ]; then
+                echo "Seeding config from $SRC to $DST"
+                cp "$SRC" "$DST"
+              fi
               cmd='node dist/index.js onboard --non-interactive --accept-risk --skip-health --no-install-daemon'
               echo "Running: $cmd"
               eval "$cmd"
@@ -38,6 +45,9 @@ spec:
             - name: openclaw-data
               mountPath: /home/node
               subPath: openclaw-home
+            - name: openclaw-config
+              mountPath: /config/openclaw.json
+              subPath: openclaw.json
       containers:
         - name: openclaw
           image: ghcr.io/openclaw/openclaw:latest
@@ -47,6 +57,8 @@ spec:
           env:
             - name: DOMAIN
               value: "openclaw.forcebyte.org"
+            - name: GATEWAY_MODE
+              value: "local"
           resources:
             limits:
               memory: 4Gi
@@ -57,10 +69,16 @@ spec:
           volumeMounts:
             - name: openclaw-data
               mountPath: /data
+            - name: openclaw-config
+              mountPath: /config/openclaw.json
+              subPath: openclaw.json
       volumes:
         - name: openclaw-data
           persistentVolumeClaim:
             claimName: openclaw-data
+        - name: openclaw-config
+          configMap:
+            name: openclaw-config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
