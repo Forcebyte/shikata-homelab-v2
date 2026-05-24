@@ -86,6 +86,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 18791
+            - containerPort: 18789
           env:
             - name: DOMAIN
               value: "openclaw.forcebyte.org"
@@ -132,7 +133,10 @@ spec:
   selector:
     app: openclaw
   ports:
-    - name: http
+    - name: openclaw-ui
+      port: 18789
+      targetPort: 18789
+    - name: openclaw-api
       port: 18791
       targetPort: 18791
   type: ClusterIP
