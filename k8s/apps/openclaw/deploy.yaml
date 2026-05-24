@@ -14,6 +14,48 @@ spec:
         app: openclaw
     spec:
       initContainers:
+        - name: init-config
+          image: ghcr.io/openclaw/openclaw:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+              SRC="/config/openclaw.json"
+              DST="/home/node/.openclaw/openclaw.json"
+              HASHFILE="/home/node/.openclaw/.openclaw.json.sha256"
+              BACKUP="/home/node/.openclaw/openclaw.json.bak"
+              echo "Initializing configuration (sha256 sync)..."
+              mkdir -p /home/node/.openclaw
+              [ -f "$SRC" ] || { echo "ERROR: missing source config: $SRC" >&2; exit 1; }
+              SRC_HASH="$(sha256sum "$SRC" | awk '{print $1}')"
+              # Seed if destination is missing
+              if [ ! -f "$DST" ]; then
+                echo "Destination missing; copying config..."
+                cp "$SRC" "$DST"
+                echo "$SRC_HASH" > "$HASHFILE"
+                echo "Config initialized"
+                exit 0
+              fi
+              OLD_HASH=""
+              [ -f "$HASHFILE" ] && OLD_HASH="$(cat "$HASHFILE" 2>/dev/null || true)"
+              # Update if hashfile missing OR hash changed
+              if [ -z "$OLD_HASH" ] || [ "$OLD_HASH" != "$SRC_HASH" ]; then
+                echo "Config update needed (no hash or changed). Updating..."
+                cp "$DST" "$BACKUP" || true
+                cp "$SRC" "$DST"
+                echo "$SRC_HASH" > "$HASHFILE"
+                echo "Config updated"
+              else
+                echo "Config hash matches; skipping"
+              fi
+          volumeMounts:
+            - name: openclaw-config
+              mountPath: /config
+            - name: openclaw-data
+              mountPath: /home/node
+              subPath: openclaw-home
         - name: onboarding
           image: ghcr.io/openclaw/openclaw:latest
           imagePullPolicy: IfNotPresent
@@ -28,13 +70,6 @@ spec:
                 echo "Onboarding marker exists, skipping"
                 exit 0
               fi
-              # Seed config if missing
-              SRC="/config/openclaw.json"
-              DST="/home/node/.openclaw/openclaw.json"
-              if [ -f "$SRC" ] && [ ! -f "$DST" ]; then
-                echo "Seeding config from $SRC to $DST"
-                cp "$SRC" "$DST"
-              fi
               cmd='node dist/index.js onboard --non-interactive --accept-risk --skip-health --no-install-daemon'
               echo "Running: $cmd"
               eval "$cmd"
@@ -45,23 +80,15 @@ spec:
             - name: openclaw-data
               mountPath: /home/node
               subPath: openclaw-home
-            - name: openclaw-config
-              mountPath: /config/openclaw.json
-              subPath: openclaw.json
       containers:
         - name: openclaw
           image: ghcr.io/openclaw/openclaw:latest
           imagePullPolicy: IfNotPresent
-          command:
-            - /usr/local/bin/openclaw-gateway
-            - --allow-unconfigured
           ports:
             - containerPort: 8080
           env:
             - name: DOMAIN
               value: "openclaw.forcebyte.org"
-            - name: GATEWAY_MODE
-              value: "local"
           resources:
             limits:
               memory: 4Gi
@@ -72,13 +99,13 @@ spec:
           volumeMounts:
             - name: openclaw-data
               mountPath: /data
-            - name: openclaw-config
-              mountPath: /config/openclaw.json
-              subPath: openclaw.json
       volumes:
         - name: openclaw-data
           persistentVolumeClaim:
             claimName: openclaw-data
+        - name: openclaw-config
+          configMap:
+            name: openclaw-config
         - name: openclaw-config
           configMap:
             name: openclaw-config
