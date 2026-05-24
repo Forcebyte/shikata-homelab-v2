@@ -18,10 +18,10 @@ spec:
         - name: github-oauth
           namespace: kube-system
       services:
-        - name: openclaw-ui
-          port: 18791
+        - name: openclaw
+          port: 18789
     - match: Host(`openclaw.example.com`) && PathPrefix(`/api`)
       kind: Rule
       services:
-        - name: openclaw-api
+        - name: openclaw
           port: 18791
