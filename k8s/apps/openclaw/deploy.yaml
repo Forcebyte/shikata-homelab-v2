@@ -133,6 +133,6 @@ spec:
     app: openclaw
   ports:
     - name: http
-      port: 8080
+      port: 18791
       targetPort: 18791
   type: ClusterIP
