@@ -28,6 +28,7 @@ resources:
   - ./qbittorrent
   - ./rcon
   - ./readarr
+  - ./openclaw
   - ./rybbit
   - ./terraria
   - ./toolbox
