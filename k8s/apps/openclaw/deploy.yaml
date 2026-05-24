@@ -99,6 +99,9 @@ spec:
           volumeMounts:
             - name: openclaw-data
               mountPath: /data
+            - name: openclaw-data
+              mountPath: /home/node
+              subPath: openclaw-home
       volumes:
         - name: openclaw-data
           persistentVolumeClaim:
