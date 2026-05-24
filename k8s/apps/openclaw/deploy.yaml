@@ -13,6 +13,31 @@ spec:
       labels:
         app: openclaw
     spec:
+      initContainers:
+        - name: onboarding
+          image: ghcr.io/openclaw/openclaw:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+              mkdir -p /home/node/.openclaw/credentials
+              MARKER_FILE="/home/node/.openclaw/.onboarded"
+              if [ -f "$MARKER_FILE" ]; then
+                echo "Onboarding marker exists, skipping"
+                exit 0
+              fi
+              cmd='node dist/index.js onboard --non-interactive --accept-risk --skip-health --no-install-daemon'
+              echo "Running: $cmd"
+              eval "$cmd"
+              echo "ok $(date 2>/dev/null || true)" > "$MARKER_FILE"
+          env:
+            # Add any required onboarding env vars here, e.g. API keys
+          volumeMounts:
+            - name: openclaw-data
+              mountPath: /home/node
+              subPath: openclaw-home
       containers:
         - name: openclaw
           image: ghcr.io/openclaw/openclaw:latest

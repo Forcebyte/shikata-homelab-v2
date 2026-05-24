@@ -1,4 +1,5 @@
 resources:
   - namespace.yaml
+  - configmap.yaml
   - deploy.yaml
   - ingressroute.yaml
