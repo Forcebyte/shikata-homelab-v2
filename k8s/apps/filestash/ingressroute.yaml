@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`filestash.forcebyte.org`)
       kind: Rule
