@@ -1,0 +1,6 @@
+resources:
+  - namespace.yaml
+  - pvc.yaml
+  - deploy.yaml
+  - service.yaml
+  - ingressroute.yaml

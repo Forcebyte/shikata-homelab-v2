@@ -1,0 +1,23 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: filestash
+  namespace: filestash
+  annotations:
+    external-dns.alpha.kubernetes.io/target: filestash.forcebyte.org
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`filestash.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: filestash
+          port: 8334
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+  tls:
+    certResolver: default
