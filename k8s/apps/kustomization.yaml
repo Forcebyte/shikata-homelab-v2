@@ -33,3 +33,4 @@ resources:
   - ./terraria
   - ./toolbox
   - ./traefik-addons
+  - ./filestash

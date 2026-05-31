@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: filestash
+  namespace: filestash
+spec:
+  selector:
+    app: filestash
+  ports:
+    - name: filestash-ui
+      port: 8334
+      targetPort: 8334
+    - name: wopi
+      port: 9980
+      targetPort: 9980
+  type: ClusterIP
