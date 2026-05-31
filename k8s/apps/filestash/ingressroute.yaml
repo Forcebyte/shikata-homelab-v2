@@ -19,5 +19,3 @@ spec:
           namespace: kube-system
         - name: github-oauth
           namespace: kube-system
-  tls:
-    certResolver: default
