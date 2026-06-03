@@ -15,8 +15,8 @@ spec:
       services:
         - name: filestash
           port: 8334
-      middlewares:
-        - name: rybbit
-          namespace: kube-system
-        - name: github-oauth
-          namespace: kube-system
+      # middlewares:
+      #   - name: rybbit
+      #     namespace: kube-system
+      #   - name: github-oauth
+      #     namespace: kube-system
