@@ -5,3 +5,5 @@ resources:
   - namespace.yaml
   - rbac.yaml
   - cronjob.yaml
+  - cleanup-rbac.yaml
+  - cleanup-cronjob.yaml
