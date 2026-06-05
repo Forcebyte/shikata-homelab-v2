@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rollout-latest
+spec:
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          serviceAccountName: rollout-latest
+          restartPolicy: Never
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl:1.31.1
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/bash
+                - -ceu
+                - |
+                  deployments=$(kubectl get deployments -A -o jsonpath='{range .items[*]}{.metadata.namespace}{"|"}{.metadata.name}{"\n"}{end}')
+
+                  while IFS='|' read -r namespace name; do
+                    [[ -z "$namespace" || -z "$name" ]] && continue
+
+                    images=$(kubectl get deployment "$name" -n "$namespace" -o jsonpath='{.spec.template.spec.containers[*].image}')
+                    if [[ "$images" =~ (^|[[:space:]])[^[:space:]]+:latest($|[[:space:]]) ]]; then
+                      echo "Restarting ${namespace}/${name}: ${images}"
+                      kubectl rollout restart deployment/"$name" -n "$namespace"
+                    fi
+                  done <<< "$deployments"
