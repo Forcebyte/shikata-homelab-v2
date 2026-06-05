@@ -30,6 +30,7 @@ resources:
   - ./readarr
   - ./openclaw
   - ./rybbit
+  - ./rollout-latest
   - ./terraria
   - ./toolbox
   - ./traefik-addons
