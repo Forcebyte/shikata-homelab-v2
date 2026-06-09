@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: rollout-latest
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "0 0 1 * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
@@ -31,5 +31,7 @@ spec:
                     if [[ "$images" =~ (^|[[:space:]])[^[:space:]]+:latest($|[[:space:]]) ]]; then
                       echo "Restarting ${namespace}/${name}: ${images}"
                       kubectl rollout restart deployment/"$name" -n "$namespace"
+                      echo "Sleeping 120s after rollout of ${namespace}/${name}"
+                      sleep 120
                     fi
                   done <<< "$deployments"

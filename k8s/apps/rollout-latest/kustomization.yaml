@@ -6,4 +6,3 @@ resources:
   - rbac.yaml
   - cronjob.yaml
   - cleanup-rbac.yaml
-  - cleanup-cronjob.yaml
