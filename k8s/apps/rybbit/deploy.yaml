@@ -71,9 +71,6 @@ spec:
           initialDelaySeconds: 20
           periodSeconds: 10
         resources:
-          requests:
-            memory: "192Mi"
-            cpu: "75m"
           limits:
             memory: "1Gi"
             cpu: "500m"
@@ -137,9 +134,6 @@ spec:
               name: rybbit-clickhouse
               key: CLICKHOUSE_PASSWORD
         resources:
-          requests:
-            memory: "384Mi"
-            cpu: "150m"
           limits:
             memory: "2Gi"
             cpu: "1000m"
@@ -239,9 +233,6 @@ spec:
         - name: DISABLE_TELEMETRY
           value: "true"
         resources:
-          requests:
-            memory: "96Mi"
-            cpu: "75m"
           limits:
             memory: "512Mi"
             cpu: "500m"
@@ -308,9 +299,6 @@ spec:
         - name: NEXT_PUBLIC_DISABLE_SIGNUP
           value: "true"
         resources:
-          requests:
-            memory: "48Mi"
-            cpu: "38m"
           limits:
             memory: "256Mi"
             cpu: "250m"

@@ -33,9 +33,6 @@ spec:
           ports:
             - containerPort: 9696  # Default port for Prowlarr
           resources:
-            requests:
-              memory: "96Mi"
-              cpu: "75m"
             limits:
               memory: "256Mi"
               cpu: "250m"

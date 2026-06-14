@@ -48,9 +48,6 @@ spec:
             - name: openwebui-data
               mountPath: /app/backend/data
           resources:
-            requests:
-              memory: "384Mi"
-              cpu: "188m"
             limits:
               memory: "2Gi"
               cpu: "1000m"

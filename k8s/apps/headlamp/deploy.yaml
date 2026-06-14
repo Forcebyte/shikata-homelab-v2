@@ -92,9 +92,6 @@ spec:
             - containerPort: 9090
               name: metrics
           resources:
-            requests:
-              memory: "96Mi"
-              cpu: "75m"
             limits:
               memory: "512Mi"
               cpu: "500m"
