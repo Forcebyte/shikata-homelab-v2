@@ -46,8 +46,8 @@ spec:
             - "peter35"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "150m"
+              memory: "192Mi"
+              cpu: "113m"
             limits:
               memory: "1Gi"
               cpu: "500m"

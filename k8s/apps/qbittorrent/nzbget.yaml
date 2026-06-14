@@ -49,8 +49,8 @@ spec:
             - containerPort: 6789  # Web UI port
           resources:
             requests:
-              memory: "32Mi"
-              cpu: "25m"
+              memory: "24Mi"
+              cpu: "19m"
             limits:
               memory: "96Mi"
               cpu: "150m"

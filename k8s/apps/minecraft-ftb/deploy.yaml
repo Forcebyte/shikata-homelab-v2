@@ -52,8 +52,8 @@ spec:
               value: "3G"
           resources:
             requests:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "384Mi"
+              cpu: "375m"
             limits:
               memory: "3Gi"
               cpu: "2000m"

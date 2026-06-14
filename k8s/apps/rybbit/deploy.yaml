@@ -72,8 +72,8 @@ spec:
           periodSeconds: 10
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
+            memory: "192Mi"
+            cpu: "75m"
           limits:
             memory: "1Gi"
             cpu: "500m"
@@ -138,8 +138,8 @@ spec:
               key: CLICKHOUSE_PASSWORD
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "200m"
+            memory: "384Mi"
+            cpu: "150m"
           limits:
             memory: "2Gi"
             cpu: "1000m"
@@ -243,8 +243,8 @@ spec:
           value: "true"
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "96Mi"
+            cpu: "75m"
           limits:
             memory: "512Mi"
             cpu: "500m"
@@ -315,8 +315,8 @@ spec:
           value: "true"
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "50m"
+            memory: "48Mi"
+            cpu: "38m"
           limits:
             memory: "256Mi"
             cpu: "250m"
