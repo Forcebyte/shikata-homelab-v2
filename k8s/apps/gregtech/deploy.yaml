@@ -50,8 +50,8 @@ spec:
               value: "6G"
           resources:
             requests:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "384Mi"
+              cpu: "375m"
             limits:
               memory: "4Gi"
               cpu: "3000m"

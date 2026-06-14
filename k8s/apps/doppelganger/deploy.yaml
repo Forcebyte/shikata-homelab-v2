@@ -33,7 +33,7 @@ metadata:
     keel.sh/policy: force
     keel.sh/trigger: poll
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: doppelganger
@@ -64,8 +64,8 @@ spec:
               mountPath: /app/public
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: "192Mi"
+              cpu: "75m"
             limits:
               memory: "1Gi"
               cpu: "500m"

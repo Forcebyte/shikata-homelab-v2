@@ -206,8 +206,8 @@ spec:
               name: logs
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "96Mi"
+              cpu: "75m"
             limits:
               memory: "512Mi"
               cpu: "500m"
