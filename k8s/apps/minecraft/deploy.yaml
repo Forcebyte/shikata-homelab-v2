@@ -41,11 +41,10 @@ spec:
               value: "256M"
             - name: MAX_MEMORY
               value: "1G"
-          resources:
-
-            limits:
-              memory: "1Gi"
-              cpu: "500m"
+          # resources:
+          #   limits:
+          #     memory: "1Gi"
+          #     cpu: "500m"
           volumeMounts:
             - name: minecraft-world
               mountPath: /data  # Minecraft world data
