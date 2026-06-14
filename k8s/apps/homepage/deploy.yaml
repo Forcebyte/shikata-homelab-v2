@@ -111,9 +111,6 @@ metadata:
   namespace: homepage
   labels:
     app.kubernetes.io/name: homepage
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   revisionHistoryLimit: 3
   replicas: 1
