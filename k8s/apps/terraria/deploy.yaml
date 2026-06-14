@@ -44,6 +44,13 @@ spec:
             - "3"
             - "-password"
             - "peter35"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           volumeMounts:
             - name: terraria-world
               mountPath: /root/.local/share/Terraria/Worlds

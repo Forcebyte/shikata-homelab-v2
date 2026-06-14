@@ -58,6 +58,13 @@ spec:
               value: "true"
             - name: PATCHLINE
               value: "release"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
           volumeMounts:
             - name: hytale-data
               mountPath: /data
