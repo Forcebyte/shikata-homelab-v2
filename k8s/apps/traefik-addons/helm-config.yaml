@@ -34,7 +34,7 @@ spec:
       - "--accesslog.fields.headers.defaultmode=keep"
       - "--accesslog.fields.headers.names.User-Agent=redact"
       - "--accesslog.fields.headers.names.Authorization=drop"
-      - "--log.level=DEBUG"  # Enable debug logging
+      - "--log.level=INFO"  # Enable debug logging
       - "--global.sendAnonymousUsage=false"  # Disable anonymous statistics
     ports:
       traefik:
