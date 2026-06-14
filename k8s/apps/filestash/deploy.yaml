@@ -4,7 +4,7 @@ metadata:
   name: filestash
   namespace: filestash
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: filestash
@@ -29,6 +29,13 @@ spec:
               value: "http://127.0.0.1:9980"
           ports:
             - containerPort: 8334
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           volumeMounts:
             - name: filestash-data
               mountPath: /app/data/state/
@@ -46,6 +53,13 @@ spec:
               /bin/su -s /bin/bash -c '/start-collabora-online.sh' cool
           ports:
             - containerPort: 9980
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
           securityContext:
             runAsUser: 0
       volumes:

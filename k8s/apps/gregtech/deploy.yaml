@@ -48,6 +48,13 @@ spec:
               value: "4G"
             - name: MAX_MEMORY
               value: "6G"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "3000m"
           volumeMounts:
             - name: gregtech-world
               mountPath: /data
