@@ -4,6 +4,7 @@ metadata:
   name: rcon-web-admin
   namespace: rcon
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app: rcon-web-admin
