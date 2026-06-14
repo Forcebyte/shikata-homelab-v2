@@ -42,9 +42,7 @@ spec:
             - name: MAX_MEMORY
               value: "1G"
           resources:
-            requests:
-              memory: "384Mi"
-              cpu: "375m"
+
             limits:
               memory: "1Gi"
               cpu: "500m"

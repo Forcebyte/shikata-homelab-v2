@@ -43,9 +43,6 @@ spec:
             - "peter35"
             - "--stats-optout"
           resources:
-            requests:
-              memory: "192Mi"
-              cpu: "113m"
             limits:
               memory: "1Gi"
               cpu: "500m"

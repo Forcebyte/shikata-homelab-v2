@@ -47,9 +47,7 @@ spec:
             - name: n8n-data
               mountPath: /home/node/.n8n
           resources:
-            requests:
-              memory: "192Mi"
-              cpu: "75m"
+
             limits:
               memory: "1Gi"
               cpu: "500m"

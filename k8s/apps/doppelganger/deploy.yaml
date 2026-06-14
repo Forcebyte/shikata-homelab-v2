@@ -60,9 +60,6 @@ spec:
             - name: public
               mountPath: /app/public
           resources:
-            requests:
-              memory: "192Mi"
-              cpu: "75m"
             limits:
               memory: "1Gi"
               cpu: "500m"

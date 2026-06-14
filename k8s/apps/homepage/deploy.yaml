@@ -202,9 +202,6 @@ spec:
             - mountPath: /app/config/logs
               name: logs
           resources:
-            requests:
-              memory: "96Mi"
-              cpu: "75m"
             limits:
               memory: "512Mi"
               cpu: "500m"

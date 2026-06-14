@@ -49,9 +49,6 @@ spec:
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
           resources:
-            requests:
-              memory: "192Mi"
-              cpu: "75m"
             limits:
               memory: "1Gi"
               cpu: "500m"

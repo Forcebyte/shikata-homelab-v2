@@ -48,9 +48,6 @@ spec:
             - name: MAX_MEMORY
               value: "3G"
           resources:
-            requests:
-              memory: "384Mi"
-              cpu: "375m"
             limits:
               memory: "3Gi"
               cpu: "2000m"

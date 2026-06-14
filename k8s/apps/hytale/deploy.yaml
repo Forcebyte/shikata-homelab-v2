@@ -56,9 +56,6 @@ spec:
             - name: PATCHLINE
               value: "release"
           resources:
-            requests:
-              memory: "384Mi"
-              cpu: "188m"
             limits:
               memory: "2Gi"
               cpu: "1000m"
