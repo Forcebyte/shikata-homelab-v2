@@ -17,9 +17,6 @@ kind: Deployment
 metadata:
   name: cs2-modded-server
   namespace: game-server
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   replicas: 0
   selector:

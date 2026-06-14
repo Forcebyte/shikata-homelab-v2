@@ -3,9 +3,6 @@ kind: Deployment
 metadata:
   name: networking-toolbox
   namespace: toolbox
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:

@@ -16,11 +16,8 @@ kind: Deployment
 metadata:
   name: terraria
   namespace: terraria
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: terraria
@@ -44,6 +41,7 @@ spec:
             - "3"
             - "-password"
             - "peter35"
+            - "--stats-optout"
           resources:
             requests:
               memory: "192Mi"

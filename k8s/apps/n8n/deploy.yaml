@@ -16,9 +16,6 @@ kind: Deployment
 metadata:
   name: n8n
   namespace: n8n
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:

@@ -29,9 +29,6 @@ kind: Deployment
 metadata:
   name: doppelganger
   namespace: doppelganger
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   replicas: 0
   selector:

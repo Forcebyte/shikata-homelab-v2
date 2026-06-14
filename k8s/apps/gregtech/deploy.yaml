@@ -16,9 +16,6 @@ kind: Deployment
 metadata:
   name: gregtech
   namespace: gregtech
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:
