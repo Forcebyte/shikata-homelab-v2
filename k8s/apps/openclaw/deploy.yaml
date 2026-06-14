@@ -90,13 +90,13 @@ spec:
           env:
             - name: DOMAIN
               value: "openclaw.forcebyte.org"
-          resources:
-            limits:
-              memory: 8Gi
-              cpu: 2000m
-            requests:
-              memory: 1Gi
-              cpu: 500m
+          #resources:
+          #  limits:
+          #    memory: 8Gi
+          #    cpu: 2000m
+          #  requests:
+          #    memory: 1Gi
+          #    cpu: 500m
           volumeMounts:
             - name: openclaw-data
               mountPath: /data

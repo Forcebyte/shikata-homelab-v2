@@ -91,10 +91,10 @@ spec:
               name: http
             - containerPort: 9090
               name: metrics
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+          # resources:
+          #   limits:
+          #     memory: "512Mi"
+          #     cpu: "500m"
           readinessProbe:
             httpGet:
               scheme: HTTP

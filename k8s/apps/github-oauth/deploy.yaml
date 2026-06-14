@@ -33,10 +33,10 @@ spec:
               value: "true"
           ports:
             - containerPort: 80
-          resources:
-            limits:
-              memory: "64Mi"
-              cpu: "100m"
+          #resources:
+          #  limits:
+          #    memory: "64Mi"
+          #    cpu: "100m"
 ---
 apiVersion: v1
 kind: Service

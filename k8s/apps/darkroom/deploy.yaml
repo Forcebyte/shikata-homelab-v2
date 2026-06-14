@@ -49,10 +49,10 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          resources:
-            limits:
-              memory: "64Mi"
-              cpu: "100m"
+          #resources:
+          #  limits:
+          #    memory: "64Mi"
+          #    cpu: "100m"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute

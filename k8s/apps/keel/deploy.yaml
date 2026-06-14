@@ -134,10 +134,10 @@ spec:
               port: 9300
             initialDelaySeconds: 30
             timeoutSeconds: 10
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 50m
-              memory: 64Mi
+          # resources:
+          #   limits:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   requests:
+          #     cpu: 50m
+          #     memory: 64Mi

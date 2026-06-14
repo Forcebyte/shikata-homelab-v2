@@ -47,10 +47,10 @@ spec:
           volumeMounts:
             - name: openwebui-data
               mountPath: /app/backend/data
-          resources:
-            limits:
-              memory: "2Gi"
-              cpu: "1000m"
+          # resources:
+          #   limits:
+          #     memory: "2Gi"
+          #     cpu: "1000m"
       volumes:
         - name: openwebui-data
           persistentVolumeClaim:

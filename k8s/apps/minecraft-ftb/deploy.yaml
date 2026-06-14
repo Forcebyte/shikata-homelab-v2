@@ -47,10 +47,10 @@ spec:
               value: "1G"
             - name: MAX_MEMORY
               value: "3G"
-          resources:
-            limits:
-              memory: "3Gi"
-              cpu: "2000m"
+          #resources:
+          #  limits:
+          #    memory: "3Gi"
+          #    cpu: "2000m"
           volumeMounts:
             - name: minecraft-ftb-world-infinityevolved
               mountPath: /data
