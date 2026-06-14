@@ -44,10 +44,10 @@ spec:
           image: lscr.io/linuxserver/nzbget:latest
           ports:
             - containerPort: 6789  # Web UI port
-          resources:
-            limits:
-              memory: "96Mi"
-              cpu: "150m"
+          #resources:
+          #  limits:
+          #    memory: "96Mi"
+          #    cpu: "150m"
           volumeMounts:
             - name: nzbget-config
               mountPath: /config  # Configuration files

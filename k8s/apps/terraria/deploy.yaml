@@ -42,10 +42,10 @@ spec:
             - "-password"
             - "peter35"
             - "--stats-optout"
-          resources:
-            limits:
-              memory: "1Gi"
-              cpu: "500m"
+          #resources:
+          #  limits:
+          #    memory: "1Gi"
+          #    cpu: "500m"
           volumeMounts:
             - name: terraria-world
               mountPath: /root/.local/share/Terraria/Worlds

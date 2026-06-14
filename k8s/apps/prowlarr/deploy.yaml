@@ -32,10 +32,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9696  # Default port for Prowlarr
-          resources:
-            limits:
-              memory: "256Mi"
-              cpu: "250m"
+          #resources:
+          #  limits:
+          #    memory: "256Mi"
+          #    cpu: "250m"
           volumeMounts:
             - name: prowlarr-config
               mountPath: /config  # Configuration and database files

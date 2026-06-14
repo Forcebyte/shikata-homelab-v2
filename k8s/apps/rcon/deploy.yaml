@@ -20,10 +20,10 @@ spec:
           ports:
             - containerPort: 4326
             - containerPort: 4327
-          resources:
-            limits:
-              memory: "96Mi"
-              cpu: "150m"
+          # resources:
+          #   limits:
+          #     memory: "96Mi"
+          #     cpu: "150m"
           env:
             - name: RWA_USERNAME
               value: "forcebyte"
