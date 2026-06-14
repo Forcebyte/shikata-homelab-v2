@@ -70,10 +70,10 @@ spec:
             port: 5432
           initialDelaySeconds: 20
           periodSeconds: 10
-        resources:
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
+        #resources:
+        #  limits:
+        #    memory: "1Gi"
+        #    cpu: "500m"
         readinessProbe:
           tcpSocket:
             port: 5432
@@ -133,10 +133,10 @@ spec:
             secretKeyRef:
               name: rybbit-clickhouse
               key: CLICKHOUSE_PASSWORD
-        resources:
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
+        #resources:
+        #  limits:
+        #    memory: "2Gi"
+        #    cpu: "1000m"
         volumeMounts:
         - name: clickhouse-data
           mountPath: /var/lib/clickhouse
@@ -232,10 +232,10 @@ spec:
           value: "true"
         - name: DISABLE_TELEMETRY
           value: "true"
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        #resources:
+        #  limits:
+        #    memory: "512Mi"
+        #    cpu: "500m"
         livenessProbe:
           httpGet:
             path: /api/health
@@ -298,10 +298,10 @@ spec:
           value: "https://rybbit.forcebyte.org"
         - name: NEXT_PUBLIC_DISABLE_SIGNUP
           value: "true"
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "250m"
+        #resources:
+        #  limits:
+        #    memory: "256Mi"
+        #    cpu: "250m"
         livenessProbe:
           httpGet:
             path: /

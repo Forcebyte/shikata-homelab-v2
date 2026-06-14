@@ -24,10 +24,10 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-        resources:
-          limits:
-            memory: "96Mi"
-            cpu: "150m"
+        #resources:
+        #  limits:
+        #    memory: "96Mi"
+        #    cpu: "150m"
         env:
         - name: PMA_HOST
           value: "10.0.1.170"
