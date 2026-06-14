@@ -54,11 +54,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "50m"
+              memory: "32Mi"
+              cpu: "25m"
             limits:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: "64Mi"
+              cpu: "100m"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
