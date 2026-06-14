@@ -45,16 +45,16 @@ spec:
             - name: GTNH_PACK_VERSION
               value: "latest"
             - name: INIT_MEMORY
-              value: "4G"
+              value: "2G"
             - name: MAX_MEMORY
-              value: "6G"
+              value: "4G"
           resources:
             requests:
               memory: "384Mi"
               cpu: "375m"
             limits:
               memory: "4Gi"
-              cpu: "3000m"
+              cpu: "2000m"
           volumeMounts:
             - name: gregtech-world
               mountPath: /data
