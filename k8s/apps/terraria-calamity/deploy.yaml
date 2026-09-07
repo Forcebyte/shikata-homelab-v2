@@ -117,7 +117,7 @@ spec:
     app: terraria
   ports:
     - name: terraria
-      port: 86753
+      port: 60035
       targetPort: 7777
   type: ClusterIP
 ---
@@ -137,4 +137,4 @@ spec:
     - match: HostSNI(`*`)
       services:
         - name: terraria
-          port: 86753
+          port: 60035
