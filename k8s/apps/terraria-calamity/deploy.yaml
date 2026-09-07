@@ -186,7 +186,7 @@ metadata:
   name: terraria
   namespace: terraria-calamity
   annotations:
-    external-dns.alpha.kubernetes.io/target: terraria.forcebyte.org
+    external-dns.alpha.kubernetes.io/target: terrariacalamity.forcebyte.org
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 
