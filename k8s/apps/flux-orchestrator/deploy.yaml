@@ -73,7 +73,7 @@ metadata:
   name: flux-orchestrator
   namespace: flux-orchestrator
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: flux-orchestrator
