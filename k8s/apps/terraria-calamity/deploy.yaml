@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: terraria-calamity-data
+  namespace: terraria-calamity
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terraria-calamity
+  namespace: terraria-calamity
+spec:
+  replicas: 1
+
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels:
+      app: terraria-calamity
+
+  template:
+    metadata:
+      labels:
+        app: terraria-calamity
+
+    spec:
+      containers:
+        - name: terraria-calamity
+          image: hexlo/terraria-tmodloader-server:latest
+          imagePullPolicy: Always
+
+          ports:
+            - name: terraria
+              containerPort: 7777
+              protocol: TCP
+
+          env:
+            - name: AUTOCREATE
+              value: "3"
+
+            - name: WORLDNAME
+              value: "Calamity.wld"
+
+            - name: DIFFICULTY
+              value: "1"
+
+            - name: MAXPLAYERS
+              value: "8"
+
+            - name: PORT
+              value: "7777"
+
+            - name: PASSWORD
+              value: "peter35"
+
+            - name: MOTD
+              value: "Welcome to the Calamity server!"
+
+            - name: SECURE
+              value: "1"
+
+            - name: LANGUAGE
+              value: "en/US"
+
+          volumeMounts:
+            - name: terraria-calamity-data
+              mountPath: /home/tml/.local/share/Terraria/tModLoader
+
+            - name: mod-install-list
+              mountPath: /home/tml/.local/share/Terraria/tModLoader/Mods/install.txt
+              subPath: install.txt
+
+      volumes:
+        - name: terraria-calamity-data
+          persistentVolumeClaim:
+            claimName: terraria-calamity-data
+
+        - name: mod-install-list
+          configMap:
+            name: terraria-calamity-mods
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: terraria-calamity-mods
+  namespace: terraria-calamity
+data:
+  install.txt: |
+    2824688072
+    2824688266
+    2824688804
+    2563309347
+    2908170107
+    2619954303
+    2669644269
+    2599842771
+    2565639705
+    2785100219
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: terraria
+  namespace: terraria-calamity
+spec:
+  selector:
+    app: terraria
+  ports:
+    - name: terraria
+      port: 86753
+      targetPort: 7777
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: terraria
+  namespace: terraria-calamity
+  annotations:
+    external-dns.alpha.kubernetes.io/target: terraria.forcebyte.org
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - terraria
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: terraria
+          port: 86753
