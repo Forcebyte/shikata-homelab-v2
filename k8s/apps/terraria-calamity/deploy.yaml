@@ -192,8 +192,7 @@ metadata:
 
 spec:
   entryPoints:
-    - terraria
-
+    - terrariacalamity
   routes:
     - match: HostSNI(`*`)
       services:
