@@ -17,6 +17,7 @@ spec:
       - "--entryPoints.minecraft-ftb.address=:25566/tcp"
       - "--entryPoints.minecraft-gregtech.address=:25567/tcp"
       - "--entryPoints.terraria.address=:7777/tcp"
+      - "--entryPoints.terrariacalamity.address=:60035/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
@@ -85,6 +86,12 @@ spec:
       terraria:
         port: 7777
         exposedPort: 7777
+        expose:
+          default: true
+        protocol: TCP
+      terrariacalamity:
+        port: 60035
+        exposedPort: 60035
         expose:
           default: true
         protocol: TCP
