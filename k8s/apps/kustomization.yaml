@@ -32,6 +32,7 @@ resources:
   - ./rybbit
   - ./rollout-latest
   - ./terraria
+  - ./terraria-calamity
   - ./toolbox
   - ./traefik-addons
   - ./filestash
