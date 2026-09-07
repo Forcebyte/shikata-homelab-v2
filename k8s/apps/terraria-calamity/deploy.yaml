@@ -70,6 +70,11 @@ spec:
 
             - name: LANGUAGE
               value: "en/US"
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
 
           volumeMounts:
             - name: terraria-calamity-data
