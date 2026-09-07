@@ -23,7 +23,7 @@ spec:
         - protocol: TCP
           port: 7777
         - protocol: TCP
-          port: 83753
+          port: 60035
   egress:
     # Allow DNS
     - to:
