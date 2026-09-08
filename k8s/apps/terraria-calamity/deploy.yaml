@@ -121,14 +121,8 @@ spec:
               protocol: TCP
 
           env:
-            - name: AUTOCREATE
-              value: "3"
-
-            - name: WORLDNAME
-              value: "Calamity.wld"
-
-            - name: DIFFICULTY
-              value: "1"
+            - name: WORLD
+              value: /home/tml/.local/share/Terraria/tModLoader/Worlds/Calamity.wld
 
             - name: MAXPLAYERS
               value: "8"
