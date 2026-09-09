@@ -179,7 +179,7 @@ metadata:
   name: calibre-web
   namespace: qbittorrent
   annotations:
-    external-dns.kubernetes.io/target: calibre.forcebyte.org
+    external-dns.kubernetes.io/target: "140.238.159.81"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

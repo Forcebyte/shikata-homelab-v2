@@ -58,7 +58,7 @@ metadata:
   name: github-oauth-server
   namespace: kube-system
   annotations:
-    external-dns.kubernetes.io/target: github-oauth.forcebyte.org
+    external-dns.kubernetes.io/target: "140.238.159.81"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

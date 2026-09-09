@@ -67,7 +67,7 @@ metadata:
   name: traefik-ingress-toolbox
   namespace: toolbox
   annotations:
-    external-dns.kubernetes.io/target: tools.forcebyte.org
+    external-dns.kubernetes.io/target: "140.238.159.81"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
