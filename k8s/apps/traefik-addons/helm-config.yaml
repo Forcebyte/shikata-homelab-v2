@@ -7,7 +7,7 @@ spec:
   valuesContent: |-
     additionalArguments:
       - "--api"
-      - "--api.dashboard=true"
+      - "--api.dashboard=false"
       - "--api.insecure=false"
       - "--entryPoints.bittorrenttcp.address=:49155/tcp"
       - "--entryPoints.bittorrentudp.address=:49155/udp"
