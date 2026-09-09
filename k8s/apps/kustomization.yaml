@@ -12,7 +12,6 @@ resources:
   - ./flux-system
   - ./github-oauth
   - ./gregtech
-  - ./headlamp
   - ./homepage
   - ./hytale
   - ./keel
