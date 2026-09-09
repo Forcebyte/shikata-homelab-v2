@@ -205,10 +205,6 @@ spec:
               subPath: widgets.yaml
             - mountPath: /app/config/logs
               name: logs
-          resources:
-            limits:
-              memory: "103Mi"
-              cpu: "100m"
           startupProbe:
             httpGet:
               path: /
