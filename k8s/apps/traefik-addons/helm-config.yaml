@@ -8,7 +8,7 @@ spec:
     additionalArguments:
       - "--api"
       - "--api.dashboard=true"
-      - "--api.insecure=true"
+      - "--api.insecure=false"
       - "--entryPoints.bittorrenttcp.address=:49155/tcp"
       - "--entryPoints.bittorrentudp.address=:49155/udp"
       - "--entryPoints.rcontcp.address=:4327/tcp"
