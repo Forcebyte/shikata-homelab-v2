@@ -131,7 +131,10 @@ spec:
               value: "7777"
 
             - name: PASSWORD
-              value: "peter35"
+              valueFrom:
+                secretKeyRef:
+                  name: terraria-server-secret
+                  key: password
 
             - name: MOTD
               value: "Welcome to the Calamity server!"

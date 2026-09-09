@@ -5,7 +5,7 @@ resource "kubernetes_secret" "terraria-calamity" {
   }
 
   data = {
-    "session_secret" = var.wildcard_server_connection_secret
+    "password" = var.wildcard_server_connection_secret
   }
 
   type = "Opaque"
