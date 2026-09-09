@@ -1,6 +1,5 @@
 resource "flux_bootstrap_git" "this" {
   embedded_manifests = true
-  version            = "v2.6.4"
   path               = "k8s/apps"
   interval           = "30s"
 }
