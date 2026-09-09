@@ -147,15 +147,3 @@ variable "wildcard_server_connection_secret" {
   type        = string
   sensitive   = true
 }
-
-variable "terraria_calamity_password" {
-  description = "Password for the Terraria Calamity server"
-  type        = string
-  sensitive   = true
-}
-
-variable "terraria_password" {
-  description = "Password for the Terraria server"
-  type        = string
-  sensitive   = true
-}
