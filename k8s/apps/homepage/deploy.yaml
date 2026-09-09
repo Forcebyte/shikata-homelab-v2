@@ -208,7 +208,7 @@ spec:
           resources:
             limits:
               memory: "103Mi"
-              cpu: "10m"
+              cpu: "100m"
           startupProbe:
             httpGet:
               path: /
