@@ -154,3 +154,9 @@ variable "doppelganger_session_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "wildcard_server_connection_secret" {
+  description = "Session secret for All server connections that require a password (e.g. Terraria, etc.)"
+  type        = string
+  sensitive   = true
+}
