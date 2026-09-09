@@ -34,13 +34,19 @@ spec:
           tty: true
           ports:
             - containerPort: 7777  # Terraria server port
+          env:
+            - name: TERRARIA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: terraria-server-secret
+                  key: password
           args:
             - "-world"
             - "/root/.local/share/Terraria/Worlds/forcebyte.wld"
             - "-autocreate"
             - "3"
             - "-password"
-            - "peter35"
+            - "$(TERRARIA_PASSWORD)"
             - "--stats-optout"
           #resources:
           #  limits:
