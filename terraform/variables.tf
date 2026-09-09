@@ -82,19 +82,6 @@ variable "openwebui_secret_key" {
   sensitive   = true
 }
 
-# Github OAuth Client ID and Secret for FluxCD
-variable "headlamp_github_oauth_client_id" {
-  description = "Github OAuth Client ID"
-  type        = string
-  sensitive   = true
-}
-
-variable "headlamp_github_oauth_client_secret" {
-  description = "Github OAuth Client Secret"
-  type        = string
-  sensitive   = true
-}
-
 variable "datadog_api_key" {
   description = "Datadog API Key"
   type        = string
