@@ -76,7 +76,7 @@ metadata:
   name: traefik-ingress-openwebui
   namespace: openwebui
   annotations:
-    external-dns.kubernetes.io/target: chat.forcebyte.org
+    external-dns.kubernetes.io/target: "140.238.159.81"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

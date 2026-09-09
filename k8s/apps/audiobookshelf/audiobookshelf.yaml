@@ -117,7 +117,7 @@ metadata:
   name: audiobookshelf
   namespace: audiobookshelf
   annotations:
-    external-dns.kubernetes.io/target: audiobookshelf.forcebyte.org
+    external-dns.kubernetes.io/target: "140.238.159.81"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
