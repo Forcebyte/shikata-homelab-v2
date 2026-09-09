@@ -62,6 +62,7 @@ spec:
             - --default-targets=140.238.159.81
             - --cloudflare-proxied
             - --cloudflare-dns-records-per-page=5000
+            - --policy=sync
           env:
             - name: CF_API_TOKEN
               valueFrom:
