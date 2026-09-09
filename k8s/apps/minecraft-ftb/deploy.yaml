@@ -79,8 +79,8 @@ metadata:
   name: minecraft-ftb
   namespace: minecraft-ftb
   annotations:
-    external-dns.alpha.kubernetes.io/target: ftb.forcebyte.org
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    external-dns.kubernetes.io/target: ftb.forcebyte.org
+    external-dns.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

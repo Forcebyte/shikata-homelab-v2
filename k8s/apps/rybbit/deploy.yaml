@@ -339,7 +339,7 @@ metadata:
   name: traefik-ingress-rybbit
   namespace: rybbit
   annotations:
-    external-dns.alpha.kubernetes.io/target: rybbit.forcebyte.org
+    external-dns.kubernetes.io/target: rybbit.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

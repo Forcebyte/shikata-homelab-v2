@@ -4,7 +4,7 @@ metadata:
   name: openclaw-ingress
   namespace: openclaw
   annotations:
-    external-dns.alpha.kubernetes.io/target: openclaw.forcebyte.org
+    external-dns.kubernetes.io/target: openclaw.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
