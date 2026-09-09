@@ -5,7 +5,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-    kubernetes {
+  kubernetes = {
         host                   = var.k8s_api_server
         token                  = var.k8s_api_token
         insecure               = true # certificate is valid for 10.0.1.216, 10.43.0.1, 127.0.0.1, ::1, not xyz
@@ -39,19 +39,19 @@ terraform {
   required_providers {
     flux = {
       source = "fluxcd/flux"
-      version = "1.5.1"
+      version = "1.9.5"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
+      version = "3.2.1"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.0"
+      version = "3.3.0"
     }
     github = {
       source  = "integrations/github"
-      version = "~> 6.0"
+      version = "6.13.0"
     }
   }
 }
