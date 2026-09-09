@@ -73,8 +73,8 @@ metadata:
   name: minecraft
   namespace: minecraft
   annotations:
-    external-dns.alpha.kubernetes.io/target: minecraft.forcebyte.org
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    external-dns.kubernetes.io/target: minecraft.forcebyte.org
+    external-dns.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

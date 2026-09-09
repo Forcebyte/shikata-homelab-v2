@@ -225,7 +225,7 @@ metadata:
   name: traefik-ingress-homepage
   namespace: homepage
   annotations:
-    external-dns.alpha.kubernetes.io/target: forcebyte.org
+    external-dns.kubernetes.io/target: forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

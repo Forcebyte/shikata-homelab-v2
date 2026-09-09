@@ -4,7 +4,7 @@ metadata:
   name: traefik-ingress-filestash
   namespace: filestash
   annotations:
-    external-dns.alpha.kubernetes.io/target: filestash.forcebyte.org
+    external-dns.kubernetes.io/target: filestash.forcebyte.org
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:

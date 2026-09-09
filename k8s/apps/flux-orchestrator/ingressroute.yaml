@@ -5,7 +5,7 @@ metadata:
   namespace: flux-orchestrator
   annotations:
     kubernetes.io/ingress.class: traefik
-    external-dns.alpha.kubernetes.io/target: flux.forcebyte.org
+    external-dns.kubernetes.io/target: flux.forcebyte.org
 spec:
   entryPoints:
     - web
