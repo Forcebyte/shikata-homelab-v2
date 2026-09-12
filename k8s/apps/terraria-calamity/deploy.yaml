@@ -108,7 +108,7 @@ spec:
 
       containers:
         - name: terraria-calamity
-          image: ghcr.io/forcebyte/terraria-tmodloader-server:latest
+          image: ghcr.io/forcebyte/terraria-tmodloader-server-arm:latest
           imagePullPolicy: Always
 
           securityContext:
