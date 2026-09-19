@@ -140,6 +140,9 @@ spec:
               value: "Welcome to the Calamity server!"
 
             - name: SECURE
+              value: "0"
+
+            - name: NPCSTREAM
               value: "1"
 
             - name: LANGUAGE
