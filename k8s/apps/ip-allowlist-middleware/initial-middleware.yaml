@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: TCPMiddleware
+metadata:
+  name: canada-only
+  namespace: kube-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/reconcile: disabled
+spec:
+  ipAllowList:
+    sourceRange:
+      - 0.0.0.0/0   # placeholder — Flux applies this once, then hands off to the CronJob

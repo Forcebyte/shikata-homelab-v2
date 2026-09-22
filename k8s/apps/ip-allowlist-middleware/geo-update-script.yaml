@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geoip-updater-script
+  namespace: kube-system
+data:
+  update.sh: |
+    #!/bin/sh
+    set -eu
+
+    CA_CIDR_URL="https://raw.githubusercontent.com/ipverse/rir-ip/master/country/ca/ipv4-aggregated.txt"
+    NAMESPACE="kube-system"
+    MIDDLEWARE="canada-only"
+    TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    CACERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    APISERVER="https://kubernetes.default.svc"
+    RESOURCE_URL="$APISERVER/apis/traefik.io/v1alpha1/namespaces/$NAMESPACE/tcpmiddlewares/$MIDDLEWARE"
+
+    echo "Fetching current CA CIDR list..."
+    CIDRS=$(curl -sf "$CA_CIDR_URL" | grep -v '^#' | grep -v '^$')
+
+    if [ -z "$CIDRS" ]; then
+      echo "ERROR: empty CIDR list, aborting to avoid locking everyone out"
+      exit 1
+    fi
+
+    COUNT=$(echo "$CIDRS" | wc -l)
+    echo "Fetched $COUNT CIDR blocks"
+
+    JSON_LIST=$(echo "$CIDRS" | awk '{printf "\"%s\",", $0}' | sed 's/,$//')
+
+    # Check whether the object exists
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+      --cacert "$CACERT" -H "Authorization: Bearer $TOKEN" "$RESOURCE_URL")
+
+    if [ "$STATUS" = "404" ]; then
+      echo "TCPMiddleware/$MIDDLEWARE not found — creating..."
+      CREATE_BODY=$(cat <<EOF
+    {
+      "apiVersion": "traefik.io/v1alpha1",
+      "kind": "TCPMiddleware",
+      "metadata": {
+        "name": "$MIDDLEWARE",
+        "namespace": "$NAMESPACE",
+        "annotations": {
+          "kustomize.toolkit.fluxcd.io/reconcile": "disabled"
+        }
+      },
+      "spec": {"ipAllowList": {"sourceRange": [${JSON_LIST}]}}
+    }
+    EOF
+      )
+      curl -sf --cacert "$CACERT" \
+        -X POST \
+        -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "$CREATE_BODY" \
+        "$APISERVER/apis/traefik.io/v1alpha1/namespaces/$NAMESPACE/tcpmiddlewares"
+    else
+      echo "Patching existing TCPMiddleware/$MIDDLEWARE..."
+      PATCH_BODY=$(cat <<EOF
+    {"spec":{"ipAllowList":{"sourceRange":[${JSON_LIST}]}}}
+    EOF
+      )
+      curl -sf --cacert "$CACERT" \
+        -X PATCH \
+        -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/merge-patch+json" \
+        -d "$PATCH_BODY" \
+        "$RESOURCE_URL"
+    fi
+
+    echo "Done."
