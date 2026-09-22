@@ -14,6 +14,7 @@ resources:
   - ./gregtech
   - ./homepage
   - ./hytale
+  - ./ip-allowlist-middleware
   - ./keel
   - ./minecraft
   - ./minecraft-ftb
