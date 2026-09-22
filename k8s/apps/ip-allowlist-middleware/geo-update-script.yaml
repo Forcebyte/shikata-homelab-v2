@@ -14,7 +14,7 @@ data:
     TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
     CACERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
     APISERVER="https://kubernetes.default.svc"
-    RESOURCE_URL="$APISERVER/apis/traefik.io/v1alpha1/namespaces/$NAMESPACE/tcpmiddlewares/$MIDDLEWARE"
+    RESOURCE_URL="$APISERVER/apis/traefik.io/v1alpha1/namespaces/$NAMESPACE/middlewaretcps/$MIDDLEWARE"
 
     echo "Fetching current CA CIDR list..."
     CIDRS=$(curl -sf "$CA_CIDR_URL" | grep -v '^#' | grep -v '^$')
@@ -28,46 +28,21 @@ data:
     echo "Fetched $COUNT CIDR blocks"
 
     JSON_LIST=$(echo "$CIDRS" | awk '{printf "\"%s\",", $0}' | sed 's/,$//')
+    PATCH_BODY="{\"spec\":{\"ipAllowList\":{\"sourceRange\":[${JSON_LIST}]}}}"
 
-    # Check whether the object exists
-    STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-      --cacert "$CACERT" -H "Authorization: Bearer $TOKEN" "$RESOURCE_URL")
+    echo "Patching MiddlewareTCP/$MIDDLEWARE..."
+    HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+      --cacert "$CACERT" \
+      -X PATCH \
+      -H "Authorization: Bearer $TOKEN" \
+      -H "Content-Type: application/merge-patch+json" \
+      -d "$PATCH_BODY" \
+      "$RESOURCE_URL")
 
-    if [ "$STATUS" = "404" ]; then
-      echo "TCPMiddleware/$MIDDLEWARE not found — creating..."
-      CREATE_BODY=$(cat <<EOF
-    {
-      "apiVersion": "traefik.io/v1alpha1",
-      "kind": "TCPMiddleware",
-      "metadata": {
-        "name": "$MIDDLEWARE",
-        "namespace": "$NAMESPACE",
-        "annotations": {
-          "kustomize.toolkit.fluxcd.io/reconcile": "disabled"
-        }
-      },
-      "spec": {"ipAllowList": {"sourceRange": [${JSON_LIST}]}}
-    }
-    EOF
-      )
-      curl -sf --cacert "$CACERT" \
-        -X POST \
-        -H "Authorization: Bearer $TOKEN" \
-        -H "Content-Type: application/json" \
-        -d "$CREATE_BODY" \
-        "$APISERVER/apis/traefik.io/v1alpha1/namespaces/$NAMESPACE/tcpmiddlewares"
+    if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+      echo "Done."
     else
-      echo "Patching existing TCPMiddleware/$MIDDLEWARE..."
-      PATCH_BODY=$(cat <<EOF
-    {"spec":{"ipAllowList":{"sourceRange":[${JSON_LIST}]}}}
-    EOF
-      )
-      curl -sf --cacert "$CACERT" \
-        -X PATCH \
-        -H "Authorization: Bearer $TOKEN" \
-        -H "Content-Type: application/merge-patch+json" \
-        -d "$PATCH_BODY" \
-        "$RESOURCE_URL"
+      echo "ERROR: patch failed with HTTP $HTTP_CODE"
+      cat /tmp/response.json
+      exit 1
     fi
-
-    echo "Done."
