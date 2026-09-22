@@ -90,6 +90,3 @@ spec:
       services:
         - name: minecraft-ftb
           port: 25565
-      middlewares:
-        - name: canada-only
-          namespace: kube-system
