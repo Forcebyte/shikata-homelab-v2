@@ -91,6 +91,3 @@ spec:
       services:
         - name: terraria
           port: 7777
-      middlewares:
-        - name: canada-only
-          namespace: kube-system

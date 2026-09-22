@@ -84,6 +84,3 @@ spec:
       services:
         - name: minecraft
           port: 25565
-      middlewares:
-        - name: canada-only
-          namespace: kube-system

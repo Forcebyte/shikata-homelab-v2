@@ -88,6 +88,3 @@ spec:
       services:
         - name: gregtech
           port: 25567
-      middlewares:
-        - name: canada-only
-          namespace: kube-system
