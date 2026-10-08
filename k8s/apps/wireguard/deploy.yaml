@@ -28,6 +28,10 @@ spec:
       labels:
         app: wireguard
     spec:
+      securityContext:
+        sysctls:
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
       containers:
         - name: wireguard
           image: lscr.io/linuxserver/wireguard:latest
