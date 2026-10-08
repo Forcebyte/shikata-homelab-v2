@@ -52,7 +52,7 @@ spec:
             - name: PEERDNS
               value: auto
             - name: ALLOWEDIPS
-              value: 0.0.0.0/0, ::/0
+              value: 0.0.0.0/0
             - name: LOG_CONFS
               value: "false"
           securityContext:

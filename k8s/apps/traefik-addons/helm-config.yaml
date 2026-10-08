@@ -20,6 +20,7 @@ spec:
       - "--entryPoints.terrariacalamity.address=:7778/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
       - "--entryPoints.wireguard.address=:51820/udp"
+      - "--entryPoints.wireguard.udp.timeout=60s"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
