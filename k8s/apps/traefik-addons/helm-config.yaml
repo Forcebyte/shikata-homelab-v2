@@ -19,6 +19,7 @@ spec:
       - "--entryPoints.terraria.address=:7777/tcp"
       - "--entryPoints.terrariacalamity.address=:7778/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
+      - "--entryPoints.wireguard.address=:51820/udp"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -98,6 +99,12 @@ spec:
       hytale:
         port: 5520
         exposedPort: 5520
+        expose:
+          default: true
+        protocol: UDP
+      wireguard:
+        port: 51820
+        exposedPort: 51820
         expose:
           default: true
         protocol: UDP
