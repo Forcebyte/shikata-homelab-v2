@@ -51,7 +51,7 @@ metadata:
   name: terraria-calamity
   namespace: terraria-calamity
 spec:
-  replicas: 1
+  replicas: 0
 
   strategy:
     type: Recreate
