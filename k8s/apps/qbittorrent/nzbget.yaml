@@ -30,7 +30,7 @@ metadata:
   name: nzbget
   namespace: qbittorrent
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: nzbget
