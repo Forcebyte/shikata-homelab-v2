@@ -19,7 +19,6 @@ resources:
   - ./minecraft
   - ./minecraft-ftb
   - ./n8n
-  - ./nextcloud
   - ./nginx
   - ./notifications
   - ./openwebui
