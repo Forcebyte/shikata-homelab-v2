@@ -9,6 +9,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`openclaw.forcebyte.org`)
       kind: Rule
@@ -20,8 +21,13 @@ spec:
       services:
         - name: openclaw
           port: 18789
-    - match: Host(`openclaw.example.com`) && PathPrefix(`/api`)
+    - match: Host(`openclaw.forcebyte.org`) && PathPrefix(`/api`)
       kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
       services:
         - name: openclaw
           port: 18791

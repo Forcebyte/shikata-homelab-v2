@@ -9,6 +9,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`filestash.forcebyte.org`)
       kind: Rule

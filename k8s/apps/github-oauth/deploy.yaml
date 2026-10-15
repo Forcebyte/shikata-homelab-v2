@@ -63,6 +63,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`github-oauth.forcebyte.org`)  # Replace with your domain
       kind: Rule

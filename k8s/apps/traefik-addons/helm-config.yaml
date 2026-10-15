@@ -27,9 +27,9 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.email=hyperpatrick@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=cloudflare"
       - "--accesslog=true"
       - "--accesslog.format=json"
-      - "--accesslog.filters.statuscodes=200,300-302"
       - "--accesslog.filters.retryattempts=true"
       - "--accesslog.filters.minduration=10ms"
       - "--accesslog.fields.defaultmode=keep"
@@ -37,6 +37,8 @@ spec:
       - "--accesslog.fields.headers.defaultmode=keep"
       - "--accesslog.fields.headers.names.User-Agent=redact"
       - "--accesslog.fields.headers.names.Authorization=drop"
+      - "--accesslog.fields.headers.names.Cookie=redact"
+      - "--accesslog.fields.headers.names.Set-Cookie=redact"
       - "--log.level=INFO"  # Enable debug logging
       - "--global.sendAnonymousUsage=false"  # Disable anonymous statistics
     ports:

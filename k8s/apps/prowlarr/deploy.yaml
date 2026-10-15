@@ -76,6 +76,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`prowlarr.forcebyte.org`)
       kind: Rule
