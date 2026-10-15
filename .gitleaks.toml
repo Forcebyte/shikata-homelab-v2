@@ -1,0 +1,6 @@
+# Gitleaks allowlist for verified false positives.
+
+[allowlist]
+description = "Kobo public Zendesk live-chat widget key inside Kobo store API config in calibre configmap - not our secret"
+paths = ["k8s/apps/calibre/configmap\\.yaml"]
+regexes = ["v2\\.zopim\\.com/widget/livechat\\.html\\?key="]

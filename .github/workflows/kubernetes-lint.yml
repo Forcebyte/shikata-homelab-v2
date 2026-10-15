@@ -60,7 +60,7 @@ jobs:
 
     - name: Setup Polaris
       run: |
-        curl -L https://github.com/FairwindsOps/polaris/releases/latest/download/polaris_linux_amd64.tar.gz | tar xz
+        curl -L https://github.com/FairwindsOps/polaris/releases/download/v10.2.5/polaris_10.2.5_linux_amd64.tar.gz | tar xz
         sudo mv polaris /usr/local/bin
 
     - name: Run Polaris audit
