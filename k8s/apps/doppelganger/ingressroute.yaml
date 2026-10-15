@@ -9,6 +9,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`doppelganger.forcebyte.org`)
       kind: Rule

@@ -44,6 +44,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`nginx.forcebyte.org`)
       kind: Rule

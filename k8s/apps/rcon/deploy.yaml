@@ -75,6 +75,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`cs2rcon.forcebyte.org`)
       kind: Rule
@@ -94,6 +95,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`rcon2.forcebyte.org`)
       kind: Rule

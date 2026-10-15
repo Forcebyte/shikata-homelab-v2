@@ -93,6 +93,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`nzbget.forcebyte.org`)
       kind: Rule
