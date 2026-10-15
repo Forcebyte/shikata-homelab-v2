@@ -10,7 +10,7 @@ spec:
     - match: HostSNI(`*`)
       services:
         - name: qbittorrent
-          port: 6881
+          port: 49155
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRouteUDP
@@ -23,4 +23,4 @@ spec:
   routes:
     - services:
         - name: qbittorrent
-          port: 6881
+          port: 49155

@@ -9,8 +9,8 @@ spec:
       - "--api"
       - "--api.dashboard=false"
       - "--api.insecure=false"
-      - "--entryPoints.bittorrenttcp.address=:6881/tcp"
-      - "--entryPoints.bittorrentudp.address=:6881/udp"
+      - "--entryPoints.bittorrenttcp.address=:49155/tcp"
+      - "--entryPoints.bittorrentudp.address=:49155/udp"
       - "--entryPoints.rcontcp.address=:4327/tcp"
       - "--entryPoints.rconudp.address=:4327/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
@@ -48,14 +48,14 @@ spec:
         expose:
           default: true
       bittorrenttcp:
-        port: 6881
-        exposedPort: 6881
+        port: 49155
+        exposedPort: 49155
         expose:
           default: true
         protocol: TCP
       bittorrentudp:
-        port: 6881
-        exposedPort: 6881
+        port: 49155
+        exposedPort: 49155
         expose:
           default: true
         protocol: UDP

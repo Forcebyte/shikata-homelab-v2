@@ -45,7 +45,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Web UI port
-            - containerPort: 6881  # Torrent port
+            - containerPort: 49155  # Torrent port
           #resources:
           #  limits:
           #    memory: "256Mi"
@@ -85,8 +85,8 @@ spec:
       port: 8080
       targetPort: 8080
     - name: torrent
-      port: 6881
-      targetPort: 6881
+      port: 49155
+      targetPort: 49155
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
