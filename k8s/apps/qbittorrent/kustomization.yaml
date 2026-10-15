@@ -5,3 +5,4 @@ resources:
   - deploy.yaml
   - nzbget.yaml
   - network-policy.yaml
+  - torrent-routes.yaml
