@@ -10,6 +10,8 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-cb39bb80-00cf-410d-be4c-3033d19f2cde
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,6 +25,8 @@ spec:
     requests:
       storage: 10Gi
   storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-fe3f6a63-cfe7-4b82-a32d-3ea654d83570
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -36,6 +40,8 @@ spec:
     requests:
       storage: 100Gi
   storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-e2812d0e-e317-4ebe-ae27-2803ec10e3e4
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -49,6 +55,8 @@ spec:
     requests:
       storage: 50Gi
   storageClassName: local-path
+  volumeMode: Filesystem
+  volumeName: pvc-78b7271b-a607-4105-9d25-dec7c6ac694f
 ---
 apiVersion: apps/v1
 kind: Deployment
