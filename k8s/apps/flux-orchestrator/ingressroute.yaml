@@ -9,6 +9,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`flux.forcebyte.org`)
       kind: Rule

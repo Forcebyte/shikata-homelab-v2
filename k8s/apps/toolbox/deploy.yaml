@@ -72,6 +72,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`tools.forcebyte.org`)
       kind: Rule

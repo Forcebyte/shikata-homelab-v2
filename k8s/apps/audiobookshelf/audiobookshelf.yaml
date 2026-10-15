@@ -122,6 +122,7 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`audiobookshelf.forcebyte.org`)
       kind: Rule
