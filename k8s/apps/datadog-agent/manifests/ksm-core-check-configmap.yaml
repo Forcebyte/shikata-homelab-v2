@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: datadog-ksm-core-check
+  namespace: datadog
+  labels:
+    app.kubernetes.io/name: datadog-agent
+    app.kubernetes.io/managed-by: flux
+data:
+  kubernetes_state_core.yaml: |
+    # Runs the kubernetes_state_core check on the node agent.
+    # The cluster agent was removed (PR #3); without this, no
+    # kubernetes_state.* metrics are collected and all deployment
+    # monitors go "No data". Safe on a single-node cluster
+    # (no duplicate collection).
+    init_config:
+    instances:
+      - collectors:
+          - pods
+          - deployments
+          - replicasets
+          - daemonsets
+          - statefulsets
+          - jobs
+          - cronjobs
+          - services
+          - nodes
+          - persistentvolumes
+          - persistentvolumeclaims
