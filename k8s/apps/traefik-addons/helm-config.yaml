@@ -9,8 +9,8 @@ spec:
       - "--api"
       - "--api.dashboard=false"
       - "--api.insecure=false"
-      - "--entryPoints.bittorrenttcp.address=:49155/tcp"
-      - "--entryPoints.bittorrentudp.address=:49155/udp"
+      - "--entryPoints.bittorrenttcp.address=:6881/tcp"
+      - "--entryPoints.bittorrentudp.address=:6881/udp"
       - "--entryPoints.rcontcp.address=:4327/tcp"
       - "--entryPoints.rconudp.address=:4327/udp"
       - "--entryPoints.minecraft.address=:25565/tcp"
@@ -20,7 +20,7 @@ spec:
       - "--entryPoints.terrariacalamity.address=:7778/tcp"
       - "--entryPoints.hytale.address=:5520/udp"
       - "--entryPoints.wireguard.address=:51820/udp"
-      - "--entryPoints.wireguard.udp.timeout=60s"
+      - "--entryPoints.wireguard.udp.timeout=300s"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.delaybeforecheck=5"
@@ -28,6 +28,8 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=cloudflare"
+      - "--entrypoints.web.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32"
+      - "--entrypoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32"
       - "--accesslog=true"
       - "--accesslog.format=json"
       - "--accesslog.filters.retryattempts=true"
@@ -39,21 +41,21 @@ spec:
       - "--accesslog.fields.headers.names.Authorization=drop"
       - "--accesslog.fields.headers.names.Cookie=redact"
       - "--accesslog.fields.headers.names.Set-Cookie=redact"
-      - "--log.level=INFO"  # Enable debug logging
+      - "--log.level=INFO"
       - "--global.sendAnonymousUsage=false"  # Disable anonymous statistics
     ports:
       traefik:
         expose:
           default: true
       bittorrenttcp:
-        port: 49155
-        exposedPort: 49155
+        port: 6881
+        exposedPort: 6881
         expose:
           default: true
         protocol: TCP
       bittorrentudp:
-        port: 49155
-        exposedPort: 49155
+        port: 6881
+        exposedPort: 6881
         expose:
           default: true
         protocol: UDP
@@ -108,12 +110,6 @@ spec:
       wireguard:
         port: 51820
         exposedPort: 51820
-        expose:
-          default: true
-        protocol: UDP
-      cs2udp2:
-        port: 27020
-        exposedPort: 27020
         expose:
           default: true
         protocol: UDP
