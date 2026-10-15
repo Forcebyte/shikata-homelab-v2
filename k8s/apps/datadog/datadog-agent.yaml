@@ -29,4 +29,10 @@ spec:
     kubeStateMetricsCore:
       enabled: true
     clusterChecks:
-      enabled: true
+      enabled: false  # disabled: cluster agent removed
+
+  # Cluster agent removed (single-node cluster): saves ~11m CPU / ~140Mi RAM.
+  # The node-agent DaemonSet keeps metrics, logs, SBOM/vuln scanning.
+  override:
+    clusterAgent:
+      disabled: true
