@@ -23,7 +23,9 @@ spec:
         - protocol: TCP
           port: 8080
         - protocol: TCP
-          port: 6881
+          port: 49155
+        - protocol: UDP
+          port: 49155
     # Allow from other apps in qbittorrent namespace (readarr, calibre, etc.)
     - from:
         - podSelector: {}
@@ -31,7 +33,9 @@ spec:
         - protocol: TCP
           port: 8080
         - protocol: TCP
-          port: 6881
+          port: 49155
+        - protocol: UDP
+          port: 49155
     # Allow from homepage
     - from:
         - namespaceSelector:
