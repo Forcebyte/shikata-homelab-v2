@@ -26,6 +26,7 @@ spec:
       labels:
         app: minecraft-ftb
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: minecraft-ftb
           image: itzg/minecraft-server:java8

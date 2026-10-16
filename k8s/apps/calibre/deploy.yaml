@@ -42,6 +42,7 @@ spec:
       labels:
         app: calibre-web
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: calibre-web
           image: linuxserver/calibre-web
@@ -113,6 +114,7 @@ spec:
       labels:
         app: calibre
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: calibre
           image: linuxserver/calibre:latest

@@ -13,6 +13,7 @@ spec:
       labels:
         app: rcon-web-admin
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: rcon-web-admin
           image: itzg/rcon:latest

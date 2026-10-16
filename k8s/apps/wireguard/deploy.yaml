@@ -28,6 +28,7 @@ spec:
       labels:
         app: wireguard
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: wireguard
           image: lscr.io/linuxserver/wireguard:latest

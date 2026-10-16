@@ -13,6 +13,7 @@ spec:
       labels:
         app: github-oauth-server
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: github-oauth-server
           image: muxiu1997/traefik-github-oauth-server:latest

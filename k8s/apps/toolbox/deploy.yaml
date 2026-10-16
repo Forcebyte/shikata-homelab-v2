@@ -13,6 +13,7 @@ spec:
       labels:
         app: networking-toolbox
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: networking-toolbox
           image: lissy93/networking-toolbox:latest

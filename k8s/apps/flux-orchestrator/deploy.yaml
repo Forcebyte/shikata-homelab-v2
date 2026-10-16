@@ -85,6 +85,7 @@ spec:
       labels:
         app: flux-orchestrator
     spec:
+      automountServiceAccountToken: false
       serviceAccountName: flux-orchestrator
       containers:
       - name: flux-orchestrator
