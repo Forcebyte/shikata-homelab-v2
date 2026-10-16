@@ -30,6 +30,10 @@ spec:
         - name: minecraft
           image: itzg/minecraft-server:latest
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "1.5Gi"
+              cpu: "1000m"
           ports:
             - containerPort: 25565  # Minecraft server port
           env:

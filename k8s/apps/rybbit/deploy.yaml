@@ -70,10 +70,13 @@ spec:
             port: 5432
           initialDelaySeconds: 20
           periodSeconds: 10
-        #resources:
-        #  limits:
-        #    memory: "1Gi"
-        #    cpu: "500m"
+        resources:
+          limits:
+            memory: "2.5Gi"
+            cpu: "1000m"
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
         readinessProbe:
           tcpSocket:
             port: 5432
@@ -193,6 +196,10 @@ spec:
       - name: rybbit-backend
         image: ghcr.io/rybbit-io/rybbit-backend:latest
         imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         ports:
         - containerPort: 3001
           name: api
