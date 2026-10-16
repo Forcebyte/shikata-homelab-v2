@@ -60,7 +60,3 @@ spec:
       services:
         - name: nginx
           port: 80
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "100m"
