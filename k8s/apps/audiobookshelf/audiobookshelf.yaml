@@ -73,6 +73,7 @@ spec:
       labels:
         app: audiobookshelf
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: audiobookshelf
           image: ghcr.io/advplyr/audiobookshelf:latest

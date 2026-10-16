@@ -13,6 +13,7 @@ spec:
       labels:
         app: nginx
     spec:
+      automountServiceAccountToken: false
       containers:
       - image: nginx
         name: nginx

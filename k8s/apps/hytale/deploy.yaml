@@ -39,6 +39,7 @@ spec:
       labels:
         app: hytale
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: hytale
           image: ghcr.io/forcebyte/hytale-server:latest-arm64

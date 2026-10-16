@@ -39,6 +39,7 @@ spec:
       labels:
         app: doppelganger
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: doppelganger
           image: ghcr.io/forcebyte/doppelganger-arm:latest-arm64

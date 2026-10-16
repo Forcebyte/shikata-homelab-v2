@@ -26,6 +26,7 @@ spec:
       labels:
         app: gregtech
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: gregtech
           image: itzg/minecraft-server:java21

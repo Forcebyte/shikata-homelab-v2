@@ -39,6 +39,7 @@ spec:
       labels:
         app: postgres
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: postgres
         image: postgres:17.4
@@ -112,6 +113,7 @@ spec:
       labels:
         app: clickhouse
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: clickhouse
         image: clickhouse/clickhouse-server:25.4.2
@@ -190,6 +192,7 @@ spec:
       labels:
         app: rybbit-backend
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: rybbit-backend
         image: ghcr.io/rybbit-io/rybbit-backend:latest
@@ -288,6 +291,7 @@ spec:
       labels:
         app: rybbit-client
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: rybbit-client
         image: ghcr.io/rybbit-io/rybbit-client:latest
