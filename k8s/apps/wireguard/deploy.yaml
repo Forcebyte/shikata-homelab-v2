@@ -34,12 +34,12 @@ spec:
           imagePullPolicy: Always
           ports:
             - name: wireguard
+              containerPort: 51820
+              protocol: UDP
           resources:
             limits:
               memory: "128Mi"
               cpu: "100m"
-              containerPort: 51820
-              protocol: UDP
           env:
             - name: PUID
               value: "1000"
