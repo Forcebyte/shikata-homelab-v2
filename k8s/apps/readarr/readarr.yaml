@@ -31,10 +31,10 @@ spec:
           image: ghcr.io/pennydreadful/bookshelf:softcover
           ports:
             - containerPort: 8787  # Default port for Readarr
-          #resources:
-          #  limits:
-          #    memory: "256Mi"
-          #    cpu: "250m"
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
           volumeMounts:
             - name: readarr-data
               mountPath: /config  # Configuration and database files

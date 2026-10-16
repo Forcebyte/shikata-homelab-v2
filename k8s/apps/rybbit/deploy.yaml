@@ -293,6 +293,10 @@ spec:
         ports:
         - containerPort: 3002
           name: httprybbit
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
         env:
         - name: NODE_ENV
           value: "production"
