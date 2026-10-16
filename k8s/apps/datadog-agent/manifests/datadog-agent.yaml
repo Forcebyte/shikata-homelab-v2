@@ -54,3 +54,13 @@ spec:
   override:
     clusterAgent:
       disabled: true
+    nodeAgent:
+      # kubernetes_state_core ran on the cluster agent; with it gone,
+      # run it on the node agent so kubernetes_state.* metrics (and the
+      # deployment monitors built on them) keep working.
+      extraConfd:
+        configMap:
+          name: datadog-ksm-core-check
+          items:
+            - key: kubernetes_state_core.yaml
+              path: kubernetes_state_core.d/conf.yaml
