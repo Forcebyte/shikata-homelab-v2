@@ -55,6 +55,10 @@ spec:
           volumeMounts:
             - name: terraria-world
               mountPath: /root/.local/share/Terraria/Worlds
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
       volumes:
         - name: terraria-world
           persistentVolumeClaim:

@@ -54,6 +54,10 @@ spec:
           volumeMounts:
             - name: minecraft-ftb-world-infinityevolved
               mountPath: /data
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: "1000m"
       volumes:
         - name: minecraft-ftb-world-infinityevolved
           persistentVolumeClaim:

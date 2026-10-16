@@ -51,6 +51,10 @@ spec:
           #   limits:
           #     memory: "2Gi"
           #     cpu: "1000m"
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
       volumes:
         - name: openwebui-data
           persistentVolumeClaim:
