@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: datadog-ksm-core-node-agent
+  labels:
+    app.kubernetes.io/name: datadog-agent
+    app.kubernetes.io/managed-by: flux
+subjects:
+  - kind: ServiceAccount
+    name: datadog-agent
+    namespace: datadog
+roleRef:
+  kind: ClusterRole
+  # Created by datadog-operator for features.kubeStateMetricsCore;
+  # originally bound to the (now removed) cluster-agent SA.
+  name: datadog-datadog-ksm-core-dca
+  apiGroup: rbac.authorization.k8s.io
