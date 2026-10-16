@@ -13,6 +13,7 @@ spec:
       labels:
         app: filestash
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: app
           image: machines/filestash:latest

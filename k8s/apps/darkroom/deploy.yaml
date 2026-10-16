@@ -43,6 +43,7 @@ spec:
       labels:
         app.kubernetes.io/name: darkroom
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: darkroom
           # Custom-made image

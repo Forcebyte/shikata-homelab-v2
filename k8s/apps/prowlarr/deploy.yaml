@@ -26,6 +26,7 @@ spec:
       labels:
         app: prowlarr
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:latest

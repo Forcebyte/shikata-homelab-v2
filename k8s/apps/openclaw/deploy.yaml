@@ -13,6 +13,7 @@ spec:
       labels:
         app: openclaw
     spec:
+      automountServiceAccountToken: false
       initContainers:
         - name: init-config
           image: ghcr.io/openclaw/openclaw:latest

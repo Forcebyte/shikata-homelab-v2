@@ -27,6 +27,7 @@ spec:
       labels:
         app: cs2-modded-server
     spec:
+      automountServiceAccountToken: false
       securityContext:
         fsGroup: 1000
       containers:

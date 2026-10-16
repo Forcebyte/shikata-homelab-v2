@@ -26,6 +26,7 @@ spec:
       labels:
         app: readarr
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: readarr
           image: ghcr.io/pennydreadful/bookshelf:softcover

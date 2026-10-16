@@ -39,6 +39,7 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:latest

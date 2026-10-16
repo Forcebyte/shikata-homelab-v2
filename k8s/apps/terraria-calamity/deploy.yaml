@@ -66,6 +66,7 @@ spec:
         app: terraria-calamity
 
     spec:
+      automountServiceAccountToken: false
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
