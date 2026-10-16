@@ -73,3 +73,6 @@ spec:
 
           securityContext:
             allowPrivilegeEscalation: false
+          resources:
+            limits:
+              memory: "128Mi"
