@@ -25,6 +25,7 @@ resources:
   - ./qbittorrent
   - ./rcon
   - ./readarr
+  - ./rreading-glasses
   - ./openclaw
   - ./rybbit
   - ./rollout-latest
