@@ -114,6 +114,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Default port for Calibre
+          resources:
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
           volumeMounts:
             - name: calibre-config
               mountPath: /config  # Configuration files
