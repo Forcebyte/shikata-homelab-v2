@@ -107,6 +107,8 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: openclaw-data
           persistentVolumeClaim:

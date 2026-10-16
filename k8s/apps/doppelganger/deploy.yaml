@@ -67,6 +67,8 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "250m"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: data
           persistentVolumeClaim:

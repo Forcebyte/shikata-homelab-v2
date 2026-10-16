@@ -60,6 +60,7 @@ spec:
             - name: LOG_CONFS
               value: "false"
           securityContext:
+            allowPrivilegeEscalation: false
             capabilities:
               add:
                 - NET_ADMIN

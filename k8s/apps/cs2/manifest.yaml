@@ -59,6 +59,8 @@ spec:
             limits:
               memory: "2Gi"
               cpu: "1000m"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: cs2-data
           persistentVolumeClaim:

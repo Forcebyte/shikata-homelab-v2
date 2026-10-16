@@ -112,6 +112,7 @@ spec:
           imagePullPolicy: Always
 
           securityContext:
+            allowPrivilegeEscalation: false
             runAsUser: 1000
             runAsGroup: 1000
 

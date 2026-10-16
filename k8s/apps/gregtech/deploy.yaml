@@ -56,6 +56,8 @@ spec:
             limits:
               memory: "4Gi"
               cpu: "1000m"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: gregtech-world
           persistentVolumeClaim:

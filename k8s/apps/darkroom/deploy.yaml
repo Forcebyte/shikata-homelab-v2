@@ -60,6 +60,8 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "250m"
+          securityContext:
+            allowPrivilegeEscalation: false
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute

@@ -95,6 +95,8 @@ spec:
           env:
             - name: TZ
               value: "America/Toronto"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           persistentVolumeClaim:

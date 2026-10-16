@@ -82,6 +82,8 @@ spec:
               value: "1000"  # Adjust to match your group ID
             - name: TZ
               value: "Etc/UTC"  # Set your timezone
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: calibre-web-data
           persistentVolumeClaim:
@@ -136,6 +138,8 @@ spec:
               value: "1000"  # Adjust to match your group ID
             - name: TZ
               value: "Etc/UTC"  # Set your timezone
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: calibre-config
           persistentVolumeClaim:

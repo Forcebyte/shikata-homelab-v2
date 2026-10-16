@@ -59,6 +59,8 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: terraria-world
           persistentVolumeClaim:

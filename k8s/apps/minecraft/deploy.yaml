@@ -52,6 +52,8 @@ spec:
           volumeMounts:
             - name: minecraft-world
               mountPath: /data  # Minecraft world data
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: minecraft-world
           persistentVolumeClaim:
