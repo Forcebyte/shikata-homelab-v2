@@ -75,6 +75,8 @@ spec:
             port: 5432
           initialDelaySeconds: 10
           periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
       terminationGracePeriodSeconds: 120
       volumes:
       - name: postgres-data
@@ -151,6 +153,8 @@ spec:
             port: 8123
           initialDelaySeconds: 10
           periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
       volumes:
       - name: clickhouse-data
         persistentVolumeClaim:
@@ -254,6 +258,8 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
+        securityContext:
+          allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service
@@ -323,6 +329,8 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
+        securityContext:
+          allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service

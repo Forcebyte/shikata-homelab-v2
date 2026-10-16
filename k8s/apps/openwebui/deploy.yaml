@@ -54,6 +54,8 @@ spec:
           resources:
             limits:
               memory: "1Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: openwebui-data
           persistentVolumeClaim:

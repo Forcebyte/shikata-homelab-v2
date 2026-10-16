@@ -54,6 +54,8 @@ spec:
           resources:
             limits:
               memory: "512Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: n8n-data
           persistentVolumeClaim:

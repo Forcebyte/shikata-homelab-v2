@@ -55,6 +55,8 @@ spec:
           resources:
             limits:
               memory: "4Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: gregtech-world
           persistentVolumeClaim:
