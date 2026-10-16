@@ -49,7 +49,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
           #resources:
           #  limits:
           #    memory: "256Mi"

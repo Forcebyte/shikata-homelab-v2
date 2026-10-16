@@ -39,7 +39,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
         - name: wopi-server
           image: collabora/code:24.04.10.2.1
           env:
@@ -63,7 +62,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
       volumes:
         - name: filestash-data
           persistentVolumeClaim:
