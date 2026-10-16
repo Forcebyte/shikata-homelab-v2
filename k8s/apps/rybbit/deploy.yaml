@@ -153,8 +153,6 @@ spec:
             port: 8123
           initialDelaySeconds: 10
           periodSeconds: 10
-        securityContext:
-          allowPrivilegeEscalation: false
       volumes:
       - name: clickhouse-data
         persistentVolumeClaim:
