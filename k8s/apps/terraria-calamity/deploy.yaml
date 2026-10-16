@@ -155,7 +155,6 @@ spec:
           resources:
             limits:
               memory: "1Gi"
-              cpu: "500m"
       volumes:
         - name: terraria-calamity-data
           persistentVolumeClaim:

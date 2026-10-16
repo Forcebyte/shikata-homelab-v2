@@ -39,7 +39,6 @@ spec:
           resources:
             limits:
               memory: "128Mi"
-              cpu: "100m"
           env:
             - name: PUID
               value: "1000"

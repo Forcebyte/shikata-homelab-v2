@@ -59,7 +59,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
