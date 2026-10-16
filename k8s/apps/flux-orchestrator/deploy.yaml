@@ -140,6 +140,8 @@ spec:
         resources:
           limits:
             memory: "256Mi"
+        securityContext:
+          allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service

@@ -39,6 +39,8 @@ spec:
           resources:
             limits:
               memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: wopi-server
           image: collabora/code:24.04.10.2.1
           env:

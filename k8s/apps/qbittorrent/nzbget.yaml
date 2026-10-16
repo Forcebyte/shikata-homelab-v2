@@ -63,6 +63,8 @@ spec:
           resources:
             limits:
               memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: nzbget-config
           persistentVolumeClaim:

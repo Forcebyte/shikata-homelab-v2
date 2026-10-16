@@ -218,6 +218,8 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
             failureThreshold: 30
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: homepage-config
           configMap:
