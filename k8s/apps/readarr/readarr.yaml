@@ -43,6 +43,8 @@ spec:
             - name: qbittorrent-downloads
               mountPath: /downloads # Path to your download folder
           env:
+            - name: METADATA_URL
+              value: "http://rreading-glasses.qbittorrent.svc.cluster.local:8788"
             - name: PUID
               value: "1000"  # Adjust to match your user ID
             - name: PGID

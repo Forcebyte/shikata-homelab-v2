@@ -1,0 +1,75 @@
+# rreading-glasses: self-hosted Readarr metadata server
+# Uses Hardcover.app as upstream with Postgres cache on shared Rybbit Postgres
+#
+# Required secrets (create manually, NOT in git):
+#   rreading-glasses (namespace: qbittorrent):
+#     hardcover-auth: "Bearer <your-hardcover-api-key>"
+#   rreading-glasses-db (namespace: qbittorrent):
+#     password: <postgres password for rreading_glasses user>
+#
+# Required Postgres setup (run once):
+#   CREATE DATABASE rreading_glasses;
+#   CREATE USER rreading_glasses WITH PASSWORD '<password>';
+#   GRANT ALL PRIVILEGES ON DATABASE rreading_glasses TO rreading_glasses;
+#   -- then as frog on rreading_glasses db:
+#   GRANT ALL ON SCHEMA public TO rreading_glasses;
+#   ALTER SCHEMA public OWNER TO rreading_glasses;
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rreading-glasses
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rreading-glasses
+  template:
+    metadata:
+      labels:
+        app: rreading-glasses
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: rreading-glasses
+          image: blampe/rreading-glasses:hardcover
+          command: ["/main"]
+          args: ["serve", "--upstream=hardcover.app"]
+          ports:
+            - containerPort: 8788
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres.rybbit.svc.cluster.local"
+            - name: POSTGRES_DATABASE
+              value: "rreading_glasses"
+            - name: POSTGRES_USER
+              value: "rreading_glasses"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rreading-glasses-db
+                  key: password
+            - name: HARDCOVER_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: rreading-glasses
+                  key: hardcover-auth
+          resources:
+            limits:
+              memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rreading-glasses
+  namespace: qbittorrent
+spec:
+  selector:
+    app: rreading-glasses
+  ports:
+    - port: 8788
+      targetPort: 8788
+  type: ClusterIP
