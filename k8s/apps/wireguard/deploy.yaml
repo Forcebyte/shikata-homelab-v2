@@ -36,6 +36,10 @@ spec:
             - name: wireguard
               containerPort: 51820
               protocol: UDP
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
           env:
             - name: PUID
               value: "1000"

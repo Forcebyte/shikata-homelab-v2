@@ -48,6 +48,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
+          resources:
+            limits:
+              memory: "384Mi"
+              cpu: "250m"
           #resources:
           #  limits:
           #    memory: "1Gi"
