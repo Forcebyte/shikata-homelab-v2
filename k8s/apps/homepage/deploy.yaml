@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: homepage
+  labels:
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -138,7 +141,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "$(MY_POD_IP):3000,forcebyte.org"
+              value: "$(MY_POD_IP):3000,forcebyte.org,forcebyte.org:443"
             - name: HOMEPAGE_VAR_QBITTORRENT_KEY
               valueFrom:
                 secretKeyRef:
@@ -234,9 +237,6 @@ spec:
   routes:
     - match: Host(`forcebyte.org`)
       kind: Rule
-      middlewares:
-        - name: rybbit
-          namespace: kube-system
       services:
         - name: homepage
           port: 3000
