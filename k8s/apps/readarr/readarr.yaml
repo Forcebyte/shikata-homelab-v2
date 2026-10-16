@@ -29,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: readarr
-          image: ghcr.io/pennydreadful/bookshelf:softcover
+          image: ghcr.io/pennydreadful/bookshelf:hardcover
           ports:
             - containerPort: 8787  # Default port for Readarr
           resources:

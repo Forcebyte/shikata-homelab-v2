@@ -30,6 +30,14 @@ spec:
       ports:
         - protocol: TCP
           port: 8787
+    # Allow from prowlarr (for app sync)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: prowlarr
+      ports:
+        - protocol: TCP
+          port: 8787
     # Allow from other apps in qbittorrent namespace (calibre, etc.)
     - from:
         - podSelector: {}
@@ -63,6 +71,8 @@ spec:
       ports:
         - protocol: TCP
           port: 9696
+        - protocol: TCP
+          port: 80
     # Allow all other egress (metadata, etc.)
     - to:
         - ipBlock:
