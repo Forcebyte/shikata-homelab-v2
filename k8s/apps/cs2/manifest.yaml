@@ -55,6 +55,10 @@ spec:
           volumeMounts:
             - name: cs2-data
               mountPath: /home/steam/cs2
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
       volumes:
         - name: cs2-data
           persistentVolumeClaim:

@@ -45,6 +45,10 @@ spec:
                 secretKeyRef:
                   name: rcon-secrets
                   key: rcon-password
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
 ---
 apiVersion: v1
 kind: Service

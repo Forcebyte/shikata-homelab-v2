@@ -152,6 +152,10 @@ spec:
             - name: terraria-calamity-data
               mountPath: /home/tml/.local/share/Terraria/tModLoader
 
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
       volumes:
         - name: terraria-calamity-data
           persistentVolumeClaim:

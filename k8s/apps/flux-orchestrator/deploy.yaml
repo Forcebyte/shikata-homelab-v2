@@ -137,6 +137,10 @@ spec:
           value: "true"
         - name: IN_CLUSTER_NAME
           value: "shikata"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
 ---
 apiVersion: v1
 kind: Service

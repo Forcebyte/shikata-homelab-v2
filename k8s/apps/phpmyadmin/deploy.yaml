@@ -51,6 +51,10 @@ spec:
             secretKeyRef:
               name: flux-orchestrator-db-external
               key: db-password
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
 ---
 apiVersion: v1
 kind: Service

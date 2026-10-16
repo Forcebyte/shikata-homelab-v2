@@ -64,6 +64,10 @@ spec:
               mountPath: /data
             - name: hytale-downloader
               mountPath: /downloader
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
       volumes:
         - name: hytale-data
           persistentVolumeClaim:

@@ -103,6 +103,10 @@ spec:
             - name: openclaw-data
               mountPath: /home/node
               subPath: openclaw-home
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       volumes:
         - name: openclaw-data
           persistentVolumeClaim:
