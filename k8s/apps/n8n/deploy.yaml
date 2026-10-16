@@ -51,6 +51,10 @@ spec:
           #   limits:
           #     memory: "1Gi"
           #     cpu: "500m"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
