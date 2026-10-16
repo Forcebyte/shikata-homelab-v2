@@ -51,7 +51,6 @@ spec:
           resources:
             limits:
               memory: "384Mi"
-              cpu: "250m"
           #resources:
           #  limits:
           #    memory: "1Gi"
@@ -123,7 +122,6 @@ spec:
           resources:
             limits:
               memory: "768Mi"
-              cpu: "500m"
           volumeMounts:
             - name: calibre-config
               mountPath: /config  # Configuration files

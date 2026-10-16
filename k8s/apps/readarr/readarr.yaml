@@ -34,7 +34,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
           volumeMounts:
             - name: readarr-data
               mountPath: /config  # Configuration and database files

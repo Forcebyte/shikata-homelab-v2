@@ -180,7 +180,6 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "250m"
           ports:
             - name: http
               containerPort: 3000
