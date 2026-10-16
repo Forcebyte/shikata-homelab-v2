@@ -18,6 +18,12 @@ spec:
         - podSelector:
             matchLabels:
               app: rybbit-backend
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: qbittorrent
+          podSelector:
+            matchLabels:
+              app: rreading-glasses
       ports:
         - protocol: TCP
           port: 5432

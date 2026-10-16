@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: rreading-glasses
+  namespace: qbittorrent
+spec:
+  podSelector:
+    matchLabels:
+      app: rreading-glasses
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow from readarr (same namespace)
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readarr
+      ports:
+        - protocol: TCP
+          port: 8788
+  egress:
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow Postgres in rybbit namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: rybbit
+          podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+    # Allow Hardcover API (external)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - protocol: TCP
+          port: 443
