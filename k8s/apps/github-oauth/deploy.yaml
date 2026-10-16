@@ -37,6 +37,8 @@ spec:
           #  limits:
           #    memory: "64Mi"
           #    cpu: "100m"
+          securityContext:
+            allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service

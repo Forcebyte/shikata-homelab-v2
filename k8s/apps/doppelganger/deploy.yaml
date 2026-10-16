@@ -66,6 +66,8 @@ spec:
           resources:
             limits:
               memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: data
           persistentVolumeClaim:

@@ -59,6 +59,8 @@ spec:
           resources:
             limits:
               memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
