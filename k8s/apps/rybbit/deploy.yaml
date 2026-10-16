@@ -42,7 +42,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: postgres
-        image: postgres:17.4
+        image: postgres:18
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
@@ -58,7 +58,7 @@ spec:
           value: "analytics"
         volumeMounts:
         - name: postgres-data
-          mountPath: /var/lib/postgresql/data
+          mountPath: /var/lib/postgresql
         lifecycle:
           preStop:
             exec:
@@ -107,7 +107,7 @@ metadata:
   name: clickhouse
   namespace: rybbit
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: clickhouse
@@ -119,11 +119,8 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: clickhouse
-        image: clickhouse/clickhouse-server:25.4.2
+        image: clickhouse/clickhouse-server:26.9
         imagePullPolicy: Always
-        resources:
-          limits:
-            memory: "2.5Gi"
         ports:
         - containerPort: 8123
           name: http
