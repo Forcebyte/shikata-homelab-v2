@@ -122,6 +122,8 @@ spec:
           ports:
             - containerPort: 8080  # Default port for Calibre
           resources:
+            requests:
+              memory: "450Mi"
             limits:
               memory: "768Mi"
           volumeMounts:

@@ -156,6 +156,8 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         resources:
+          requests:
+            memory: "700Mi"
           limits:
             memory: "2.5Gi"
       volumes:
