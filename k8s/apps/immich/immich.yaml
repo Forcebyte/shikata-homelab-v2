@@ -322,7 +322,5 @@ spec:
     services:
     - name: immich
       port: 80
-  tls:
-    certResolver: cloudflare
 
 ---
