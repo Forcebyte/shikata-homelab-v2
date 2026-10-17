@@ -28,6 +28,7 @@ resources:
   - ./rreading-glasses
   - ./openclaw
   - ./rybbit
+  - ./immich
   - ./rollout-latest
   - ./terraria
   - ./terraria-calamity
