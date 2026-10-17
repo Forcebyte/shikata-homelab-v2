@@ -220,6 +220,8 @@ spec:
             failureThreshold: 30
           securityContext:
             allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: homepage-config
           configMap:
