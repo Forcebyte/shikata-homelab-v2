@@ -55,10 +55,7 @@ jobs:
           -verbose \
           -schema-location default \
           -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
-          -skip 'IngressRoute,IngressRouteTCP,IngressRouteUDP,Middleware,TLSOption' \
-          -skip 'GitRepository,Kustomization,HelmRepository,HelmRelease' \
-          -skip 'Alert,Provider,Receiver' \
-          -skip 'Certificate,ClusterIssuer,Issuer' \
+          -skip 'IngressRoute,IngressRouteTCP,IngressRouteUDP,Middleware,TLSOption,GitRepository,Kustomization,HelmRepository,HelmRelease,Alert,Provider,Receiver,Certificate,ClusterIssuer,Issuer' \
           -ignore-missing-schemas
 
     - name: Setup Polaris
