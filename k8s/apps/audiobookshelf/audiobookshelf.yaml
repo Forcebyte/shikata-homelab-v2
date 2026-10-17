@@ -99,6 +99,8 @@ spec:
               value: "America/Toronto"
           securityContext:
             allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: config
           persistentVolumeClaim:
