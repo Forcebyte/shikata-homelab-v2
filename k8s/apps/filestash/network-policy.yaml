@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: filestash-allow-traefik
+  namespace: filestash
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+      podSelector:
+        matchLabels:
+          app: traefik
+    ports:
+    - port: 8334
+      protocol: TCP
+    - port: 9980
+      protocol: TCP
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
