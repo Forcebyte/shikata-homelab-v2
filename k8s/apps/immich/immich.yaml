@@ -35,6 +35,7 @@ spec:
       labels:
         app: immich-server
     spec:
+      automountServiceAccountToken: false
       containers:
       - env:
         - name: DB_HOSTNAME
@@ -158,6 +159,7 @@ spec:
       labels:
         app: immich-postgres
     spec:
+      automountServiceAccountToken: false
       containers:
       - env:
         - name: POSTGRES_USER
@@ -256,6 +258,7 @@ spec:
       labels:
         app: immich-redis
     spec:
+      automountServiceAccountToken: false
       containers:
       - image: redis:7-alpine
         imagePullPolicy: IfNotPresent
