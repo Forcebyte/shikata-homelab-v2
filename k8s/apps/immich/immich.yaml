@@ -109,9 +109,6 @@ metadata:
   name: immich
   namespace: immich
 spec:
-  clusterIP: 10.43.144.116
-  clusterIPs:
-  - 10.43.144.116
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
@@ -215,9 +212,6 @@ metadata:
   name: immich-postgres
   namespace: immich
 spec:
-  clusterIP: 10.43.239.135
-  clusterIPs:
-  - 10.43.239.135
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
@@ -301,9 +295,6 @@ metadata:
   name: immich-redis
   namespace: immich
 spec:
-  clusterIP: 10.43.75.99
-  clusterIPs:
-  - 10.43.75.99
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
