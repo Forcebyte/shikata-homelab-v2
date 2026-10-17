@@ -129,10 +129,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  finalizers:
-  - kubernetes.io/pvc-protection
   name: immich-upload
-  namespace: qbittorrent
+  namespace: immich
 spec:
   accessModes:
   - ReadWriteOnce
@@ -140,9 +138,6 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: local-path
-  volumeMode: Filesystem
-  volumeName: pvc-91b5b6bf-cfdb-4a44-a0fd-abb52fb2b112
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -235,10 +230,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  finalizers:
-  - kubernetes.io/pvc-protection
   name: immich-pg-data
-  namespace: qbittorrent
+  namespace: immich
 spec:
   accessModes:
   - ReadWriteOnce
@@ -246,9 +239,6 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: local-path
-  volumeMode: Filesystem
-  volumeName: pvc-a507e2bb-9e8d-48ae-b880-6000012f3302
-
 ---
 apiVersion: apps/v1
 kind: Deployment
