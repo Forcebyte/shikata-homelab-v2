@@ -79,6 +79,8 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:latest
           imagePullPolicy: Always
           resources:
+            requests:
+              memory: "200Mi"
             limits:
               memory: "512Mi"
           ports:
