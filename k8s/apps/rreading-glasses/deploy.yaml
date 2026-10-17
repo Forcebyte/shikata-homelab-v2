@@ -60,6 +60,7 @@ spec:
               memory: "256Mi"
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
 ---
 apiVersion: v1
 kind: Service
