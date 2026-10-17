@@ -304,6 +304,9 @@ kind: IngressRoute
 metadata:
   name: immich
   namespace: immich
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
   - web
@@ -311,6 +314,11 @@ spec:
   routes:
   - kind: Rule
     match: Host(`immich.forcebyte.org`)
+    middlewares:
+    - name: rybbit
+      namespace: kube-system
+    - name: github-oauth
+      namespace: kube-system
     services:
     - name: immich
       port: 80
