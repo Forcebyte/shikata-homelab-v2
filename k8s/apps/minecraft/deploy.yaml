@@ -27,6 +27,8 @@ spec:
         app: minecraft
     spec:
       automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: minecraft
           image: itzg/minecraft-server:latest
@@ -56,6 +58,9 @@ spec:
               mountPath: /data  # Minecraft world data
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
       volumes:
         - name: minecraft-world
           persistentVolumeClaim:
