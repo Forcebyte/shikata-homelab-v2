@@ -70,6 +70,8 @@ spec:
               value: "8080"  # Web UI port
           securityContext:
             allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: qbittorrent-config
           persistentVolumeClaim:
