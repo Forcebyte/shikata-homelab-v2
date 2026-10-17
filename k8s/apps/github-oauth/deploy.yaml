@@ -100,5 +100,5 @@ spec:
     rewrite-body:
       rewrites:
         - regex: </head>
-          replacement: <script defer data-site-id="6161517544fe" src="https://rybbit.forcebyte.org/api/script.js"></script></head>
+          replacement: <script defer data-site-id="199e17f0f389" src="https://rybbit.forcebyte.org/api/script.js"></script></head>
 
