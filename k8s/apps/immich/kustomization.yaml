@@ -4,3 +4,4 @@ namespace: immich
 resources:
   - namespace.yaml
   - immich.yaml
+  - network-policy.yaml
