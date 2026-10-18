@@ -47,9 +47,6 @@ spec:
           ports:
             - containerPort: 8080  # Web UI port
             - containerPort: 49155  # Torrent port
-          resources:
-            limits:
-              memory: "256Mi"
           #resources:
           #  limits:
           #    memory: "256Mi"
