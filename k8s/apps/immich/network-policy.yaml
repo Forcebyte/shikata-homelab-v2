@@ -19,9 +19,9 @@ spec:
           name: kube-system
       podSelector:
         matchLabels:
-          app: traefik
+          app.kubernetes.io/name: traefik
     ports:
-    - port: 80
+    - port: 2283
       protocol: TCP
   egress:
   - to:
