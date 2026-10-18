@@ -1,0 +1,46 @@
+# NetworkPolicy for Backrest backup UI
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backrest
+  namespace: backup
+spec:
+  podSelector:
+    matchLabels:
+      app: backrest
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+      podSelector:
+        matchLabels:
+          app: traefik
+    ports:
+    - port: 9898
+      protocol: TCP
+  egress:
+  # DNS
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+  # HTTPS (restic S3 backends, Backrest downloading restic binary on first run)
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - port: 443
+      protocol: TCP
+  # HTTP (restic binary download fallback)
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - port: 80
+      protocol: TCP
