@@ -73,11 +73,15 @@ spec:
           capabilities:
             drop:
             - ALL
+            add:
+            - DAC_READ_SEARCH
+            - DAC_OVERRIDE
         volumeMounts:
         - name: config
           mountPath: /config
-        - name: data
+        - name: config
           mountPath: /data
+          subPath: data
         - name: cache
           mountPath: /cache
         - name: pvdata
@@ -85,12 +89,16 @@ spec:
           readOnly: true
         - name: mysqlfs
           mountPath: /mnt/mysqlfs
+        - name: tmp
+          mountPath: /tmp
+        - name: b2
+          mountPath: /mnt/b2
+        - name: oci-bucket
+          mountPath: /mnt/oci-bucket
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: backrest-config
-      - name: data
-        emptyDir: {}
       - name: cache
         emptyDir: {}
       - name: pvdata
@@ -100,6 +108,16 @@ spec:
       - name: mysqlfs
         hostPath:
           path: /mnt/mysqlfs
+          type: Directory
+      - name: tmp
+        emptyDir: {}
+      - name: b2
+        hostPath:
+          path: /mnt/b2
+          type: Directory
+      - name: oci-bucket
+        hostPath:
+          path: /mnt/oci-bucket
           type: Directory
 ---
 apiVersion: v1
@@ -132,8 +150,6 @@ spec:
     match: Host(`backrest.forcebyte.org`)
     middlewares:
     - name: rybbit
-      namespace: kube-system
-    - name: github-oauth
       namespace: kube-system
     services:
     - name: backrest
