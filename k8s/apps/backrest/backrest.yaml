@@ -1,0 +1,138 @@
+# Backrest — restic backup web UI
+# https://github.com/garethgeorge/backrest
+#
+# NOTE: the restic repository password is entered in the Backrest UI when
+# adding a repository (Add Repository -> password field). It is NOT passed
+# via env var. Generate one with: openssl rand -base64 32
+# Save it somewhere safe (e.g. password manager) — losing it means losing
+# the backups.
+#
+# NOTE: container runs as root (runAsUser: 0) as a conscious exception to the
+# runAsNonRoot hardening — it must read hostPath PV data owned by many
+# different UIDs (postgres:999, minecraft:1000, etc.). Mitigations:
+# readOnlyRootFilesystem, allowPrivilegeEscalation:false, seccomp RuntimeDefault.
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backrest-config
+  namespace: backup
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backrest
+  namespace: backup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backrest
+  template:
+    metadata:
+      labels:
+        app: backrest
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: backrest
+        image: garethgeorge/backrest:v1.14.1
+        ports:
+        - containerPort: 9898
+          name: http
+        env:
+        - name: BACKREST_DATA
+          value: /data
+        - name: BACKREST_CONFIG
+          value: /config/config.json
+        - name: XDG_CACHE_HOME
+          value: /cache
+        - name: TZ
+          value: America/Toronto
+        resources:
+          requests:
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: data
+          mountPath: /data
+        - name: cache
+          mountPath: /cache
+        - name: pvdata
+          mountPath: /pvdata
+          readOnly: true
+        - name: mysqlfs
+          mountPath: /mnt/mysqlfs
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: backrest-config
+      - name: data
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
+      - name: pvdata
+        hostPath:
+          path: /var/lib/rancher/k3s/storage
+          type: Directory
+      - name: mysqlfs
+        hostPath:
+          path: /mnt/mysqlfs
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backrest
+  namespace: backup
+spec:
+  selector:
+    app: backrest
+  ports:
+  - name: http
+    port: 9898
+    targetPort: 9898
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: backrest
+  namespace: backup
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+  - web
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`backrest.forcebyte.org`)
+    middlewares:
+    - name: rybbit
+      namespace: kube-system
+    - name: github-oauth
+      namespace: kube-system
+    services:
+    - name: backrest
+      port: 9898
