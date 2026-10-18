@@ -142,7 +142,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: local-path
+  storageClassName: local-path-mysqlfs
 ---
 apiVersion: apps/v1
 kind: Deployment
