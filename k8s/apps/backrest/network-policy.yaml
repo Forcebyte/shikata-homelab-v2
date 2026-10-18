@@ -19,7 +19,7 @@ spec:
           name: kube-system
       podSelector:
         matchLabels:
-          app: traefik
+          app.kubernetes.io/name: traefik
     ports:
     - port: 9898
       protocol: TCP
