@@ -56,6 +56,8 @@ spec:
           value: /cache
         - name: TZ
           value: America/Toronto
+        - name: BACKREST_BIND
+          value: ":9898"
         resources:
           requests:
             memory: 64Mi
