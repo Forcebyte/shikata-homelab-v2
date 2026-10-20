@@ -1,0 +1,28 @@
+# Exported from the live cluster on 2026-10-20 (previously kubectl-only,
+# never committed). The three custom local-path provisioners (B2, mysqlfs,
+# OCI) share the ServiceAccount/RBAC (local-path-provisioner-service-account)
+# that ships with k3s's built-in local-path provisioner, so those are
+# intentionally NOT redefined here.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-b2
+provisioner: rancher.io/local-path-b2
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-mysqlfs
+provisioner: rancher.io/local-path-mysqlfs
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-oci
+provisioner: rancher.io/local-path-oci
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
