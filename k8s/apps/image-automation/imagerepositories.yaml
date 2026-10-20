@@ -21,6 +21,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
+  interval: 10m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -45,6 +46,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
+  interval: 10m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -69,3 +71,4 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
+  interval: 10m
