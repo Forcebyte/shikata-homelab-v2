@@ -48,7 +48,7 @@ spec:
         fsGroup: 999
       containers:
       - name: postgres
-        image: postgres:18
+        image: postgres:18 # {"$imagepolicy": "flux-system:rybbit-postgres"}
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
@@ -131,7 +131,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: clickhouse
-        image: clickhouse/clickhouse-server:26.9
+        image: clickhouse/clickhouse-server:26.9 # {"$imagepolicy": "flux-system:clickhouse"}
         imagePullPolicy: Always
         ports:
         - containerPort: 8123

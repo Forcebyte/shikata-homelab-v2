@@ -109,7 +109,7 @@ spec:
 
       containers:
         - name: terraria-calamity
-          image: ghcr.io/forcebyte/terraria-tmodloader-server-arm:latest
+          image: ghcr.io/forcebyte/terraria-tmodloader-server-arm:latest # {"$imagepolicy": "flux-system:terraria-tmodloader"}
           imagePullPolicy: Always
 
           securityContext:
