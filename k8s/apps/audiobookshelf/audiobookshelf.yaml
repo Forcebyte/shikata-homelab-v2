@@ -76,7 +76,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: audiobookshelf
-          image: ghcr.io/advplyr/audiobookshelf:latest
+          image: ghcr.io/advplyr/audiobookshelf:latest # {"$imagepolicy": "flux-system:audiobookshelf"}
           imagePullPolicy: Always
           resources:
             requests:
