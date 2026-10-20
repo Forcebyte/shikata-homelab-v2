@@ -1,4 +1,4 @@
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: qbittorrent
@@ -7,7 +7,7 @@ spec:
   image: lscr.io/linuxserver/qbittorrent
   interval: 5m
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: qbittorrent
@@ -21,7 +21,7 @@ spec:
     alphabetical:
       order: asc
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: prowlarr
@@ -30,7 +30,7 @@ spec:
   image: lscr.io/linuxserver/prowlarr
   interval: 5m
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: prowlarr
@@ -44,7 +44,7 @@ spec:
     alphabetical:
       order: asc
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: nzbget
@@ -53,7 +53,7 @@ spec:
   image: lscr.io/linuxserver/nzbget
   interval: 5m
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: nzbget
