@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: app
-          image: machines/filestash:latest
+          image: machines/filestash:latest # {"$imagepolicy": "flux-system:filestash"}
           env:
             - name: APPLICATION_URL
               value: ""

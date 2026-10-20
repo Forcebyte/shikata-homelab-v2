@@ -205,7 +205,7 @@ metadata:
   namespace: flux-system
 spec:
   image: itzg/minecraft-server
-  interval: 168h
+  interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -221,7 +221,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 168h
+  interval: 10m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -230,7 +230,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/kus/cs2-modded-server
-  interval: 168h
+  interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -246,7 +246,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 168h
+  interval: 10m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -255,7 +255,7 @@ metadata:
   namespace: flux-system
 spec:
   image: itzg/rcon
-  interval: 168h
+  interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -271,7 +271,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 168h
+  interval: 10m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -417,6 +417,427 @@ spec:
     name: rreading-glasses
   filterTags:
     pattern: "^hardcover$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: wireguard
+  namespace: flux-system
+spec:
+  image: lscr.io/linuxserver/wireguard
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: wireguard
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: wireguard
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: immich-server
+  namespace: flux-system
+spec:
+  image: ghcr.io/immich-app/immich-server
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: immich-server
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: immich-server
+  filterTags:
+    pattern: "^release$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: immich-postgres
+  namespace: flux-system
+spec:
+  image: pgvector/pgvector
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: immich-postgres
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: immich-postgres
+  filterTags:
+    pattern: "^pg18$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: immich-redis
+  namespace: flux-system
+spec:
+  image: redis
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: immich-redis
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: immich-redis
+  filterTags:
+    pattern: "^7-alpine$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: rybbit-postgres
+  namespace: flux-system
+spec:
+  image: postgres
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: rybbit-postgres
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rybbit-postgres
+  filterTags:
+    pattern: "^18$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: clickhouse
+  namespace: flux-system
+spec:
+  image: clickhouse/clickhouse-server
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: clickhouse
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: clickhouse
+  filterTags:
+    pattern: "^26.9$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: backrest
+  namespace: flux-system
+spec:
+  image: garethgeorge/backrest
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: backrest
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: backrest
+  policy:
+    semver:
+      range: '>=1.14.1 <2.0.0' 
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: external-dns
+  namespace: flux-system
+spec:
+  image: registry.k8s.io/external-dns/external-dns
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: external-dns
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: external-dns
+  policy:
+    semver:
+      range: '>=0.22.0 <1.0.0' 
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: terraria
+  namespace: flux-system
+spec:
+  image: ryshe/terraria
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: terraria
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: terraria
+  filterTags:
+    pattern: "^tshock-"
+  policy:
+    alphabetical:
+      order: desc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: terraria-tmodloader
+  namespace: flux-system
+spec:
+  image: ghcr.io/forcebyte/terraria-tmodloader-server-arm
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: terraria-tmodloader
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: terraria-tmodloader
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: hytale
+  namespace: flux-system
+spec:
+  image: ghcr.io/forcebyte/hytale-server
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: hytale
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: hytale
+  filterTags:
+    pattern: "^latest-arm64$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: openclaw
+  namespace: flux-system
+spec:
+  image: ghcr.io/openclaw/openclaw
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: openclaw
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: openclaw
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: open-webui
+  namespace: flux-system
+spec:
+  image: ghcr.io/open-webui/open-webui
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: open-webui
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: open-webui
+  filterTags:
+    pattern: "^main$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: n8n
+  namespace: flux-system
+spec:
+  image: n8nio/n8n
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: n8n
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: n8n
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: filestash
+  namespace: flux-system
+spec:
+  image: machines/filestash
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: filestash
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: filestash
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: phpmyadmin
+  namespace: flux-system
+spec:
+  image: phpmyadmin
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: phpmyadmin
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: phpmyadmin
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: darkroom
+  namespace: flux-system
+spec:
+  image: ghcr.io/forcebyte/adarkroom
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: darkroom
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: darkroom
+  filterTags:
+    pattern: "^latest$"
   policy:
     alphabetical:
       order: asc
