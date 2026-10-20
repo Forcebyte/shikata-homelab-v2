@@ -9,7 +9,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi  # Adjust storage size as needed
+      storage: 5Gi # Adjust storage size as needed
   storageClassName: local-path
 ---
 # PersistentVolumeClaim for Calibre library
@@ -23,7 +23,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi  # Adjust storage size as needed for your eBooks
+      storage: 10Gi # Adjust storage size as needed for your eBooks
   storageClassName: local-path
 ---
 # Deployment for Calibre-Web
@@ -45,10 +45,10 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: calibre-web
-          image: linuxserver/calibre-web # {"$imagepolicy": "flux-system:calibre-web"}
+          image: linuxserver/calibre-web:latest@sha256:b206b791d77b731203fb47b5733d055c8d4ebd7c9fa59a4569a5d6a2b3ebda54 # {"$imagepolicy": "flux-system:calibre-web"}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8083  # Default port for Calibre-Web
+            - containerPort: 8083 # Default port for Calibre-Web
           resources:
             limits:
               memory: "384Mi"
@@ -58,9 +58,9 @@ spec:
           #    cpu: "500m"
           volumeMounts:
             - name: calibre-web-data
-              mountPath: /config  # Configuration and database files
+              mountPath: /config # Configuration and database files
             - name: calibre-library
-              mountPath: /books  # Path to your eBook library
+              mountPath: /books # Path to your eBook library
             - name: qbittorrent-downloads
               mountPath: /downloads # Path to your download folder
             - name: custom-files
@@ -72,16 +72,15 @@ spec:
                   - sh
                   - -c
                   - >
-                    cp /custom-files/kobo.py /app/calibre-web/cps/kobo.py &&
-                    cp /custom-files/kobo_auth.py /app/calibre-web/cps/kobo_auth.py &&
-                    cp /custom-files/kobo_sync_status.py /app/calibre-web/cps/kobo_sync_status.py
+                    cp /custom-files/kobo.py /app/calibre-web/cps/kobo.py && cp /custom-files/kobo_auth.py /app/calibre-web/cps/kobo_auth.py && cp /custom-files/kobo_sync_status.py /app/calibre-web/cps/kobo_sync_status.py
+
           env:
             - name: PUID
-              value: "1000"  # Adjust to match your user ID
+              value: "1000" # Adjust to match your user ID
             - name: PGID
-              value: "1000"  # Adjust to match your group ID
+              value: "1000" # Adjust to match your group ID
             - name: TZ
-              value: "Etc/UTC"  # Set your timezone
+              value: "Etc/UTC" # Set your timezone
           securityContext:
             allowPrivilegeEscalation: false
             seccompProfile:
@@ -119,10 +118,10 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: calibre
-          image: linuxserver/calibre:latest # {"$imagepolicy": "flux-system:calibre"}
+          image: linuxserver/calibre:latest@sha256:48c8a5ba2a20c303012b1d4b2815a2b99b362a634a571fbec101b85bfa203ba3 # {"$imagepolicy": "flux-system:calibre"}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080  # Default port for Calibre
+            - containerPort: 8080 # Default port for Calibre
           resources:
             requests:
               memory: "450Mi"
@@ -130,18 +129,18 @@ spec:
               memory: "768Mi"
           volumeMounts:
             - name: calibre-config
-              mountPath: /config  # Configuration files
+              mountPath: /config # Configuration files
             - name: calibre-library
-              mountPath: /books  # Path to your eBook library
+              mountPath: /books # Path to your eBook library
             - name: qbittorrent-downloads
               mountPath: /downloads # Path to your download folder
           env:
             - name: PUID
-              value: "1000"  # Adjust to match your user ID
+              value: "1000" # Adjust to match your user ID
             - name: PGID
-              value: "1000"  # Adjust to match your group ID
+              value: "1000" # Adjust to match your group ID
             - name: TZ
-              value: "Etc/UTC"  # Set your timezone
+              value: "Etc/UTC" # Set your timezone
           securityContext:
             allowPrivilegeEscalation: false
             seccompProfile:
@@ -230,7 +229,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: calibre
@@ -255,7 +254,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: calibre
