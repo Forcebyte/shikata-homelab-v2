@@ -95,6 +95,12 @@ spec:
           mountPath: /mnt/b2
         - name: oci-bucket
           mountPath: /mnt/oci-bucket
+        - name: k3s-server
+          mountPath: /host-k3s/server
+          readOnly: true
+        - name: rancher-config
+          mountPath: /host-k3s/etc-rancher
+          readOnly: true
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -118,6 +124,14 @@ spec:
       - name: oci-bucket
         hostPath:
           path: /mnt/oci-bucket
+          type: Directory
+      - name: k3s-server
+        hostPath:
+          path: /var/lib/rancher/k3s/server
+          type: Directory
+      - name: rancher-config
+        hostPath:
+          path: /etc/rancher
           type: Directory
 ---
 apiVersion: v1
