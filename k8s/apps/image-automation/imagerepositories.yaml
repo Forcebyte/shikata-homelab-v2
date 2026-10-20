@@ -197,3 +197,78 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: minecraft
+  namespace: flux-system
+spec:
+  image: itzg/minecraft-server
+  interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: minecraft
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: minecraft
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: cs2
+  namespace: flux-system
+spec:
+  image: ghcr.io/kus/cs2-modded-server
+  interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: cs2
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: cs2
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: rcon
+  namespace: flux-system
+spec:
+  image: itzg/rcon
+  interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: rcon
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rcon
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 168h
