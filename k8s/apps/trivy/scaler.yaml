@@ -1,0 +1,115 @@
+# Night-batch scaler for the Trivy operator.
+#
+# Trivy Operator has no built-in scan schedule, so the operator itself is
+# power-gated: woken at 03:00 America/Toronto, put back to sleep once no
+# scan jobs are active (checked every 30 min, 04:00-08:59). Reports have a
+# 24h TTL, so each night's wake produces a full fresh sweep of the cluster,
+# and image changes pinned by Flux during the day are scanned that night.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: trivy-operator-scaler
+  namespace: trivy-system
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: trivy-operator-scaler
+  namespace: trivy-system
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    resourceNames: ["trivy-operator"]
+    verbs: ["patch", "update"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: trivy-operator-scaler
+  namespace: trivy-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: trivy-operator-scaler
+subjects:
+  - kind: ServiceAccount
+    name: trivy-operator-scaler
+    namespace: trivy-system
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: trivy-operator-wake
+  namespace: trivy-system
+spec:
+  schedule: "0 3 * * *"
+  timeZone: America/Toronto
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 300
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          serviceAccountName: trivy-operator-scaler
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl:latest
+              command:
+                - kubectl
+                - scale
+                - deployment/trivy-operator
+                - --namespace=trivy-system
+                - --replicas=1
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: trivy-operator-sleep
+  namespace: trivy-system
+spec:
+  schedule: "*/30 4-8 * * *"
+  timeZone: America/Toronto
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 300
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          serviceAccountName: trivy-operator-scaler
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  active=$(kubectl get pods --namespace=trivy-system --field-selector=status.phase=Running --no-headers 2>/dev/null | grep -c "scan-" || true)
+                  pending=$(kubectl get pods --namespace=trivy-system --field-selector=status.phase=Pending --no-headers 2>/dev/null | grep -c "scan-" || true)
+                  echo "active scan pods: $active running, $pending pending"
+                  if [ "$active" -eq 0 ] && [ "$pending" -eq 0 ]; then
+                    kubectl scale deployment/trivy-operator --namespace=trivy-system --replicas=0
+                  else
+                    echo "scans still in flight; leaving operator up"
+                  fi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
