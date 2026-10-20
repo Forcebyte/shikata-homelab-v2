@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: rcon-web-admin
-          image: itzg/rcon:latest
+          image: itzg/rcon:latest # {"$imagepolicy": "flux-system:rcon"}
           imagePullPolicy: Always
           ports:
             - containerPort: 4326
