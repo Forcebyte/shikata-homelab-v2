@@ -1,20 +1,3 @@
-# rreading-glasses: self-hosted Readarr metadata server
-# Uses Hardcover.app as upstream with Postgres cache on shared Rybbit Postgres
-#
-# Required secrets (create manually, NOT in git):
-#   rreading-glasses (namespace: qbittorrent):
-#     hardcover-auth: "Bearer <your-hardcover-api-key>"
-#   rreading-glasses-db (namespace: qbittorrent):
-#     password: <postgres password for rreading_glasses user>
-#
-# Required Postgres setup (run once):
-#   CREATE DATABASE rreading_glasses;
-#   CREATE USER rreading_glasses WITH PASSWORD '<password>';
-#   GRANT ALL PRIVILEGES ON DATABASE rreading_glasses TO rreading_glasses;
-#   -- then as frog on rreading_glasses db:
-#   GRANT ALL ON SCHEMA public TO rreading_glasses;
-#   ALTER SCHEMA public OWNER TO rreading_glasses;
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: rreading-glasses
-          image: blampe/rreading-glasses:hardcover # {"$imagepolicy": "flux-system:rreading-glasses"}
+          image: blampe/rreading-glasses:hardcover@sha256:3f017a51d9007b715303a20f481c822e4df66485fc9e5f57f6fdf1de840dc02f # {"$imagepolicy": "flux-system:rreading-glasses"}
           command: ["/main"]
           args: ["serve", "--upstream=hardcover.app"]
           ports:
