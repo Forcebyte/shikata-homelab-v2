@@ -133,7 +133,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: homepage
-          image: "ghcr.io/gethomepage/homepage:latest"
+          image: "ghcr.io/gethomepage/homepage:latest" # {"$imagepolicy": "flux-system:homepage"}
           imagePullPolicy: Always
           env:
             - name: MY_POD_IP

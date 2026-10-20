@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: github-oauth-server
-          image: muxiu1997/traefik-github-oauth-server:latest
+          image: muxiu1997/traefik-github-oauth-server:latest # {"$imagepolicy": "flux-system:github-oauth"}
           env:
             - name: GITHUB_OAUTH_CLIENT_ID
               valueFrom:

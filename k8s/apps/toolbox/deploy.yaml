@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: networking-toolbox
-          image: lissy93/networking-toolbox:latest
+          image: lissy93/networking-toolbox:latest # {"$imagepolicy": "flux-system:toolbox"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

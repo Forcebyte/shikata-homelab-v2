@@ -72,3 +72,128 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: audiobookshelf
+  namespace: flux-system
+spec:
+  image: ghcr.io/advplyr/audiobookshelf
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: audiobookshelf
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: audiobookshelf
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: github-oauth
+  namespace: flux-system
+spec:
+  image: muxiu1997/traefik-github-oauth-server
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: github-oauth
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: github-oauth
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: homepage
+  namespace: flux-system
+spec:
+  image: ghcr.io/gethomepage/homepage
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: homepage
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: homepage
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: toolbox
+  namespace: flux-system
+spec:
+  image: lissy93/networking-toolbox
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: toolbox
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: toolbox
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: flux-orchestrator
+  namespace: flux-system
+spec:
+  image: ghcr.io/forcebyte/flux-orchestrator
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: flux-orchestrator
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: flux-orchestrator
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
