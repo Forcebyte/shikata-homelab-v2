@@ -10,7 +10,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi  # Adjust storage size as needed
+      storage: 2Gi # Adjust storage size as needed
   storageClassName: local-path
 ---
 apiVersion: apps/v1
@@ -31,28 +31,28 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: readarr
-          image: ghcr.io/pennydreadful/bookshelf:hardcover # {"$imagepolicy": "flux-system:readarr"}
+          image: ghcr.io/pennydreadful/bookshelf:hardcover@sha256:67498dd5ece516867d72ee642abd6c1a66b36a135c8f7da0127109564372beb1 # {"$imagepolicy": "flux-system:readarr"}
           ports:
-            - containerPort: 8787  # Default port for Readarr
+            - containerPort: 8787 # Default port for Readarr
           resources:
             limits:
               memory: "256Mi"
           volumeMounts:
             - name: readarr-data
-              mountPath: /config  # Configuration and database files
+              mountPath: /config # Configuration and database files
             - name: calibre-library
-              mountPath: /books  # Path to your eBook library
+              mountPath: /books # Path to your eBook library
             - name: qbittorrent-downloads
               mountPath: /downloads # Path to your download folder
           env:
             - name: METADATA_URL
               value: "http://rreading-glasses.qbittorrent.svc.cluster.local:8788"
             - name: PUID
-              value: "1000"  # Adjust to match your user ID
+              value: "1000" # Adjust to match your user ID
             - name: PGID
-              value: "1000"  # Adjust to match your group ID
+              value: "1000" # Adjust to match your group ID
             - name: TZ
-              value: "Etc/UTC"  # Set your timezone
+              value: "Etc/UTC" # Set your timezone
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -98,7 +98,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: readarr
