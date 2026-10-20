@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: github-oauth-server
-          image: muxiu1997/traefik-github-oauth-server:latest # {"$imagepolicy": "flux-system:github-oauth"}
+          image: muxiu1997/traefik-github-oauth-server:latest@sha256:2f58ff3afb0394574d594e4516f7446afd80face426c2b74d2e98128f89ecd67 # {"$imagepolicy": "flux-system:github-oauth"}
           env:
             - name: GITHUB_OAUTH_CLIENT_ID
               valueFrom:
@@ -68,7 +68,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`github-oauth.forcebyte.org`)  # Replace with your domain
+    - match: Host(`github-oauth.forcebyte.org`) # Replace with your domain
       kind: Rule
       services:
         - name: github-oauth-server
@@ -87,7 +87,7 @@ spec:
       apiBaseUrl: "https://github-oauth.forcebyte.org"
       whitelist:
         logins:
-          - "Forcebyte"  # Replace with your GitHub username
+          - "Forcebyte" # Replace with your GitHub username
 ---
 # Middleware for Rybbit
 apiVersion: traefik.io/v1alpha1
@@ -101,4 +101,3 @@ spec:
       rewrites:
         - regex: </head>
           replacement: <script defer data-site-id="199e17f0f389" src="https://rybbit.forcebyte.org/api/script.js"></script></head>
-
