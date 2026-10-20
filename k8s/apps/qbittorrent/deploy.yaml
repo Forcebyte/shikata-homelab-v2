@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi  # Adjust storage size as needed
+      storage: 5Gi # Adjust storage size as needed
   storageClassName: local-path
 ---
 apiVersion: v1
@@ -21,7 +21,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Gi  # Adjust storage size as needed
+      storage: 100Gi # Adjust storage size as needed
   storageClassName: local-path
 ---
 apiVersion: apps/v1
@@ -42,29 +42,29 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest # {"$imagepolicy": "flux-system:qbittorrent"}
+          image: lscr.io/linuxserver/qbittorrent:latest@sha256:1ea873647c43d566f251a7122aee330b184509c57ee3257ed19f62dac0f8f24b # {"$imagepolicy": "flux-system:qbittorrent"}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080  # Web UI port
-            - containerPort: 49155  # Torrent port
+            - containerPort: 8080 # Web UI port
+            - containerPort: 49155 # Torrent port
           #resources:
           #  limits:
           #    memory: "256Mi"
           #    cpu: "500m"
           volumeMounts:
             - name: qbittorrent-config
-              mountPath: /config  # Configuration files
+              mountPath: /config # Configuration files
             - name: qbittorrent-downloads
-              mountPath: /downloads  # Downloads directory
+              mountPath: /downloads # Downloads directory
           env:
             - name: PUID
-              value: "1000"  # Adjust to match your user ID
+              value: "1000" # Adjust to match your user ID
             - name: PGID
-              value: "1000"  # Adjust to match your group ID
+              value: "1000" # Adjust to match your group ID
             - name: TZ
-              value: "Etc/UTC"  # Set your timezone
+              value: "Etc/UTC" # Set your timezone
             - name: WEBUI_PORT
-              value: "8080"  # Web UI port
+              value: "8080" # Web UI port
           securityContext:
             allowPrivilegeEscalation: false
             seccompProfile:
@@ -112,7 +112,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: qbittorrent

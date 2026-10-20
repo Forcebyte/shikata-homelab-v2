@@ -31,7 +31,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:latest # {"$imagepolicy": "flux-system:minecraft"}
+          image: itzg/minecraft-server:latest@sha256:0f3d1571b7d7bf237c08cbe5ee33cfd67e16bd66f454259ed0a2e35f1e2a2e70 # {"$imagepolicy": "flux-system:minecraft"}
           imagePullPolicy: Always
           resources:
             requests:
@@ -39,7 +39,7 @@ spec:
             limits:
               memory: "1.5Gi"
           ports:
-            - containerPort: 25565  # Minecraft server port
+            - containerPort: 25565 # Minecraft server port
           env:
             - name: EULA
               value: "TRUE"
@@ -55,7 +55,7 @@ spec:
           #     cpu: "500m"
           volumeMounts:
             - name: minecraft-world
-              mountPath: /data  # Minecraft world data
+              mountPath: /data # Minecraft world data
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true

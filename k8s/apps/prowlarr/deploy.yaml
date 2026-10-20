@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3Gi  # Adjust storage size as needed
+      storage: 3Gi # Adjust storage size as needed
   storageClassName: local-path
 ---
 apiVersion: apps/v1
@@ -29,10 +29,10 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:latest # {"$imagepolicy": "flux-system:prowlarr"}
+          image: lscr.io/linuxserver/prowlarr:latest@sha256:4e992f9b9229bc8c97c666b10b042a7360bce1d99b196e8aa29fd9805849cbf1 # {"$imagepolicy": "flux-system:prowlarr"}
           imagePullPolicy: Always
           ports:
-            - containerPort: 9696  # Default port for Prowlarr
+            - containerPort: 9696 # Default port for Prowlarr
           resources:
             limits:
               memory: "256Mi"
@@ -42,14 +42,14 @@ spec:
           #    cpu: "250m"
           volumeMounts:
             - name: prowlarr-config
-              mountPath: /config  # Configuration and database files
+              mountPath: /config # Configuration and database files
           env:
             - name: PUID
-              value: "1000"  # Adjust to match your user ID
+              value: "1000" # Adjust to match your user ID
             - name: PGID
-              value: "1000"  # Adjust to match your group ID
+              value: "1000" # Adjust to match your group ID
             - name: TZ
-              value: "Etc/UTC"  # Set your timezone
+              value: "Etc/UTC" # Set your timezone
           securityContext:
             allowPrivilegeEscalation: false
             seccompProfile:
@@ -91,7 +91,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: prowlarr
