@@ -272,3 +272,153 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 168h
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: calibre
+  namespace: flux-system
+spec:
+  image: linuxserver/calibre
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: calibre
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: calibre
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: calibre-web
+  namespace: flux-system
+spec:
+  image: linuxserver/calibre-web
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: calibre-web
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: calibre-web
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: rybbit-backend
+  namespace: flux-system
+spec:
+  image: ghcr.io/rybbit-io/rybbit-backend
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: rybbit-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rybbit-backend
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: rybbit-client
+  namespace: flux-system
+spec:
+  image: ghcr.io/rybbit-io/rybbit-client
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: rybbit-client
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rybbit-client
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: readarr
+  namespace: flux-system
+spec:
+  image: ghcr.io/pennydreadful/bookshelf
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: readarr
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: readarr
+  filterTags:
+    pattern: "^hardcover$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: rreading-glasses
+  namespace: flux-system
+spec:
+  image: blampe/rreading-glasses
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: rreading-glasses
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rreading-glasses
+  filterTags:
+    pattern: "^hardcover$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 10m

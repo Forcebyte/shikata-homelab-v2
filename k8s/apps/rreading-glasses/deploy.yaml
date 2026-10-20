@@ -33,7 +33,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: rreading-glasses
-          image: blampe/rreading-glasses:hardcover
+          image: blampe/rreading-glasses:hardcover # {"$imagepolicy": "flux-system:rreading-glasses"}
           command: ["/main"]
           args: ["serve", "--upstream=hardcover.app"]
           ports:
