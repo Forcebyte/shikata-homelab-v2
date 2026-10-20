@@ -15,6 +15,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: qbittorrent
+  filterTags:
+    pattern: "^latest$"
   policy:
     alphabetical:
       order: asc
@@ -36,6 +38,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: prowlarr
+  filterTags:
+    pattern: "^latest$"
   policy:
     alphabetical:
       order: asc
@@ -57,6 +61,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: nzbget
+  filterTags:
+    pattern: "^latest$"
   policy:
     alphabetical:
       order: asc
