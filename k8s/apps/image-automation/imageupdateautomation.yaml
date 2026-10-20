@@ -1,0 +1,45 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: shikata-homelab-v2-writes
+  namespace: flux-system
+spec:
+  url: ssh://git@github.com/Forcebyte/shikata-homelab-v2.git
+  ref:
+    branch: main
+  interval: 1m
+  secretRef:
+    name: flux-image-automation
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  name: homelab
+  namespace: flux-system
+spec:
+  interval: 30m
+  sourceRef:
+    kind: GitRepository
+    name: shikata-homelab-v2-writes
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        name: fluxcdbot
+        email: fluxcdbot@users.noreply.github.com
+      messageTemplate: |
+        Automated image update
+
+        Automation name: {{ .AutomationObject }}
+
+        Files updated:
+        {{ range $filename, $_ := .Updated.Files -}}
+        - {{ $filename }}
+        {{ end -}}
+    push:
+      branch: main
+  update:
+    path: ./k8s/apps
+    strategy: Setters
