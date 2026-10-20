@@ -42,7 +42,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest
+          image: lscr.io/linuxserver/qbittorrent:latest # {"$imagepolicy": "flux-system:qbittorrent"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Web UI port

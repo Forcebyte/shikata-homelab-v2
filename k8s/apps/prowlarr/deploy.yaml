@@ -29,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:latest
+          image: lscr.io/linuxserver/prowlarr:latest # {"$imagepolicy": "flux-system:prowlarr"}
           imagePullPolicy: Always
           ports:
             - containerPort: 9696  # Default port for Prowlarr
