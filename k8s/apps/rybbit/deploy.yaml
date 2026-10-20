@@ -69,9 +69,9 @@ spec:
           preStop:
             exec:
               command:
-                - /bin/sh
-                - -c
-                - su postgres -c "pg_ctl -D $PGDATA -m fast -w stop"
+              - /bin/sh
+              - -c
+              - su postgres -c "pg_ctl -D $PGDATA -m fast -w stop"
         livenessProbe:
           tcpSocket:
             port: 5432
@@ -311,7 +311,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: rybbit-client
-        image: ghcr.io/rybbit-io/rybbit-client:latest # {"$imagepolicy": "flux-system:rybbit-client"}
+        image: ghcr.io/rybbit-io/rybbit-client:latest@sha256:9a3bbb2e837adee35be2f75d42464f9ef7b406bfde6b8eab9c9ba8acc77e6264 # {"$imagepolicy": "flux-system:rybbit-client"}
         imagePullPolicy: Always
         ports:
         - containerPort: 3002
