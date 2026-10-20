@@ -212,7 +212,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: rybbit-backend
-        image: ghcr.io/rybbit-io/rybbit-backend:latest
+        image: ghcr.io/rybbit-io/rybbit-backend:latest # {"$imagepolicy": "flux-system:rybbit-backend"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -311,7 +311,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: rybbit-client
-        image: ghcr.io/rybbit-io/rybbit-client:latest
+        image: ghcr.io/rybbit-io/rybbit-client:latest # {"$imagepolicy": "flux-system:rybbit-client"}
         imagePullPolicy: Always
         ports:
         - containerPort: 3002

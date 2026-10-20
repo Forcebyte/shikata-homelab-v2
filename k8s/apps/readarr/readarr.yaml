@@ -31,7 +31,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: readarr
-          image: ghcr.io/pennydreadful/bookshelf:hardcover
+          image: ghcr.io/pennydreadful/bookshelf:hardcover # {"$imagepolicy": "flux-system:readarr"}
           ports:
             - containerPort: 8787  # Default port for Readarr
           resources:
