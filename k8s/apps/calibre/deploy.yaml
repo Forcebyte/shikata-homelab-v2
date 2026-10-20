@@ -45,7 +45,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: calibre-web
-          image: linuxserver/calibre-web
+          image: linuxserver/calibre-web # {"$imagepolicy": "flux-system:calibre-web"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8083  # Default port for Calibre-Web
@@ -119,7 +119,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: calibre
-          image: linuxserver/calibre:latest
+          image: linuxserver/calibre:latest # {"$imagepolicy": "flux-system:calibre"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080  # Default port for Calibre
