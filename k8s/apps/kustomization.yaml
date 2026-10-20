@@ -11,6 +11,7 @@ resources:
   - ./external-dns
   - ./flux-orchestrator
   - ./flux-system
+  - ./image-automation
   - ./github-oauth
   - ./gregtech
   - ./homepage
