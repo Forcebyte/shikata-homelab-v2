@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   image: lscr.io/linuxserver/qbittorrent
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -21,7 +21,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -30,7 +30,7 @@ metadata:
   namespace: flux-system
 spec:
   image: lscr.io/linuxserver/prowlarr
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -46,7 +46,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -55,7 +55,7 @@ metadata:
   namespace: flux-system
 spec:
   image: lscr.io/linuxserver/nzbget
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -71,7 +71,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -80,7 +80,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/advplyr/audiobookshelf
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -96,7 +96,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -105,7 +105,7 @@ metadata:
   namespace: flux-system
 spec:
   image: muxiu1997/traefik-github-oauth-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -121,7 +121,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -130,7 +130,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/gethomepage/homepage
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -146,7 +146,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -155,7 +155,7 @@ metadata:
   namespace: flux-system
 spec:
   image: lissy93/networking-toolbox
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -171,7 +171,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -180,7 +180,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/forcebyte/flux-orchestrator
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -196,7 +196,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -205,7 +205,7 @@ metadata:
   namespace: flux-system
 spec:
   image: itzg/minecraft-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -221,7 +221,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -230,7 +230,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/kus/cs2-modded-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -246,7 +246,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -255,7 +255,7 @@ metadata:
   namespace: flux-system
 spec:
   image: itzg/rcon
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -271,7 +271,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -280,7 +280,7 @@ metadata:
   namespace: flux-system
 spec:
   image: linuxserver/calibre
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -296,7 +296,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -305,7 +305,7 @@ metadata:
   namespace: flux-system
 spec:
   image: linuxserver/calibre-web
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -321,7 +321,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -330,7 +330,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/rybbit-io/rybbit-backend
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -346,7 +346,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -355,7 +355,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/rybbit-io/rybbit-client
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -371,7 +371,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -380,7 +380,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/pennydreadful/bookshelf
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -396,7 +396,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -405,7 +405,7 @@ metadata:
   namespace: flux-system
 spec:
   image: blampe/rreading-glasses
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -421,7 +421,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -430,7 +430,7 @@ metadata:
   namespace: flux-system
 spec:
   image: lscr.io/linuxserver/wireguard
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -446,7 +446,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -455,7 +455,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/immich-app/immich-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -471,7 +471,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -480,7 +480,7 @@ metadata:
   namespace: flux-system
 spec:
   image: pgvector/pgvector
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -496,7 +496,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -505,7 +505,7 @@ metadata:
   namespace: flux-system
 spec:
   image: redis
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -521,7 +521,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -530,7 +530,7 @@ metadata:
   namespace: flux-system
 spec:
   image: postgres
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -546,7 +546,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -555,7 +555,7 @@ metadata:
   namespace: flux-system
 spec:
   image: clickhouse/clickhouse-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -571,7 +571,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -580,7 +580,7 @@ metadata:
   namespace: flux-system
 spec:
   image: garethgeorge/backrest
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -594,7 +594,7 @@ spec:
     semver:
       range: '>=1.14.1 <2.0.0' 
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -603,7 +603,7 @@ metadata:
   namespace: flux-system
 spec:
   image: registry.k8s.io/external-dns/external-dns
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -617,7 +617,7 @@ spec:
     semver:
       range: '>=0.22.0 <1.0.0' 
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -626,7 +626,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ryshe/terraria
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -642,7 +642,7 @@ spec:
     alphabetical:
       order: desc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -651,7 +651,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/forcebyte/terraria-tmodloader-server-arm
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -667,7 +667,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -676,7 +676,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/forcebyte/hytale-server
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -692,7 +692,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -701,7 +701,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/openclaw/openclaw
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -717,7 +717,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -726,7 +726,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/open-webui/open-webui
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -742,7 +742,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -751,7 +751,7 @@ metadata:
   namespace: flux-system
 spec:
   image: n8nio/n8n
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -767,7 +767,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -776,7 +776,7 @@ metadata:
   namespace: flux-system
 spec:
   image: machines/filestash
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -792,7 +792,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -801,7 +801,7 @@ metadata:
   namespace: flux-system
 spec:
   image: phpmyadmin
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -817,7 +817,7 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
@@ -826,7 +826,7 @@ metadata:
   namespace: flux-system
 spec:
   image: ghcr.io/forcebyte/adarkroom
-  interval: 5m
+  interval: 30m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
@@ -842,4 +842,4 @@ spec:
     alphabetical:
       order: asc
   digestReflectionPolicy: Always
-  interval: 10m
+  interval: 60m
