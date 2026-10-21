@@ -89,7 +89,7 @@ spec:
         logins:
           - "Forcebyte" # Replace with your GitHub username
 ---
-# Middleware for Rybbit
+# Middleware for Umami analytics (script injection)
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -100,4 +100,4 @@ spec:
     rewrite-body:
       rewrites:
         - regex: </head>
-          replacement: <script defer data-site-id="199e17f0f389" src="https://rybbit.forcebyte.org/api/script.js"></script></head>
+          replacement: <script defer src="https://umami.forcebyte.org/script.js" data-website-id="fb631b02-fad2-4bfa-b2d5-05b6e9997a03"></script></head>
