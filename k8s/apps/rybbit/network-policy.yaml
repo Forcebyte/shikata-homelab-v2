@@ -24,6 +24,12 @@ spec:
           podSelector:
             matchLabels:
               app: rreading-glasses
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: umami
+          podSelector:
+            matchLabels:
+              app: umami
       ports:
         - protocol: TCP
           port: 5432

@@ -29,6 +29,7 @@ resources:
   - ./rreading-glasses
   - ./openclaw
   - ./rybbit
+  - ./umami
   - ./immich
   - ./rollout-latest
   - ./storage-provisioners

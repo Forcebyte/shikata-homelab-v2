@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+  namespace: umami
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: umami
+  template:
+    metadata:
+      labels:
+        app: umami
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: umami
+          image: ghcr.io/umami-software/umami:postgresql-3.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_TYPE
+              value: "postgresql"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: umami-secrets
+                  key: DATABASE_URL
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: umami-secrets
+                  key: APP_SECRET
+            - name: CLIENT_IP_HEADER
+              value: "cf-connecting-ip"
+          resources:
+            requests:
+              memory: "128Mi"
+            limits:
+              memory: "384Mi"
+          readinessProbe:
+            httpGet:
+              path: /api/heartbeat
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: umami
+  namespace: umami
+spec:
+  selector:
+    app: umami
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-umami
+  namespace: umami
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`umami.forcebyte.org`)
+      kind: Rule
+      services:
+        - name: umami
+          port: 3000
