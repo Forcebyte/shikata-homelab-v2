@@ -26,11 +26,11 @@ spec:
       ports:
         - protocol: UDP
           port: 53
-    # Allow Postgres in rybbit namespace
+    # Allow Postgres in postgres namespace
     - to:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: rybbit
+              kubernetes.io/metadata.name: postgres
           podSelector:
             matchLabels:
               app: postgres

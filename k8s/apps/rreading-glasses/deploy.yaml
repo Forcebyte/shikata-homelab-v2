@@ -23,7 +23,7 @@ spec:
             - containerPort: 8788
           env:
             - name: POSTGRES_HOST
-              value: "postgres.rybbit.svc.cluster.local"
+              value: "postgres.postgres.svc.cluster.local"
             - name: POSTGRES_DATABASE
               value: "rreading_glasses"
             - name: POSTGRES_USER
