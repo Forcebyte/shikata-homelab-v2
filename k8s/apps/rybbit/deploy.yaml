@@ -117,7 +117,7 @@ metadata:
   name: clickhouse
   namespace: rybbit
 spec:
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   selector:
@@ -200,7 +200,7 @@ metadata:
   name: rybbit-backend
   namespace: rybbit
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: rybbit-backend
@@ -299,7 +299,7 @@ metadata:
   name: rybbit-client
   namespace: rybbit
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: rybbit-client
