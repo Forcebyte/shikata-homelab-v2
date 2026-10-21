@@ -46,6 +46,12 @@ spec:
           podSelector:
             matchLabels:
               app: postgres
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: postgres
+          podSelector:
+            matchLabels:
+              app: postgres
       ports:
         - protocol: TCP
           port: 5432
