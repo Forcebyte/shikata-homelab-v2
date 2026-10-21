@@ -31,6 +31,13 @@ spec:
           port: 53
         - protocol: TCP
           port: 53
+    # Allow HTTPS egress to the internet (Prisma downloads its schema-engine on first start)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - protocol: TCP
+          port: 443
     # Allow the shared Postgres in the rybbit namespace
     - to:
         - namespaceSelector:
