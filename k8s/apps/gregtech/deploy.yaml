@@ -58,6 +58,8 @@ spec:
             - name: gregtech-world
               mountPath: /data
           resources:
+            requests:
+              memory: "3Gi"
             limits:
               memory: "7Gi"
           securityContext:
