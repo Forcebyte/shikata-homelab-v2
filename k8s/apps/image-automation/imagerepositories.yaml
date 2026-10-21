@@ -476,7 +476,7 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
-  name: rybbit-postgres
+  name: postgres
   namespace: flux-system
 spec:
   image: postgres
@@ -485,11 +485,11 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
-  name: rybbit-postgres
+  name: postgres
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: rybbit-postgres
+    name: postgres
   filterTags:
     pattern: "^18$"
   policy:

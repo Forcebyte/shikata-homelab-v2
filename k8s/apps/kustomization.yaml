@@ -29,6 +29,7 @@ resources:
   - ./rreading-glasses
   - ./openclaw
   - ./rybbit
+  - ./postgres
   - ./umami
   - ./immich
   - ./rollout-latest
