@@ -326,56 +326,6 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
-  name: rybbit-backend
-  namespace: flux-system
-spec:
-  image: ghcr.io/rybbit-io/rybbit-backend
-  interval: 30m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImagePolicy
-metadata:
-  name: rybbit-backend
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: rybbit-backend
-  filterTags:
-    pattern: "^latest$"
-  policy:
-    alphabetical:
-      order: asc
-  digestReflectionPolicy: Always
-  interval: 60m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImageRepository
-metadata:
-  name: rybbit-client
-  namespace: flux-system
-spec:
-  image: ghcr.io/rybbit-io/rybbit-client
-  interval: 30m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImagePolicy
-metadata:
-  name: rybbit-client
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: rybbit-client
-  filterTags:
-    pattern: "^latest$"
-  policy:
-    alphabetical:
-      order: asc
-  digestReflectionPolicy: Always
-  interval: 60m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImageRepository
-metadata:
   name: readarr
   namespace: flux-system
 spec:
@@ -542,31 +492,6 @@ spec:
     name: rybbit-postgres
   filterTags:
     pattern: "^18$"
-  policy:
-    alphabetical:
-      order: asc
-  digestReflectionPolicy: Always
-  interval: 60m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImageRepository
-metadata:
-  name: clickhouse
-  namespace: flux-system
-spec:
-  image: clickhouse/clickhouse-server
-  interval: 30m
----
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImagePolicy
-metadata:
-  name: clickhouse
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: clickhouse
-  filterTags:
-    pattern: "^26.9$"
   policy:
     alphabetical:
       order: asc
