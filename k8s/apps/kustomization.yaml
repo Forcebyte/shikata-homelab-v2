@@ -28,7 +28,6 @@ resources:
   - ./readarr
   - ./rreading-glasses
   - ./openclaw
-  - ./rybbit
   - ./postgres
   - ./umami
   - ./immich
