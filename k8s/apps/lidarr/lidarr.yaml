@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lidarr-config
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: lidarr
+          image: lscr.io/linuxserver/lidarr:latest@sha256:d8549ff9ea29b4015c32257360652c1000c31ea471a2b3f0835ae77292faf35b # {"$imagepolicy": "flux-system:lidarr"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8686
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Etc/UTC"
+          resources:
+            requests:
+              memory: "128Mi"
+            limits:
+              memory: "512Mi"
+          volumeMounts:
+            - name: lidarr-config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: music
+              mountPath: /music
+            - name: slskd-downloads
+              mountPath: /slskd-downloads
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: lidarr-config
+          persistentVolumeClaim:
+            claimName: lidarr-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: qbittorrent-downloads
+        - name: music
+          persistentVolumeClaim:
+            claimName: music
+        - name: slskd-downloads
+          persistentVolumeClaim:
+            claimName: slskd-downloads
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lidarr
+  namespace: qbittorrent
+spec:
+  selector:
+    app: lidarr
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8686
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr
+  namespace: qbittorrent
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`lidarr.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: lidarr
+          port: 80

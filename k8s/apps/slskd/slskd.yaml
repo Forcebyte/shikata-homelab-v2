@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: slskd-downloads
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slskd
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: slskd
+  template:
+    metadata:
+      labels:
+        app: slskd
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: slskd
+          image: slskd/slskd:latest@sha256:588af49abc3088d639c8f1174d3bfad6e92c093a275a593140e3ac9311ebf6c4 # {"$imagepolicy": "flux-system:slskd"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5030
+            - containerPort: 50300
+          env:
+            - name: SLSKD_DOWNLOADS_DIR
+              value: "/downloads"
+            - name: SLSKD_INCOMPLETE_DIR
+              value: "/downloads/.incomplete"
+            - name: SLSKD_SHARED_DIR
+              value: "/music"
+            - name: TZ
+              value: "Etc/UTC"
+          envFrom:
+            - secretRef:
+                name: slskd-soulseek
+                optional: true
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "384Mi"
+          volumeMounts:
+            - name: slskd-downloads
+              mountPath: /downloads
+            - name: music
+              mountPath: /music
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: slskd-downloads
+          persistentVolumeClaim:
+            claimName: slskd-downloads
+        - name: music
+          persistentVolumeClaim:
+            claimName: music
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: slskd
+  namespace: qbittorrent
+spec:
+  selector:
+    app: slskd
+  ports:
+    - name: http
+      port: 80
+      targetPort: 5030
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: slskd
+  namespace: qbittorrent
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`slskd.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: slskd
+          port: 80
