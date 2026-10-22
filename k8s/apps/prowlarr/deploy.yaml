@@ -50,6 +50,14 @@ spec:
               value: "1000" # Adjust to match your group ID
             - name: TZ
               value: "Etc/UTC" # Set your timezone
+            - name: DOTNET_gcServer
+              value: "0"
+            - name: DOTNET_GCConserveMemory
+              value: "5"
+            - name: PROWLARR__LOG__LEVEL
+              value: "info"
+            - name: PROWLARR__LOG__DBENABLED
+              value: "False"
           securityContext:
             allowPrivilegeEscalation: false
             seccompProfile:
