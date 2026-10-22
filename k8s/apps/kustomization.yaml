@@ -26,6 +26,9 @@ resources:
   - ./qbittorrent
   - ./rcon
   - ./readarr
+  - ./navidrome
+  - ./lidarr
+  - ./slskd
   - ./rreading-glasses
   - ./openclaw
   - ./postgres

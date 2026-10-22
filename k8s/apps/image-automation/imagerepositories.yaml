@@ -768,3 +768,78 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: navidrome
+  namespace: flux-system
+spec:
+  image: deluan/navidrome
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: navidrome
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: navidrome
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: lidarr
+  namespace: flux-system
+spec:
+  image: lscr.io/linuxserver/lidarr
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: lidarr
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: lidarr
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: slskd
+  namespace: flux-system
+spec:
+  image: slskd/slskd
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: slskd
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: slskd
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m
