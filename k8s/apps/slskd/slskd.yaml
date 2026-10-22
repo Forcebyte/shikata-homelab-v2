@@ -29,6 +29,16 @@ spec:
         app: slskd
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: init-dirs
+          image: busybox:1.37
+          command:
+            - sh
+            - -c
+            - mkdir -p /downloads/.incomplete
+          volumeMounts:
+            - name: slskd-downloads
+              mountPath: /downloads
       containers:
         - name: slskd
           image: slskd/slskd:latest@sha256:588af49abc3088d639c8f1174d3bfad6e92c093a275a593140e3ac9311ebf6c4 # {"$imagepolicy": "flux-system:slskd"}
