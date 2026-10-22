@@ -191,7 +191,7 @@ spec:
           protocol: TCP
         resources:
           limits:
-            memory: 1Gi
+            memory: 512Mi
           requests:
             memory: 256Mi
         securityContext:
