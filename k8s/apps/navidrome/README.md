@@ -21,6 +21,15 @@ same as Readarr).
   SLSKD_SLSK_PASSWORD); envFrom is optional so the pod runs before the
   Secret exists. Listen port 50300 is NOT publicly exposed (works, with
   reduced peer reachability; expose via IngressRouteTCP only if needed).
-- Follow-up (PR B): Soularr (feeds the Lidarr wanted list via slskd; needs
-  the Lidarr API key from /config/config.xml after first boot) and Aurral
-  (discovery front-end; needs ListenBrainz/Last.fm API keys from Patrick).
+- soularr/ — Soularr (PR B). Reads the Lidarr wanted list and downloads via
+  slskd, then triggers Lidarr imports. Config (config.ini with the Lidarr +
+  slskd API keys) lives on the soularr-data PVC, NOT in git (Backrest-style);
+  editable later via its web UI at soularr.forcebyte.org. Search settings are
+  MP3-only (allowed_filetypes = mp3 320,mp3) to match the lossy decision.
+  slskd API key lives in the out-of-band Secret slskd-config (slskd.yml,
+  mounted at /app/slskd.yml); slskd runs as UID 1000 with its app dir on the
+  slskd-data PVC so file ownership agrees across lidarr/slskd/soularr.
+- aurral/ — Aurral discovery front-end at aurral.forcebyte.org. Config on
+  aurral-config PVC; media mounted under /data (music, downloads,
+  slskd-downloads). Integrations (Lidarr, ListenBrainz user Forcebyte,
+  Navidrome) are connected in its UI after the admin account is created.

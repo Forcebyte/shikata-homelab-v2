@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: soularr-data
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soularr
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: soularr
+  template:
+    metadata:
+      labels:
+        app: soularr
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: soularr
+          image: mrusse08/soularr:latest@sha256:89b6809a169f6c78032c9a66abf5130e4877c46c0b95391818a38ab66cd71548 # {"$imagepolicy": "flux-system:soularr"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8265
+          env:
+            - name: TZ
+              value: "Etc/UTC"
+            - name: SCRIPT_INTERVAL
+              value: "300"
+            - name: WEBUI_ENABLED
+              value: "true"
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "256Mi"
+          volumeMounts:
+            - name: soularr-data
+              mountPath: /data
+            - name: slskd-downloads
+              mountPath: /downloads
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: soularr-data
+          persistentVolumeClaim:
+            claimName: soularr-data
+        - name: slskd-downloads
+          persistentVolumeClaim:
+            claimName: slskd-downloads
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: soularr
+  namespace: qbittorrent
+spec:
+  selector:
+    app: soularr
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8265
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: soularr
+  namespace: qbittorrent
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`soularr.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: rybbit
+          namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: soularr
+          port: 80

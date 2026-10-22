@@ -29,13 +29,19 @@ spec:
         app: slskd
     spec:
       automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       initContainers:
         - name: init-dirs
           image: busybox:1.37
+          securityContext:
+            runAsUser: 0
           command:
             - sh
             - -c
-            - mkdir -p /downloads/.incomplete
+            - mkdir -p /downloads/.incomplete && chmod 777 /downloads/.incomplete
           volumeMounts:
             - name: slskd-downloads
               mountPath: /downloads
@@ -70,6 +76,12 @@ spec:
             - name: music
               mountPath: /music
               readOnly: true
+            - name: slskd-data
+              mountPath: /app
+            - name: slskd-config
+              mountPath: /app/slskd.yml
+              subPath: slskd.yml
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -79,6 +91,13 @@ spec:
         - name: music
           persistentVolumeClaim:
             claimName: music
+        - name: slskd-data
+          persistentVolumeClaim:
+            claimName: slskd-data
+        - name: slskd-config
+          secret:
+            secretName: slskd-config
+            optional: true
 ---
 apiVersion: v1
 kind: Service
@@ -117,3 +136,16 @@ spec:
       services:
         - name: slskd
           port: 80
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: slskd-data
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
