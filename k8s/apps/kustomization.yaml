@@ -29,6 +29,8 @@ resources:
   - ./navidrome
   - ./lidarr
   - ./slskd
+  - ./soularr
+  - ./aurral
   - ./rreading-glasses
   - ./openclaw
   - ./postgres

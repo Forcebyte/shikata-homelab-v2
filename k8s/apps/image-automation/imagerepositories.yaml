@@ -843,3 +843,53 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: soularr
+  namespace: flux-system
+spec:
+  image: mrusse08/soularr
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: soularr
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: soularr
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: aurral
+  namespace: flux-system
+spec:
+  image: ghcr.io/lklynet/aurral
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: aurral
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: aurral
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m
