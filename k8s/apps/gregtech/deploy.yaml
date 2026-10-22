@@ -43,9 +43,9 @@ spec:
             - name: GTNH_PACK_VERSION
               value: "2.9.0-RC-2"
             - name: INIT_MEMORY
-              value: "6G"
+              value: "2G"
             - name: MAX_MEMORY
-              value: "6G"
+              value: "4G"
             - name: JVM_OPTS
               value: "-XX:+UseZGC -XX:+ZGenerational -XX:+UseCompactObjectHeaders"
             - name: VIEW_DISTANCE
@@ -59,9 +59,9 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: "2560Mi"
+              memory: "4Gi"
             limits:
-              memory: "7Gi"
+              memory: "5Gi"
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
