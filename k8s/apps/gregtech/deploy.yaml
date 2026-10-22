@@ -17,7 +17,7 @@ metadata:
   name: gregtech
   namespace: gregtech
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: gregtech
