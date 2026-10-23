@@ -35,7 +35,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: soularr
-          image: mrusse08/soularr:latest@sha256:89b6809a169f6c78032c9a66abf5130e4877c46c0b95391818a38ab66cd71548 # {"$imagepolicy": "flux-system:soularr"}
+          image: mrusse08/soularr:latest@sha256:61ee506de5fb1447f3abd4a5a47e2537fad152ddf8c7e0392a36ef00b4f1c3d9 # {"$imagepolicy": "flux-system:soularr"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8265

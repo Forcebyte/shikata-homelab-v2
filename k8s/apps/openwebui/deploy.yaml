@@ -29,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: openwebui
-          image: ghcr.io/open-webui/open-webui:main # {"$imagepolicy": "flux-system:open-webui"}
+          image: ghcr.io/open-webui/open-webui:main@sha256:4860ba005ae8f19f08d1e12b0868855b7b339ea0dad9927f196820fc0de04575 # {"$imagepolicy": "flux-system:open-webui"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -94,7 +94,7 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
-        - name: github-oauth  # Apply the GitHub OAuth middleware
+        - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system
       services:
         - name: openwebui

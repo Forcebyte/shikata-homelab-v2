@@ -1,17 +1,3 @@
-# Backrest — restic backup web UI
-# https://github.com/garethgeorge/backrest
-#
-# NOTE: the restic repository password is entered in the Backrest UI when
-# adding a repository (Add Repository -> password field). It is NOT passed
-# via env var. Generate one with: openssl rand -base64 32
-# Save it somewhere safe (e.g. password manager) — losing it means losing
-# the backups.
-#
-# NOTE: container runs as root (runAsUser: 0) as a conscious exception to the
-# runAsNonRoot hardening — it must read hostPath PV data owned by many
-# different UIDs (postgres:999, minecraft:1000, etc.). Mitigations:
-# readOnlyRootFilesystem, allowPrivilegeEscalation:false, seccomp RuntimeDefault.
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -43,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: backrest
-        image: garethgeorge/backrest:v1.14.1 # {"$imagepolicy": "flux-system:backrest"}
+        image: garethgeorge/backrest:v1.14.1@sha256:b852979754281026230cc69fb11428e6d57c9a97784ab4a444ffc7934c53a215 # {"$imagepolicy": "flux-system:backrest"}
         ports:
         - containerPort: 9898
           name: http

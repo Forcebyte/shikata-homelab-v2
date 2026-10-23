@@ -77,7 +77,7 @@ spec:
             secretKeyRef:
               key: password
               name: immich-pg
-        image: ghcr.io/immich-app/immich-server:release # {"$imagepolicy": "flux-system:immich-server"}
+        image: ghcr.io/immich-app/immich-server:release@sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6 # {"$imagepolicy": "flux-system:immich-server"}
         imagePullPolicy: IfNotPresent
         name: server
         ports:
@@ -107,7 +107,6 @@ spec:
       - name: upload
         persistentVolumeClaim:
           claimName: immich-upload
-
 ---
 apiVersion: v1
 kind: Service
@@ -127,7 +126,6 @@ spec:
     app: immich-server
   sessionAffinity: None
   type: ClusterIP
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -183,7 +181,7 @@ spec:
               name: immich-pg
         - name: POSTGRES_DB
           value: immich
-        image: pgvector/pgvector:pg18 # {"$imagepolicy": "flux-system:immich-postgres"}
+        image: pgvector/pgvector:pg18@sha256:2358fcba361ed2233a5ed81b5fe4ca779ccb304120ce531a3bf51c0ed7e2bc11 # {"$imagepolicy": "flux-system:immich-postgres"}
         imagePullPolicy: IfNotPresent
         name: postgres
         ports:
@@ -213,7 +211,6 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: immich-pg-data
-
 ---
 apiVersion: v1
 kind: Service
@@ -233,7 +230,6 @@ spec:
     app: immich-postgres
   sessionAffinity: None
   type: ClusterIP
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -276,7 +272,7 @@ spec:
       securityContext:
         fsGroup: 999
       containers:
-      - image: redis:7-alpine # {"$imagepolicy": "flux-system:immich-redis"}
+      - image: redis:7-alpine@sha256:57e4255cc971b1c8d6f8a6ca283ac01bc3ecdd914273ef6bfaede87aaecd6541 # {"$imagepolicy": "flux-system:immich-redis"}
         imagePullPolicy: IfNotPresent
         name: redis
         ports:
@@ -299,7 +295,6 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
-
 ---
 apiVersion: v1
 kind: Service
@@ -319,7 +314,6 @@ spec:
     app: immich-redis
   sessionAffinity: None
   type: ClusterIP
-
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -350,5 +344,3 @@ spec:
     services:
     - name: immich
       port: 80
-
----

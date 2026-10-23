@@ -10,7 +10,6 @@ spec:
   resources:
     requests:
       storage: 20Gi
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -29,7 +28,6 @@ data:
     2599842771
     2565639705
     2785100219
-
   enabled.json: |
     [
       "CalamityMod",
@@ -43,7 +41,6 @@ data:
       "OreExcavator",
       "SubworldLibrary"
     ]
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,30 +49,24 @@ metadata:
   namespace: terraria-calamity
 spec:
   replicas: 0
-
   strategy:
     type: Recreate
-
   selector:
     matchLabels:
       app: terraria-calamity
-
   template:
     metadata:
       labels:
         app: terraria-calamity
-
     spec:
       automountServiceAccountToken: false
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-
       initContainers:
         - name: configure-mods
           image: alpine:latest
           imagePullPolicy: IfNotPresent
-
           command:
             - /bin/sh
             - -c
@@ -95,65 +86,49 @@ spec:
               cat /data/Mods/install.txt
               echo "--- enabled.json ---"
               cat /data/Mods/enabled.json
-
           securityContext:
             runAsUser: 0
             runAsGroup: 0
-
           volumeMounts:
             - name: terraria-calamity-data
               mountPath: /data
-
             - name: terraria-calamity-mods
               mountPath: /config
-
       containers:
         - name: terraria-calamity
-          image: ghcr.io/forcebyte/terraria-tmodloader-server-arm:latest # {"$imagepolicy": "flux-system:terraria-tmodloader"}
+          image: ghcr.io/forcebyte/terraria-tmodloader-server-arm:latest@sha256:3deaffc888d52466cf89200b3de81f8e6346783ec31c0c95fc7f6f629f74669e # {"$imagepolicy": "flux-system:terraria-tmodloader"}
           imagePullPolicy: Always
-
           securityContext:
             allowPrivilegeEscalation: false
             runAsUser: 1000
             runAsGroup: 1000
-
           ports:
             - name: terraria
               containerPort: 7777
               protocol: TCP
-
           env:
             - name: WORLD
               value: /home/tml/.local/share/Terraria/tModLoader/Worlds/Calamity.wld
-
             - name: MAXPLAYERS
               value: "8"
-
             - name: PORT
               value: "7777"
-
             - name: PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: terraria-server-secret
                   key: password
-
             - name: MOTD
               value: "Welcome to the Calamity server!"
-
             - name: SECURE
               value: "0"
-
             - name: NPCSTREAM
               value: "1"
-
             - name: LANGUAGE
               value: "en/US"
-
           volumeMounts:
             - name: terraria-calamity-data
               mountPath: /home/tml/.local/share/Terraria/tModLoader
-
           resources:
             limits:
               memory: "1Gi"
@@ -161,11 +136,9 @@ spec:
         - name: terraria-calamity-data
           persistentVolumeClaim:
             claimName: terraria-calamity-data
-
         - name: terraria-calamity-mods
           configMap:
             name: terraria-calamity-mods
-
 ---
 apiVersion: v1
 kind: Service
@@ -175,15 +148,12 @@ metadata:
 spec:
   selector:
     app: terraria-calamity
-
   ports:
     - name: terraria
       protocol: TCP
       port: 7778
       targetPort: 7777
-
   type: ClusterIP
-
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRouteTCP
@@ -194,7 +164,6 @@ metadata:
     external-dns.kubernetes.io/target: terrariacalamity.forcebyte.org
     external-dns.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: traefik
-
 spec:
   entryPoints:
     - terrariacalamity

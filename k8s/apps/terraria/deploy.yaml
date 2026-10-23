@@ -29,12 +29,12 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: terraria
-          image: ryshe/terraria:tshock-1.4.5.6-6.1.0 # {"$imagepolicy": "flux-system:terraria"}
+          image: ryshe/terraria:tshock-1.4.5.6-6.1.0@sha256:b1c89f7f359abfe1171db454101853c3812b581eecd0f4eeabb9e9f77da240ef # {"$imagepolicy": "flux-system:terraria"}
           imagePullPolicy: Always
           stdin: true
           tty: true
           ports:
-            - containerPort: 7777  # Terraria server port
+            - containerPort: 7777 # Terraria server port
           env:
             - name: TERRARIA_PASSWORD
               valueFrom:

@@ -31,7 +31,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: wireguard
-          image: lscr.io/linuxserver/wireguard:latest # {"$imagepolicy": "flux-system:wireguard"}
+          image: lscr.io/linuxserver/wireguard:latest@sha256:e2f655e1956a6db476bc879bf721f3f8bfed49c6d8fbcf39495d7ecb991d8228 # {"$imagepolicy": "flux-system:wireguard"}
           imagePullPolicy: Always
           ports:
             - name: wireguard

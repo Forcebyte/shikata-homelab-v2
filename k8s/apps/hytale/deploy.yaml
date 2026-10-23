@@ -42,7 +42,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: hytale
-          image: ghcr.io/forcebyte/hytale-server:latest-arm64 # {"$imagepolicy": "flux-system:hytale"}
+          image: ghcr.io/forcebyte/hytale-server:latest-arm64@sha256:06b4d2792b4119e20c1086ab928b32c3c96de95ebc8a42c965f9ff0e98fb8fa4 # {"$imagepolicy": "flux-system:hytale"}
           imagePullPolicy: Always
           stdin: true
           tty: true

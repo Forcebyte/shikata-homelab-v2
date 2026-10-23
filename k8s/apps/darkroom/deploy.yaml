@@ -47,7 +47,7 @@ spec:
       containers:
         - name: darkroom
           # Custom-made image
-          image: "ghcr.io/forcebyte/adarkroom:latest" # {"$imagepolicy": "flux-system:darkroom"}
+          image: "ghcr.io/forcebyte/adarkroom:latest@sha256:0f117cd989ff36397eadc65142521b52bd9de2e4a7e9e0028fafbb6f4b7bf462" # {"$imagepolicy": "flux-system:darkroom"}
           imagePullPolicy: Always
           ports:
             - name: http

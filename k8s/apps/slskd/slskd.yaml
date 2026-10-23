@@ -47,7 +47,7 @@ spec:
               mountPath: /downloads
       containers:
         - name: slskd
-          image: slskd/slskd:latest@sha256:588af49abc3088d639c8f1174d3bfad6e92c093a275a593140e3ac9311ebf6c4 # {"$imagepolicy": "flux-system:slskd"}
+          image: slskd/slskd:latest@sha256:d0963a3e5b16facd295bf4f2156dad0182f246b1b21a032cae12f5494c694843 # {"$imagepolicy": "flux-system:slskd"}
           imagePullPolicy: Always
           ports:
             - containerPort: 5030

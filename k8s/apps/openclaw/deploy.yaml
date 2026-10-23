@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: init-config
-          image: ghcr.io/openclaw/openclaw:latest # {"$imagepolicy": "flux-system:openclaw"}
+          image: ghcr.io/openclaw/openclaw:latest@sha256:7dbff0fe5f5359b1badefe90a23efa9f203cd0d3c36bee095f4896c7a1d3864b # {"$imagepolicy": "flux-system:openclaw"}
           imagePullPolicy: IfNotPresent
           command:
             - sh
@@ -76,7 +76,7 @@ spec:
               eval "$cmd"
               echo "ok $(date 2>/dev/null || true)" > "$MARKER_FILE"
           env:
-            # Add any required onboarding env vars here, e.g. API keys
+          # Add any required onboarding env vars here, e.g. API keys
           volumeMounts:
             - name: openclaw-data
               mountPath: /home/node
