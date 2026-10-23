@@ -27,8 +27,8 @@ spec:
       app: immich-server
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: 0
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
@@ -156,8 +156,8 @@ spec:
       app: immich-postgres
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: 0
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
