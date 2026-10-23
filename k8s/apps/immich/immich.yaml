@@ -335,6 +335,12 @@ spec:
   - websecure
   routes:
   - kind: Rule
+    match: Host(`immich.forcebyte.org`) && PathPrefix(`/api`)
+    priority: 100
+    services:
+    - name: immich
+      port: 80
+  - kind: Rule
     match: Host(`immich.forcebyte.org`)
     middlewares:
     - name: rybbit
