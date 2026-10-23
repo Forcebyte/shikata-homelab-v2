@@ -329,7 +329,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`immich.forcebyte.org`) && PathPrefix(`/api`)
+    match: Host(`immich.forcebyte.org`) && (PathPrefix(`/api`) || PathPrefix(`/.well-known/immich`))
     priority: 100
     services:
     - name: immich
