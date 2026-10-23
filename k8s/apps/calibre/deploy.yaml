@@ -34,11 +34,6 @@ metadata:
   namespace: qbittorrent
 spec:
   replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 1
-    type: RollingUpdate
   selector:
     matchLabels:
       app: calibre-web
@@ -112,6 +107,11 @@ metadata:
   namespace: qbittorrent
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: calibre
