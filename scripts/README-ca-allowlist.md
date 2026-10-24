@@ -72,3 +72,27 @@ the repo root, review the diff, commit.
 The generator refuses to emit a list that fails its sanity checks
 (prefix-count ranges, and a spot check that the owner's Beanfield home
 IP is covered).
+
+## The small VM (shikatalab0)
+
+shikatalab0 has no Traefik — Caddy serves its web ports — so only the
+host layer exists there. Its `inet geo_filter` table (same files, same
+`geo-filter.service`) covers SSH (port 33201) on its WAN interface
+(`ens3`): non-Canadian sources are dropped in the kernel, exactly as on
+azamilab0. Management normally rides the tailnet, which is untouched.
+
+The web ports are deliberately NOT in the table:
+
+- Port 443 is already restricted to Cloudflare sources by the OCI
+  security list.
+- Port 80 must stay open to Cloudflare: Caddy renews its certificates
+  with the HTTP-01 challenge, and validation requests reach the origin
+  through the Cloudflare proxy (a CA-only rule would drop the
+  validators and break renewal).
+- The backends (Uptime Kuma 3001, Gotify 8080) already bind to
+  localhost or the tailnet only, so there is nothing public to filter.
+
+The weekly refresh there is a systemd timer (`geoip-refresh.timer`,
+Tue 07:41 UTC — that box has no cron) running the same generator from
+a clone of this repo. Rollback is the same one command:
+`sudo nft delete table inet geo_filter`.
