@@ -52,7 +52,7 @@ as open. A second, kernel-level layer on azamilab0 closes that gap:
 - **Web/websecure**: behind Cloudflare, out of scope.
 - **UDP game routes** (Hytale, 5520): Traefik has no middleware support
   for UDP routes at all, so they cannot be filtered at this layer. If
-  Hytale is ever unparked, extend the host table below with a UDP rule
+  Hytale is ever unparked, extend the host table above with a UDP rule
   for that port fed by the same sets.
 
 ## Refresh
