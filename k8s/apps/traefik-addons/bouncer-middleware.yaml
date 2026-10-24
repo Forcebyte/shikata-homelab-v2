@@ -11,6 +11,7 @@ spec:
       crowdsecLapiScheme: http
       crowdsecLapiHost: 10.0.1.216:9999
       crowdsecLapiPath: /
+      forwardedHeadersCustomName: CF-Connecting-IP
       crowdsecLapiKeyFile: /etc/traefik/crowdsec/BOUNCER_KEY_traefik
       forwardedHeadersTrustedIPs:
         - 173.245.48.0/20
