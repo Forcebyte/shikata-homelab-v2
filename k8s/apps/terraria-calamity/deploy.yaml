@@ -169,6 +169,8 @@ spec:
     - terrariacalamity
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: canada-only
       services:
         - name: terraria
           port: 7778

@@ -93,6 +93,8 @@ spec:
     - minecraft-ftb
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: canada-only
       services:
         - name: minecraft-ftb
           port: 25565
