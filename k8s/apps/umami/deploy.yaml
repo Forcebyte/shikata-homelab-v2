@@ -36,6 +36,8 @@ spec:
                   key: APP_SECRET
             - name: CLIENT_IP_HEADER
               value: "cf-connecting-ip"
+            - name: SKIP_LOCATION_HEADERS
+              value: "true"
           resources:
             requests:
               memory: "128Mi"
