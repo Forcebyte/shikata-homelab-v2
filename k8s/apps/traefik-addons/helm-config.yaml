@@ -8,6 +8,8 @@ spec:
     service:
       spec:
         externalTrafficPolicy: Local
+    persistence:
+      enabled: true
     additionalArguments:
       - "--api"
       - "--api.dashboard=false"
