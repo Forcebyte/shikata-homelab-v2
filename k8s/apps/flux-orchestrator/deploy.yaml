@@ -3,15 +3,21 @@ kind: Namespace
 metadata:
   name: flux-orchestrator
   labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
+  labels:
     pod-security.kubernetes.io/audit: baseline
     pod-security.kubernetes.io/warn: baseline
 ---
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: flux-orchestrator
   namespace: flux-orchestrator
 ---
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -45,6 +51,7 @@ rules:
   resources: ["imagepolicies", "imagerepositories", "imageupdateautomations"]
   verbs: ["get", "list", "watch"]
 ---
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -58,6 +65,7 @@ subjects:
   name: flux-orchestrator
   namespace: flux-orchestrator
 ---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -70,6 +78,7 @@ data:
   DB_NAME: "flux_orchestrator"
   PORT: "8080"
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -144,6 +153,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
