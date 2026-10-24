@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: toolbox
+      app: networking-toolbox
   policyTypes:
     - Ingress
     - Egress
