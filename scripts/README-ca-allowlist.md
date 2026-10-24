@@ -24,6 +24,29 @@ Canadian IP space.
   cluster itself, the tailnet, or the WireGuard tunnel — all
   authenticated — never from the open internet.
 
+## Host firewall layer
+
+Traefik is a proxy: it must accept a TCP connection before it can check
+and close it, so handshake-only port scanners still see the game ports
+as open. A second, kernel-level layer on azamilab0 closes that gap:
+
+- nftables table `inet geo_filter` (host files `/etc/nftables/geo-filter.nft`
+  + generated `/etc/nftables/ca-sets.nft`, loaded at boot by the
+  `geo-filter.service` systemd unit, which runs before k3s) drops any
+  packet arriving on the WAN interface (`enp0s6`) to the six game TCP
+  ports — or to SSH (port 22) — whose source is not in the same Canada
+  sets, before kube-proxy NAT and before Traefik. Non-Canadian scanners
+  now get silence: SYNs are dropped, not answered.
+  `nft list chain inet geo_filter prerouting` shows the drop counters.
+  SSH management normally rides the tailnet, which arrives on a
+  different interface and is untouched by these rules; the WAN-side
+  rule only governs direct public SSH, which stays available from
+  Canadian addresses (and from the OCI console in an emergency).
+- qBittorrent and WireGuard are not in the port list, so they stay open
+  exactly as before.
+- Rollback is one command: `sudo nft delete table inet geo_filter`
+  (the Traefik layer keeps working on its own).
+
 ## What is deliberately NOT filtered
 
 - **qBittorrent** (ports 49155 TCP/UDP): its routes never reference the
@@ -33,14 +56,17 @@ Canadian IP space.
 - **Web/websecure**: behind Cloudflare, out of scope.
 - **UDP game routes** (Hytale, 5520): Traefik has no middleware support
   for UDP routes at all, so they cannot be filtered at this layer. If
-  Hytale is ever unparked and needs this, use a single host nftables
-  rule for that port fed by the same prefix list.
+  Hytale is ever unparked, extend the host table above with a UDP rule
+  for that port fed by the same sets.
 
 ## Refresh
 
 RIR allocations drift, so a weekly job on azamilab0 (`~/ca-geoip.sh`,
 host cron) re-runs the generator from its own clone and commits any
-changes for Flux to apply. To refresh by hand: run the generator from
+changes for Flux to apply.
+The same run regenerates the host firewall sets (`--nft-out`) and
+reloads the nft table; the reload is check-then-apply and atomic, so a
+bad list can never take the running table down. To refresh by hand: run the generator from
 the repo root, review the diff, commit.
 
 The generator refuses to emit a list that fails its sanity checks
