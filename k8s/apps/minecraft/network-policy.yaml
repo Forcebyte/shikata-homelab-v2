@@ -29,7 +29,10 @@ spec:
       ports:
         - protocol: UDP
           port: 53
-    # Allow all other egress (auth servers, etc.)
+    # Allow HTTPS egress only (auth, downloads) - all other ports blocked
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+      ports:
+        - protocol: TCP
+          port: 443
