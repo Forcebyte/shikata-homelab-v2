@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: external-dns
 resources:
   - deploy.yaml
+  - network-policy.yaml
