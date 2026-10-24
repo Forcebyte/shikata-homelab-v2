@@ -36,7 +36,6 @@ spec:
       - "--accesslog=true"
       - "--accesslog.format=json"
       - "--accesslog.filePath=/var/log/traefik/access.log"
-      - "--accesslog.filters.retryattempts=true"
       - "--accesslog.fields.defaultmode=keep"
       - "--accesslog.fields.names.ClientUsername=drop"
       - "--accesslog.fields.headers.defaultmode=keep"
