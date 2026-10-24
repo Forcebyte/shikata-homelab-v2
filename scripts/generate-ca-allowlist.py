@@ -59,7 +59,38 @@ def fetch_zone(url, version, lo, hi):
     return sorted(set(nets))
 
 
+def nft_sets(v4, v6, path):
+    def fmt(items):
+        lines, cur = [], "        "
+        for n in items:
+            item = f"{n}, "
+            if len(cur) + len(item) > 100:
+                lines.append(cur.rstrip())
+                cur = "        "
+            cur += item
+        if cur.strip():
+            lines.append(cur.rstrip().rstrip(","))
+        return "\n".join(lines)
+
+    v4all = [e for e in EXTRA if ":" not in e] + [str(n) for n in v4]
+    v6all = [e for e in EXTRA if ":" in e] + [str(n) for n in v6]
+    with open(path, "w") as fh:
+        fh.write("# GENERATED FILE - do not edit by hand.\n")
+        fh.write("# Canada allowlist sets for table inet geo_filter (azamilab0 host firewall).\n")
+        fh.write("# Generator: scripts/generate-ca-allowlist.py --nft-out. See scripts/README-ca-allowlist.md.\n")
+        fh.write("set ca4 {\n    type ipv4_addr\n    flags interval\n    elements = {\n")
+        fh.write(fmt(v4all))
+        fh.write("\n    }\n}\n")
+        fh.write("set ca6 {\n    type ipv6_addr\n    flags interval\n    elements = {\n")
+        fh.write(fmt(v6all))
+        fh.write("\n    }\n}\n")
+    print(f"wrote {path}: nft sets ({len(v4all)} v4, {len(v6all)} v6)")
+
+
 def main():
+    nft_out = None
+    if "--nft-out" in sys.argv:
+        nft_out = sys.argv[sys.argv.index("--nft-out") + 1]
     v4 = fetch_zone(V4_URL, 4, 4000, 10000)
     v6 = fetch_zone(V6_URL, 6, 500, 3000)
 
@@ -89,6 +120,9 @@ def main():
         with open(path, "w") as fh:
             fh.write(content)
         print(f"wrote {path}: {len(ranges)} ranges ({len(v4)} CA v4, {len(v6)} CA v6, {len(EXTRA)} infra)")
+
+    if nft_out:
+        nft_sets(v4, v6, nft_out)
 
 
 if __name__ == "__main__":
