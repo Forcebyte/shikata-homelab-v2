@@ -103,6 +103,8 @@ spec:
     - rcontcp
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: canada-only
       services:
         - name: rcon-web-admin
           port: 4327

@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - deploy.yaml
+  - ca-allowlist.yaml
   - network-policy.yaml

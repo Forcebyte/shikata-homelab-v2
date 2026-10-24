@@ -96,6 +96,8 @@ spec:
     - minecraft
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: canada-only
       services:
         - name: minecraft
           port: 25565

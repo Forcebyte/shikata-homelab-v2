@@ -99,6 +99,8 @@ spec:
     - minecraft-gregtech
   routes:
     - match: HostSNI(`*`)
+      middlewares:
+        - name: canada-only
       services:
         - name: gregtech
           port: 25567
