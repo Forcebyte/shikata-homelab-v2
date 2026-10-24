@@ -116,11 +116,12 @@ spec:
         expose:
           default: true
         protocol: UDP
-    volumes:
-      - name: traefik-access-logs
-        hostPath:
-          path: /var/log/traefik
-          type: DirectoryOrCreate
+    deployment:
+      additionalVolumes:
+        - name: traefik-access-logs
+          hostPath:
+            path: /var/log/traefik
+            type: DirectoryOrCreate
     additionalVolumeMounts:
       - name: traefik-access-logs
         mountPath: /var/log/traefik
