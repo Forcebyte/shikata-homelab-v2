@@ -34,10 +34,14 @@ as open. A second, kernel-level layer on azamilab0 closes that gap:
   + generated `/etc/nftables/ca-sets.nft`, loaded at boot by the
   `geo-filter.service` systemd unit, which runs before k3s) drops any
   packet arriving on the WAN interface (`enp0s6`) to the six game TCP
-  ports whose source is not in the same Canada sets — before kube-proxy
-  NAT and before Traefik. Non-Canadian scanners now get silence: SYNs
-  are dropped, not answered. `nft list chain inet geo_filter prerouting`
-  shows the drop counters.
+  ports — or to SSH (port 22) — whose source is not in the same Canada
+  sets, before kube-proxy NAT and before Traefik. Non-Canadian scanners
+  now get silence: SYNs are dropped, not answered.
+  `nft list chain inet geo_filter prerouting` shows the drop counters.
+  SSH management normally rides the tailnet, which arrives on a
+  different interface and is untouched by these rules; the WAN-side
+  rule only governs direct public SSH, which stays available from
+  Canadian addresses (and from the OCI console in an emergency).
 - qBittorrent and WireGuard are not in the port list, so they stay open
   exactly as before.
 - Rollback is one command: `sudo nft delete table inet geo_filter`
