@@ -3,9 +3,11 @@ kind: Namespace
 metadata:
   name: darkroom
   labels:
+    pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/audit: baseline
     pod-security.kubernetes.io/warn: baseline
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -23,6 +25,7 @@ spec:
   selector:
     app.kubernetes.io/name: darkroom
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,6 +66,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
 ---
+
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
