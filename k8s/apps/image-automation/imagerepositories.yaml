@@ -893,3 +893,29 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 60m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: umami
+  namespace: flux-system
+spec:
+  image: ghcr.io/umami-software/umami
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: umami
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: umami
+  filterTags:
+    pattern: '^postgresql-(.*)$'
+    extract: '$1'
+  policy:
+    semver:
+      range: '>=3.0.0 <4.0.0'
+  digestReflectionPolicy: Always
+  interval: 60m

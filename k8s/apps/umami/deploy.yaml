@@ -23,7 +23,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: umami
-          image: ghcr.io/umami-software/umami:postgresql-3.0.0
+          image: ghcr.io/umami-software/umami:postgresql-3.0.0 # {"$imagepolicy": "flux-system:umami"}
           ports:
             - containerPort: 3000
           env:
