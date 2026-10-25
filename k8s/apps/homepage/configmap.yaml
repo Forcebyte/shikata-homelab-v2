@@ -180,6 +180,22 @@ data:
             href: https://phpmyadmin.forcebyte.org
             description: Database Management
             icon: phpmyadmin.png
+        - Uptime Kuma:
+            href: https://uptime.forcebyte.org
+            description: Service Monitoring
+            icon: uptime-kuma.png
+            widget:
+              type: uptimekuma
+              url: https://uptime.forcebyte.org
+              slug: homelab
+        - Gotify:
+            href: https://gotify.forcebyte.org
+            description: Push Notifications
+            icon: gotify.png
+            widget:
+              type: gotify
+              url: https://gotify.forcebyte.org
+              key: {{HOMEPAGE_VAR_GOTIFY_KEY}}
     - Analytics:
         - Umami Analytics:
             href: https://umami.forcebyte.org

@@ -186,6 +186,11 @@ spec:
                 secretKeyRef:
                   name: homepage-secret
                   key: lidarr-key
+            - name: HOMEPAGE_VAR_GOTIFY_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: gotify-key
           resources:
             limits:
               memory: "256Mi"
