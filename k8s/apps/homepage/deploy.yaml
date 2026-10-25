@@ -196,6 +196,11 @@ spec:
                 secretKeyRef:
                   name: homepage-secret
                   key: immich-key
+            - name: HOMEPAGE_VAR_UMAMI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: umami-key
           resources:
             limits:
               memory: "256Mi"

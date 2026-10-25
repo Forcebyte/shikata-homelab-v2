@@ -210,6 +210,14 @@ data:
             href: https://umami.forcebyte.org
             description: Web Analytics Platform
             icon: mdi-chart-line
+            widget:
+              type: customapi
+              url: http://umami.umami.svc.cluster.local:3000/api/websites/fb631b02-fad2-4bfa-b2d5-05b6e9997a03/active
+              headers:
+                Authorization: Bearer {{HOMEPAGE_VAR_UMAMI_KEY}}
+              mappings:
+                - field: visitors
+                  label: Active
   widgets.yaml: |
     - kubernetes:
         cluster:
