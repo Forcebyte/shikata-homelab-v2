@@ -150,7 +150,7 @@ spec:
     - match: Host(`audiobookshelf.forcebyte.org`)
       kind: Rule
       middlewares:
-        - name: rybbit
+        - name: umami
           namespace: kube-system
       services:
         - name: audiobookshelf

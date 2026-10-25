@@ -101,7 +101,7 @@ spec:
     - match: Host(`readarr.forcebyte.org`)
       kind: Rule
       middlewares:
-        - name: rybbit
+        - name: umami
           namespace: kube-system
         - name: github-oauth # Apply the GitHub OAuth middleware
           namespace: kube-system

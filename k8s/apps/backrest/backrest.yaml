@@ -154,7 +154,7 @@ spec:
   - kind: Rule
     match: Host(`backrest.forcebyte.org`)
     middlewares:
-    - name: rybbit
+    - name: umami
       namespace: kube-system
     services:
     - name: backrest
