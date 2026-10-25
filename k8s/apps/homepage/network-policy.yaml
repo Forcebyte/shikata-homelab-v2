@@ -37,7 +37,7 @@ spec:
       ports:
         - protocol: TCP
           port: 80
-    # Allow calibre and readarr (qbittorrent namespace)
+    # Allow calibre, readarr and lidarr (qbittorrent namespace)
     - to:
         - namespaceSelector:
             matchLabels:
@@ -53,6 +53,8 @@ spec:
           port: 8083
         - protocol: TCP
           port: 8787
+        - protocol: TCP
+          port: 8686
     # Allow gregtech
     - to:
         - namespaceSelector:
