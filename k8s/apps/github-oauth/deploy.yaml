@@ -73,7 +73,12 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`github-oauth.forcebyte.org`) # Replace with your domain
+    - match: Host(`github-oauth.forcebyte.org`) && Path(`/`)
+      kind: Rule
+      services:
+        - name: github-oauth-server
+          port: 80
+    - match: Host(`github-oauth.forcebyte.org`) && PathPrefix(`/oauth/redirect`)
       kind: Rule
       services:
         - name: github-oauth-server
@@ -89,7 +94,7 @@ spec:
   plugin:
     github-oauth:
       logLevel: info
-      apiBaseUrl: "https://github-oauth.forcebyte.org"
+      apiBaseUrl: "http://github-oauth-server"
       whitelist:
         logins:
           - "Forcebyte" # Replace with your GitHub username
