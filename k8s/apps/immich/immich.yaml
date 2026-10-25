@@ -337,7 +337,7 @@ spec:
   - kind: Rule
     match: Host(`immich.forcebyte.org`)
     middlewares:
-    - name: rybbit
+    - name: umami
       namespace: kube-system
     - name: github-oauth
       namespace: kube-system

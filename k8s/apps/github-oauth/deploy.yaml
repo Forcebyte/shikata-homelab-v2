@@ -105,7 +105,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: rybbit
+  name: umami
   namespace: kube-system
 spec:
   plugin:

@@ -14,7 +14,7 @@ spec:
     - match: Host(`flux.forcebyte.org`)
       kind: Rule
       middlewares:
-        - name: rybbit
+        - name: umami
           namespace: kube-system
         - name: github-oauth
           namespace: kube-system

@@ -174,7 +174,7 @@ data:
             icon: phpmyadmin.png
     - Analytics:
         - Rybbit Analytics:
-            href: https://rybbit.forcebyte.org
+            href: https://umami.forcebyte.org
             description: Web Analytics Platform
             icon: mdi-chart-line
   widgets.yaml: |

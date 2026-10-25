@@ -83,7 +83,7 @@ spec:
     - match: Host(`darkroom.forcebyte.org`)
       kind: Rule
       middlewares:
-        - name: rybbit
+        - name: umami
           namespace: kube-system
       services:
         - name: darkroom
