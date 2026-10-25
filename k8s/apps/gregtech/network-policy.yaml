@@ -19,6 +19,13 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
+        # Allow Homepage widget to query server status
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
       ports:
         - protocol: TCP
           port: 25565
