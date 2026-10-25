@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: rcon-web
+      app: rcon-web-admin
   policyTypes:
     - Ingress
     - Egress
@@ -31,7 +31,10 @@ spec:
       ports:
         - protocol: UDP
           port: 53
-    # Allow RCON connections to game servers
+    # Allow RCON to the configured CS2 server (RWA_RCON_HOST/RWA_RCON_PORT)
     - to:
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: 140.238.159.81/32
+      ports:
+        - protocol: TCP
+          port: 27015

@@ -29,7 +29,10 @@ spec:
       ports:
         - protocol: UDP
           port: 53
-    # Allow all other egress (ListenBrainz/Last.fm scrobbling, artist metadata)
+    # Allow external HTTPS egress only (ListenBrainz/Last.fm scrobbling, artist metadata)
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+      ports:
+        - protocol: TCP
+          port: 443
