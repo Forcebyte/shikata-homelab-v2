@@ -82,7 +82,7 @@ data:
             widget:
               type: readarr
               url: http://readarr.qbittorrent.svc.cluster.local:80
-              key: "{{HOMEPAGE_VAR_READARR_KEY}}"
+              key: {{HOMEPAGE_VAR_READARR_KEY}}
         - Calibre:
             href: https://calibre.forcebyte.org
             description: Ebook Library Manager
@@ -91,7 +91,7 @@ data:
               type: calibreweb
               url: http://calibre-web.qbittorrent.svc.cluster.local:80
               username: forcebyte
-              password: "{{HOMEPAGE_VAR_CALIBRE_KEY}}"
+              password: {{HOMEPAGE_VAR_CALIBRE_KEY}}
         - Calibre Reader:
             href: https://calibre-reader.forcebyte.org
             description: Web Ebook Reader
@@ -105,7 +105,7 @@ data:
               type: qbittorrent
               url: http://qbittorrent.qbittorrent.svc.cluster.local:8080
               username: forcebyte
-              password: "{{HOMEPAGE_VAR_QBITTORRENT_KEY}}"
+              password: {{HOMEPAGE_VAR_QBITTORRENT_KEY}}
               enableLeechProgress: true
               enableLeechSize: true
         - Prowlarr:
@@ -115,7 +115,15 @@ data:
             widget:
               type: prowlarr
               url: http://prowlarr.prowlarr.svc.cluster.local:80
-              key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+              key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
+        - Lidarr:
+            href: https://lidarr.forcebyte.org
+            description: Music Manager
+            icon: lidarr.png
+            widget:
+              type: lidarr
+              url: http://lidarr.qbittorrent.svc.cluster.local:80
+              key: {{HOMEPAGE_VAR_LIDARR_KEY}}
         - NZBGet:
             href: https://nzbget.forcebyte.org
             description: Usenet Downloader
@@ -132,7 +140,7 @@ data:
             widget:
               type: audiobookshelf
               url: http://audiobookshelf.audiobookshelf.svc.cluster.local:80
-              key: "{{HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY}}"
+              key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_KEY}}
     - Gaming:
         - Minecraft:
             href: https://minecraft.forcebyte.org
@@ -148,13 +156,13 @@ data:
             widget:
               type: minecraft
               url: udp://ftb.forcebyte.org:25566
-        - Minecraft FTB:
-            href: https://ftb.forcebyte.org
-            description: "FTB Modded Server (ftb.forcebyte.org:25567)"
-            icon: mdi-pickaxe
+        - GregTech:
+            href: https://gregtech.forcebyte.org
+            description: "GTNH Server (gregtech.forcebyte.org:25567)"
+            icon: minecraft.png
             widget:
               type: minecraft
-              url: udp://ftb.forcebyte.org:25566
+              url: udp://gregtech.gregtech.svc.cluster.local:25567
         - Terraria:
             href: https://terraria.forcebyte.org
             description: "Terraria Server (terraria.forcebyte.org:7777)"
@@ -173,7 +181,7 @@ data:
             description: Database Management
             icon: phpmyadmin.png
     - Analytics:
-        - Rybbit Analytics:
+        - Umami Analytics:
             href: https://umami.forcebyte.org
             description: Web Analytics Platform
             icon: mdi-chart-line

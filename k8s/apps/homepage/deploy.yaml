@@ -181,6 +181,11 @@ spec:
                 secretKeyRef:
                   name: homepage-secret
                   key: calibre-key
+            - name: HOMEPAGE_VAR_LIDARR_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: lidarr-key
           resources:
             limits:
               memory: "256Mi"
