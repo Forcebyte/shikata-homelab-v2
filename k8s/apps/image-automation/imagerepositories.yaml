@@ -912,7 +912,7 @@ spec:
   imageRepositoryRef:
     name: umami
   filterTags:
-    pattern: '^postgresql-(.*)$'
+    pattern: '^(3\..*)$'
     extract: '$1'
   policy:
     semver:
