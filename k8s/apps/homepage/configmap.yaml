@@ -74,6 +74,15 @@ data:
             href: https://darkroom.forcebyte.org
             description: Text-based Adventure Game
             icon: mdi-campfire
+        - Immich:
+            href: https://immich.forcebyte.org
+            description: Photo Storage
+            icon: immich.png
+            widget:
+              type: immich
+              url: http://immich.immich.svc.cluster.local:80
+              key: {{HOMEPAGE_VAR_IMMICH_KEY}}
+              version: 2
     - Books:
         - Readarr:
             href: https://readarr.forcebyte.org

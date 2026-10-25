@@ -191,6 +191,11 @@ spec:
                 secretKeyRef:
                   name: homepage-secret
                   key: gotify-key
+            - name: HOMEPAGE_VAR_IMMICH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-secret
+                  key: immich-key
           resources:
             limits:
               memory: "256Mi"
