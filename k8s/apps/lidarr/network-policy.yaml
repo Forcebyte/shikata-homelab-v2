@@ -33,6 +33,14 @@ spec:
       ports:
         - protocol: TCP
           port: 8686
+    # Allow Homepage widget to query library status
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homepage
+      ports:
+        - protocol: TCP
+          port: 8686
   egress:
     # Allow DNS
     - to:
