@@ -23,6 +23,13 @@ spec:
     ports:
     - port: 2283
       protocol: TCP
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: homepage
+    ports:
+    - port: 2283
+      protocol: TCP
   egress:
   - to:
     - podSelector:
