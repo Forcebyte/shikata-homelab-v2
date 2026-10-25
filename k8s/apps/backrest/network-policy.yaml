@@ -51,3 +51,10 @@ spec:
     ports:
     - port: 443
       protocol: TCP
+  # Gotify via tailnet (notification webhooks)
+  - to:
+    - ipBlock:
+        cidr: 100.73.64.91/32
+    ports:
+    - port: 8081
+      protocol: TCP
