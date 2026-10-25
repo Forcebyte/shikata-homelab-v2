@@ -36,7 +36,7 @@ spec:
             - name: API_BASE_URL
               value: "https://github-oauth.forcebyte.org/"
             - name: DEBUG_MODE
-              value: "true"
+              value: "false"
           ports:
             - containerPort: 80
           #resources:
@@ -93,6 +93,8 @@ spec:
       whitelist:
         logins:
           - "Forcebyte" # Replace with your GitHub username
+        ids:
+          - "44551053"
 ---
 # Middleware for Umami analytics (script injection)
 apiVersion: traefik.io/v1alpha1

@@ -90,6 +90,8 @@ spec:
       middlewares:
         - name: rybbit
           namespace: kube-system
+        - name: github-oauth
+          namespace: kube-system
       services:
         - name: networking-toolbox
           port: 3000
