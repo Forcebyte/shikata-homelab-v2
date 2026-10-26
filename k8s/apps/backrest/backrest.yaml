@@ -86,6 +86,8 @@ spec:
           mountPath: /mnt/b2
         - name: oci-bucket
           mountPath: /mnt/oci-bucket
+        - name: b2-2
+          mountPath: /mnt/b2-2
         - name: k3s-server
           mountPath: /host-k3s/server
           readOnly: true
@@ -115,6 +117,10 @@ spec:
       - name: oci-bucket
         hostPath:
           path: /mnt/oci-bucket
+          type: Directory
+      - name: b2-2
+        hostPath:
+          path: /mnt/b2-2
           type: Directory
       - name: k3s-server
         hostPath:
