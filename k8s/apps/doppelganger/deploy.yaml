@@ -42,7 +42,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: doppelganger
-          image: ghcr.io/forcebyte/doppelganger-arm:latest-arm64 # {"$imagepolicy": "flux-system:doppelganger"}
+          image: ghcr.io/forcebyte/doppelganger-arm:latest-arm64@sha256:f84fd7da9a142cc7a3b44b038880c721668c7b545f8cf3935475c1eaa436ea44 # {"$imagepolicy": "flux-system:doppelganger"}
           imagePullPolicy: Always
           ports:
             - containerPort: 11345

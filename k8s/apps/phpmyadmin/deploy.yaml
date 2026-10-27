@@ -7,7 +7,6 @@ metadata:
     pod-security.kubernetes.io/audit: baseline
     pod-security.kubernetes.io/warn: baseline
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,7 +25,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: phpmyadmin
-        image: phpmyadmin:latest@sha256:62a50b1419fe55b9b4c3cd6f5aed03a18f8f5b4a236f24735d76400bea75a5ff # {"$imagepolicy": "flux-system:phpmyadmin"}
+        image: phpmyadmin:latest@sha256:4de49392e023fa330f49ecc72a79384359783856ade762272112ed347ab32706 # {"$imagepolicy": "flux-system:phpmyadmin"}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -60,7 +59,6 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
