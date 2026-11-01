@@ -18,6 +18,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  suspend: true
   sourceRef:
     kind: GitRepository
     name: shikata-homelab-v2-writes
