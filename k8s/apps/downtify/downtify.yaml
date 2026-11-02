@@ -70,6 +70,8 @@ spec:
             - name: music
               mountPath: /downloads
               subPath: downtify
+            - name: slskd-downloads
+              mountPath: /slskd
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -79,6 +81,9 @@ spec:
         - name: music
           persistentVolumeClaim:
             claimName: music
+        - name: slskd-downloads
+          persistentVolumeClaim:
+            claimName: slskd-downloads
 ---
 apiVersion: v1
 kind: Service

@@ -24,3 +24,13 @@ image-automation window like everything else).
 - CSV library import accepts Soundiiz/TuneMyMusic/Exportify exports —
   the bulk path for the Nov 2 Spotify export (every track URI converts
   to an open.spotify.com/track/<id> link).
+
+## slskd wiring (Nov 2, 2026)
+- Downtify reaches slskd over the API (NP egress to slskd:5030, PR #149) AND
+  must share slskd's download dir: the slskd-downloads PVC is mounted at
+  /slskd in this Deployment (Downtify's slskd.source_dir). Without the mount,
+  Soulseek transfers complete but Downtify never sees the files, every
+  candidate times out, and downloads fall through to YouTube (bot-blocked).
+- Downtify setting slskd.leave_in_place=false so completed files are copied
+  into the music library (/downloads) instead of staying in the slskd dir,
+  where Navidrome would never scan them.
