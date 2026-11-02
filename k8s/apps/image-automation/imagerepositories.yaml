@@ -944,3 +944,29 @@ spec:
       order: asc
   digestReflectionPolicy: Always
   interval: 60m
+
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: downtify
+  namespace: flux-system
+spec:
+  image: ghcr.io/henriquesebastiao/downtify
+  interval: 30m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: downtify
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: downtify
+  filterTags:
+    pattern: "^latest$"
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 60m

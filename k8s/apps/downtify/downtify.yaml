@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: downtify-data
+  namespace: qbittorrent
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: local-path
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downtify
+  namespace: qbittorrent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: downtify
+  template:
+    metadata:
+      labels:
+        app: downtify
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      initContainers:
+        - name: init-dirs
+          image: busybox:1.37
+          securityContext:
+            runAsUser: 0
+            allowPrivilegeEscalation: false
+          command:
+            - sh
+            - -c
+            - mkdir -p /downloads && chmod 777 /downloads
+          volumeMounts:
+            - name: music
+              mountPath: /downloads
+              subPath: downtify
+      containers:
+        - name: downtify
+          image: ghcr.io/henriquesebastiao/downtify:3.8.1@sha256:1cee6d2335fdc441bcfb453a113f165459bbcb6e4d9d84c40f9158af14eac8ea # {"$imagepolicy": "flux-system:downtify"}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: TZ
+              value: "Etc/UTC"
+            - name: DOWNLOAD_DIR
+              value: "/downloads"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+          volumeMounts:
+            - name: downtify-data
+              mountPath: /data
+            - name: music
+              mountPath: /downloads
+              subPath: downtify
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: downtify-data
+          persistentVolumeClaim:
+            claimName: downtify-data
+        - name: music
+          persistentVolumeClaim:
+            claimName: music
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: downtify
+  namespace: qbittorrent
+spec:
+  selector:
+    app: downtify
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: downtify
+  namespace: qbittorrent
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`downtify.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: umami
+          namespace: kube-system
+      services:
+        - name: downtify
+          port: 80
