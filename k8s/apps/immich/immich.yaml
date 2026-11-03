@@ -20,7 +20,7 @@ metadata:
   namespace: immich
 spec:
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -149,7 +149,7 @@ metadata:
   namespace: immich
 spec:
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -253,7 +253,7 @@ metadata:
   namespace: immich
 spec:
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 10
   selector:
     matchLabels:
