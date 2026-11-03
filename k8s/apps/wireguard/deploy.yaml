@@ -38,6 +38,8 @@ spec:
               containerPort: 51820
               protocol: UDP
           resources:
+            requests:
+              memory: "64Mi"
             limits:
               memory: "128Mi"
           env:
