@@ -61,7 +61,7 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: "4Gi"
+              memory: "5Gi"
             limits:
               memory: "5Gi"
           securityContext:

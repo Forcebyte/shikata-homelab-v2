@@ -71,7 +71,7 @@ spec:
             requests:
               memory: "64Mi"
             limits:
-              memory: "384Mi"
+              memory: "1Gi"
           volumeMounts:
             - name: slskd-downloads
               mountPath: /downloads
