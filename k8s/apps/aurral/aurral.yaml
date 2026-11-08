@@ -31,7 +31,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: aurral
-          image: ghcr.io/lklynet/aurral:latest@sha256:fbe71cefb016cc9bc1528cc8eafbac2d658310d95a066c3673c5760c75178a62 # {"$imagepolicy": "flux-system:aurral"}
+          image: ghcr.io/lklynet/aurral:latest@sha256:75dd06805e3daefd49eb4f91d19f4110f0ef6eb1d2b13e48ae36120d113b48f0 # {"$imagepolicy": "flux-system:aurral"}
           imagePullPolicy: Always
           ports:
             - containerPort: 3001

@@ -49,7 +49,7 @@ spec:
               subPath: downtify
       containers:
         - name: downtify
-          image: ghcr.io/henriquesebastiao/downtify:3.8.1@sha256:1cee6d2335fdc441bcfb453a113f165459bbcb6e4d9d84c40f9158af14eac8ea # {"$imagepolicy": "flux-system:downtify"}
+          image: ghcr.io/henriquesebastiao/downtify:latest@sha256:8daf035bebbb51042cc26a11732778743b5f389302af4a5c9d435ea736d4fecd # {"$imagepolicy": "flux-system:downtify"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

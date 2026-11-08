@@ -25,7 +25,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: phpmyadmin
-        image: phpmyadmin:latest@sha256:fb0cb638f7d1c2529407921d86679b2b2faf5bb8542314821e9f16e7e3d2954f # {"$imagepolicy": "flux-system:phpmyadmin"}
+        image: phpmyadmin:latest@sha256:f54a37b908b26caa7032c4eb0c7f3495fdd90208a06eed9c4b2c8e691dd1662c # {"$imagepolicy": "flux-system:phpmyadmin"}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
