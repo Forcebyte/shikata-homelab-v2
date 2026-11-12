@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: image-controllers-scale-up
+  namespace: flux-system
+spec:
+  schedule: "0 1 * * 0"
+  timeZone: America/Toronto
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          serviceAccountName: image-scale-cron
+          restartPolicy: Never
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl:latest
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              command:
+                - /bin/bash
+                - -ceu
+                - |
+                  kubectl scale deployment/image-reflector-controller deployment/image-automation-controller -n flux-system --replicas=1
+                  kubectl get deployment/image-reflector-controller deployment/image-automation-controller -n flux-system
