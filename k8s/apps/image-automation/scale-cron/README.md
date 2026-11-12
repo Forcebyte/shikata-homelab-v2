@@ -44,3 +44,10 @@ that week's image updates silently don't land — there is no retry until
 the next Sunday. The CronJob history (`kubectl -n flux-system get jobs`)
 is the place to check. The image-automation-controller's own image is not
 managed by an ImagePolicy, so the annotation does not freeze its updates.
+
+The scale jobs themselves are a failure mode too: if the Sunday 05:00
+scale-down job pod cannot schedule, the controllers just stay up — no
+savings, nothing breaks. The job pods request only 16Mi of memory
+because the node sits at ~99% of booked requests; the original 64Mi
+request left the first live test job Pending. Keep the request tiny:
+kubectl needs very little for a scale call.
