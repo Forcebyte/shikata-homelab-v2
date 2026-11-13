@@ -40,8 +40,10 @@ spec:
           ports:
             - containerPort: 8787 # Default port for Readarr
           resources:
+            requests:
+              memory: "192Mi"
             limits:
-              memory: "256Mi"
+              memory: "192Mi"
           volumeMounts:
             - name: readarr-data
               mountPath: /config # Configuration and database files
