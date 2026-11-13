@@ -202,8 +202,10 @@ spec:
                   name: homepage-secret
                   key: umami-key
           resources:
+            requests:
+              memory: "192Mi"
             limits:
-              memory: "256Mi"
+              memory: "192Mi"
           ports:
             - name: http
               containerPort: 3000

@@ -44,6 +44,8 @@ spec:
                   name: rreading-glasses
                   key: hardcover-auth
           resources:
+            requests:
+              memory: "192Mi"
             limits:
               memory: "256Mi"
           securityContext:
