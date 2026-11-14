@@ -39,6 +39,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 25565
+            - containerPort: 25575
           env:
             - name: EULA
               value: "TRUE"
@@ -87,6 +88,9 @@ spec:
     - name: gregtech
       port: 25567
       targetPort: 25565
+    - name: rcon
+      port: 25575
+      targetPort: 25575
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1

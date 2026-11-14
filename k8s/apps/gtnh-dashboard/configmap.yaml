@@ -1,0 +1,568 @@
+apiVersion: v1
+data:
+  app.py: |
+    #!/usr/bin/env python3
+    """GTNH RCON dashboard.
+
+    Polls the GTNH Minecraft server via the server-list ping protocol and RCON
+    (no in-game items, no server mods, no OpenComputers), plus the Kubernetes
+    Metrics API for the server pod's CPU/memory and the Kubernetes API for the
+    gregtech Deployment's VIEW_DISTANCE env var. Serves a self-contained HTML
+    dashboard on :8080 and a JSON status endpoint at /api/status.
+
+    Pure Python standard library only. No pip dependencies.
+    """
+    import json
+    import os
+    import re
+    import socket
+    import ssl
+    import struct
+    import threading
+    import time
+    import urllib.request
+    from datetime import datetime, timezone
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    MC_HOST = os.environ.get("MC_HOST", "gregtech.gregtech.svc.cluster.local")
+    MC_PORT = int(os.environ.get("MC_PORT", "25567"))
+    RCON_HOST = os.environ.get("RCON_HOST", "gregtech.gregtech.svc.cluster.local")
+    RCON_PORT = int(os.environ.get("RCON_PORT", "25575"))
+    RCON_PASSWORD = os.environ.get("RCON_PASSWORD", "")
+    POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "30"))
+    STATE_FILE = os.environ.get("STATE_FILE", "/data/state.json")
+    HTTP_PORT = int(os.environ.get("HTTP_PORT", "8080"))
+    # Keep 24h of 30s samples in memory; /api/status serves the newest 240.
+    MAX_SAMPLES = 2880
+    CHART_SAMPLES = 240
+
+
+    # ---------------------------------------------------------------------------
+    # Minecraft server-list ping (protocol version -1, status state)
+    # ---------------------------------------------------------------------------
+    def write_varint(value):
+        # Mask negative values to unsigned 32-bit FIRST. In Python, -1 >> 7
+        # stays -1 forever, so encoding the protocol version -1 without this
+        # mask loops infinitely.
+        value &= 0xFFFFFFFF
+        out = bytearray()
+        while True:
+            b = value & 0x7F
+            value >>= 7
+            if value:
+                out.append(b | 0x80)
+            else:
+                out.append(b)
+                return bytes(out)
+
+
+    def read_varint(sock):
+        result = 0
+        shift = 0
+        while True:
+            b = sock.recv(1)
+            if not b:
+                raise ConnectionError("EOF reading varint")
+            byte = b[0]
+            result |= (byte & 0x7F) << shift
+            if not (byte & 0x80):
+                return result
+            shift += 7
+            if shift >= 35:
+                raise ValueError("varint too long")
+
+
+    def mc_ping(host, port, timeout=5):
+        """Return the server-list status JSON dict."""
+        s = socket.create_connection((host, port), timeout=timeout)
+        try:
+            addr = host.encode("utf-8")
+            payload = (
+                write_varint(0)
+                + write_varint(-1)
+                + write_varint(len(addr))
+                + addr
+                + struct.pack(">H", port)
+                + write_varint(1)
+            )
+            s.sendall(write_varint(len(payload)) + payload)
+            s.sendall(write_varint(1) + write_varint(0))
+            read_varint(s)  # response length
+            read_varint(s)  # packet id
+            jlen = read_varint(s)
+            data = b""
+            while len(data) < jlen:
+                chunk = s.recv(jlen - len(data))
+                if not chunk:
+                    break
+                data += chunk
+            return json.loads(data.decode("utf-8"))
+        finally:
+            s.close()
+
+
+    # ---------------------------------------------------------------------------
+    # RCON (Source RCON protocol)
+    # ---------------------------------------------------------------------------
+    def rcon_command(host, port, password, command, timeout=5):
+        """Run one RCON command; return its output string.
+
+        Replies can arrive as several packets with no newlines between them, so
+        read until a short (1s) socket timeout, then stop.
+        """
+        s = socket.create_connection((host, port), timeout=timeout)
+        try:
+            def make_packet(rid, ptype, payload):
+                body = struct.pack("<ii", rid, ptype) + payload.encode("utf-8") + b"\x00\x00"
+                return struct.pack("<i", len(body)) + body
+
+            def read_packet():
+                raw = s.recv(4)
+                if len(raw) < 4:
+                    raise ConnectionError("EOF reading packet length")
+                length = struct.unpack("<i", raw)[0]
+                body = b""
+                while len(body) < length:
+                    chunk = s.recv(length - len(body))
+                    if not chunk:
+                        raise ConnectionError("EOF reading packet body")
+                    body += chunk
+                rid, ptype = struct.unpack("<ii", body[:8])
+                payload = body[8:-2].decode("utf-8", errors="replace")
+                return rid, ptype, payload
+
+            s.sendall(make_packet(1, 3, password))
+            rid, _ptype, _payload = read_packet()
+            if rid == -1:
+                raise PermissionError("RCON auth failed")
+            s.sendall(make_packet(2, 2, command))
+            s.settimeout(1.0)
+            out = ""
+            try:
+                while True:
+                    rid, _ptype, payload = read_packet()
+                    if rid == 2:
+                        out += payload
+            except socket.timeout:
+                pass
+            return out
+        finally:
+            s.close()
+
+
+    TPS_RE = re.compile(
+        r"Mean tick time:\s*([0-9.]+)\s*ms\.\s*Mean TPS:\s*([0-9.]+)"
+    )
+
+
+    def parse_tps(text):
+        """Parse `forge tps` output. Returns (overall, dim0) dicts or None."""
+        overall = None
+        dim0 = None
+        # RCON concatenates dimension entries without newlines; split on "Dim ".
+        for chunk in text.split("Dim "):
+            chunk = chunk.strip()
+            if not chunk:
+                continue
+            if chunk.startswith("Overall"):
+                m = TPS_RE.search(chunk)
+                if m:
+                    overall = {"tick_ms": float(m.group(1)), "tps": float(m.group(2))}
+            elif chunk.startswith("0 :"):
+                m = TPS_RE.search(chunk)
+                if m:
+                    dim0 = {"tick_ms": float(m.group(1)), "tps": float(m.group(2))}
+        # Fallback: if the split missed it, look for the Overall entry directly.
+        if overall is None:
+            idx = text.find("Overall")
+            if idx >= 0:
+                m = TPS_RE.search(text[idx:])
+                if m:
+                    overall = {"tick_ms": float(m.group(1)), "tps": float(m.group(2))}
+        return overall, dim0
+
+
+    # ---------------------------------------------------------------------------
+    # Kubernetes API (in-cluster ServiceAccount token + CA)
+    # ---------------------------------------------------------------------------
+    SA_TOKEN = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    SA_CA = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+    K8S_API = "https://kubernetes.default.svc"
+
+
+    def k8s_get(path, timeout=5):
+        """GET a Kubernetes API path; return the parsed JSON dict or None."""
+        try:
+            with open(SA_TOKEN, "r") as f:
+                token = f.read().strip()
+        except OSError:
+            return None
+        ctx = ssl.create_default_context(cafile=SA_CA)
+        req = urllib.request.Request(
+            K8S_API + path,
+            headers={"Authorization": "Bearer " + token, "Accept": "application/json"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout, context=ctx) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except Exception:
+            return None
+
+
+    def parse_cpu_millis(cpu_str):
+        if cpu_str is None:
+            return None
+        cpu_str = str(cpu_str)
+        if cpu_str.endswith("n"):
+            return int(cpu_str[:-1]) // 1_000_000
+        if cpu_str.endswith("u"):
+            return int(cpu_str[:-1]) // 1_000
+        if cpu_str.endswith("m"):
+            return int(cpu_str[:-1])
+        try:
+            return int(float(cpu_str) * 1000)
+        except ValueError:
+            return None
+
+
+    def parse_mem_mib(mem_str):
+        if mem_str is None:
+            return None
+        mem_str = str(mem_str)
+        mult = {"Ki": 1 / 1024, "Mi": 1, "Gi": 1024, "Ti": 1024 * 1024,
+                "K": 1000 / 1048576, "M": 1000000 / 1048576,
+                "G": 1000000000 / 1048576}
+        for suffix, factor in mult.items():
+            if mem_str.endswith(suffix):
+                try:
+                    return int(float(mem_str[:-len(suffix)]) * factor)
+                except ValueError:
+                    return None
+        try:
+            return int(float(mem_str) / 1048576)
+        except ValueError:
+            return None
+
+
+    # ---------------------------------------------------------------------------
+    # Collector state
+    # ---------------------------------------------------------------------------
+    class Dashboard:
+        def __init__(self):
+            self.lock = threading.Lock()
+            self.history = []  # list of sample dicts, oldest first
+            self.session_start = None  # epoch when the current up-session began
+            self.last_up = None  # epoch of the most recent successful poll
+            self.first_seen = None
+            self.up_samples = 0
+            self.total_samples = 0
+            self.latest = {
+                "online": False,
+                "version": None,
+                "motd": None,
+                "players_online": 0,
+                "players_max": 20,
+                "player_names": [],
+                "tps_overall": None,
+                "tick_ms_overall": None,
+                "tps_dim0": None,
+                "tick_ms_dim0": None,
+                "pod_cpu_m": None,
+                "pod_mem_mib": None,
+                "view_distance": None,
+                "last_poll": None,
+                "last_error": None,
+            }
+            self._load_snapshot()
+
+        def _load_snapshot(self):
+            try:
+                with open(STATE_FILE, "r") as f:
+                    snap = json.load(f)
+                self.session_start = snap.get("session_start")
+                self.last_up = snap.get("last_up")
+                self.first_seen = snap.get("first_seen")
+                self.up_samples = snap.get("up_samples", 0)
+                self.total_samples = snap.get("total_samples", 0)
+                self.latest.update(snap.get("latest", {}))
+            except Exception:
+                pass
+
+        def _save_snapshot(self):
+            try:
+                os.makedirs(os.path.dirname(STATE_FILE), exist_ok=True)
+                snap = {
+                    "session_start": self.session_start,
+                    "last_up": self.last_up,
+                    "first_seen": self.first_seen,
+                    "up_samples": self.up_samples,
+                    "total_samples": self.total_samples,
+                    "latest": self.latest,
+                }
+                tmp = STATE_FILE + ".tmp"
+                with open(tmp, "w") as f:
+                    json.dump(snap, f)
+                os.replace(tmp, STATE_FILE)
+            except Exception:
+                pass
+
+        def poll_once(self):
+            now = int(time.time())
+            sample = {"t": now, "online": False, "players": 0,
+                      "tps": None, "dim0_tick": None,
+                      "cpu_m": None, "mem_mib": None}
+            error = None
+            latest = dict(self.latest)
+            latest["last_poll"] = now
+            try:
+                ping = mc_ping(MC_HOST, MC_PORT)
+                players = ping.get("players", {})
+                names = [p.get("name") for p in players.get("sample", []) if p.get("name")]
+                latest["online"] = True
+                latest["version"] = ping.get("version", {}).get("name")
+                desc = ping.get("description")
+                latest["motd"] = desc if isinstance(desc, str) else json.dumps(desc)
+                latest["players_online"] = players.get("online", 0)
+                latest["players_max"] = players.get("max", 20)
+                latest["player_names"] = names
+                sample["online"] = True
+                sample["players"] = players.get("online", 0)
+                if RCON_PASSWORD:
+                    try:
+                        tps_text = rcon_command(RCON_HOST, RCON_PORT, RCON_PASSWORD, "forge tps")
+                        overall, dim0 = parse_tps(tps_text)
+                        if overall:
+                            latest["tps_overall"] = overall["tps"]
+                            latest["tick_ms_overall"] = overall["tick_ms"]
+                            sample["tps"] = overall["tps"]
+                        if dim0:
+                            latest["tps_dim0"] = dim0["tps"]
+                            latest["tick_ms_dim0"] = dim0["tick_ms"]
+                            sample["dim0_tick"] = dim0["tick_ms"]
+                    except Exception as e:
+                        error = "rcon: %s" % e
+            except Exception as e:
+                latest["online"] = False
+                error = "ping: %s" % e
+            # Pod CPU/memory via the Metrics API (best effort; None if unavailable).
+            try:
+                metrics = k8s_get("/apis/metrics.k8s.io/v1beta1/namespaces/gregtech/pods?labelSelector=app%3Dgregtech")
+                items = (metrics or {}).get("items", [])
+                if items:
+                    containers = items[0].get("containers", [])
+                    if containers:
+                        usage = containers[0].get("usage", {})
+                        cpu_m = parse_cpu_millis(usage.get("cpu"))
+                        mem_mib = parse_mem_mib(usage.get("memory"))
+                        latest["pod_cpu_m"] = cpu_m
+                        latest["pod_mem_mib"] = mem_mib
+                        sample["cpu_m"] = cpu_m
+                        sample["mem_mib"] = mem_mib
+            except Exception:
+                pass
+            # VIEW_DISTANCE from the gregtech Deployment env (best effort).
+            try:
+                dep = k8s_get("/apis/apps/v1/namespaces/gregtech/deployments/gregtech")
+                containers = dep["spec"]["template"]["spec"]["containers"]
+                for env in containers[0].get("env", []):
+                    if env.get("name") == "VIEW_DISTANCE":
+                        latest["view_distance"] = env.get("value")
+            except Exception:
+                pass
+            latest["last_error"] = error
+            with self.lock:
+                if self.first_seen is None:
+                    self.first_seen = now
+                self.total_samples += 1
+                if latest["online"]:
+                    self.up_samples += 1
+                    self.last_up = now
+                    if self.session_start is None:
+                        self.session_start = now
+                else:
+                    self.session_start = None
+                self.latest = latest
+                self.history.append(sample)
+                if len(self.history) > MAX_SAMPLES:
+                    self.history = self.history[-MAX_SAMPLES:]
+                self._save_snapshot()
+
+        def status(self):
+            with self.lock:
+                uptime_pct = None
+                if self.total_samples:
+                    uptime_pct = round(100.0 * self.up_samples / self.total_samples, 1)
+                return {
+                    "online": self.latest["online"],
+                    "version": self.latest["version"],
+                    "motd": self.latest["motd"],
+                    "players_online": self.latest["players_online"],
+                    "players_max": self.latest["players_max"],
+                    "player_names": self.latest["player_names"],
+                    "tps_overall": self.latest["tps_overall"],
+                    "tick_ms_overall": self.latest["tick_ms_overall"],
+                    "tps_dim0": self.latest["tps_dim0"],
+                    "tick_ms_dim0": self.latest["tick_ms_dim0"],
+                    "pod_cpu_m": self.latest["pod_cpu_m"],
+                    "pod_mem_mib": self.latest["pod_mem_mib"],
+                    "view_distance": self.latest["view_distance"],
+                    "session_start": self.session_start,
+                    "last_up": self.last_up,
+                    "last_poll": self.latest["last_poll"],
+                    "last_error": self.latest["last_error"],
+                    "uptime_pct": uptime_pct,
+                    "history": list(self.history[-CHART_SAMPLES:]),
+                }
+
+
+    DASH = Dashboard()
+
+
+    def collector_loop():
+        while True:
+            try:
+                DASH.poll_once()
+            except Exception:
+                pass
+            time.sleep(POLL_INTERVAL)
+
+
+    # ---------------------------------------------------------------------------
+    # HTTP server
+    # ---------------------------------------------------------------------------
+    HTML_PAGE = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GTNH Server Dashboard</title>
+    <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#111827;color:#e5e7eb;margin:0;padding:24px}
+    h1{font-size:22px;margin:0 0 4px}
+    .sub{color:#9ca3af;font-size:13px;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;max-width:1000px}
+    .card{background:#1f2937;border-radius:10px;padding:16px}
+    .card h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin:0 0 8px}
+    .big{font-size:28px;font-weight:700}
+    .small{font-size:13px;color:#9ca3af}
+    .ok{color:#34d399}.bad{color:#f87171}
+    canvas{width:100%;max-width:1000px;background:#1f2937;border-radius:10px;margin-top:12px}
+    table{width:100%;border-collapse:collapse;margin-top:12px;max-width:1000px}
+    td{padding:6px 8px;border-bottom:1px solid #374151;font-size:14px}
+    td:first-child{color:#9ca3af;width:180px}
+    </style>
+    </head>
+    <body>
+    <h1>GTNH Server Dashboard</h1>
+    <div class="sub" id="subtitle">Loading&hellip;</div>
+    <div class="grid">
+      <div class="card"><h2>Status</h2><div class="big" id="status">&mdash;</div><div class="small" id="session"></div></div>
+      <div class="card"><h2>Players</h2><div class="big" id="players">&mdash;</div><div class="small" id="names"></div></div>
+      <div class="card"><h2>TPS (overall)</h2><div class="big" id="tps">&mdash;</div><div class="small" id="tick"></div></div>
+      <div class="card"><h2>Overworld (Dim 0)</h2><div class="big" id="tps0">&mdash;</div><div class="small" id="tick0"></div></div>
+      <div class="card"><h2>Pod memory</h2><div class="big" id="mem">&mdash;</div><div class="small" id="cpu"></div></div>
+      <div class="card"><h2>Uptime</h2><div class="big" id="uptime">&mdash;</div><div class="small" id="uptime-sub"></div></div>
+    </div>
+    <canvas id="chart" height="140"></canvas>
+    <table>
+      <tr><td>Version</td><td id="version">&mdash;</td></tr>
+      <tr><td>MOTD</td><td id="motd">&mdash;</td></tr>
+      <tr><td>View distance</td><td id="vd">&mdash;</td></tr>
+      <tr><td>Last poll</td><td id="poll">&mdash;</td></tr>
+      <tr><td>Last error</td><td id="err">&mdash;</td></tr>
+    </table>
+    <script>
+    function fmtTime(ts){ if(!ts) return "—"; return new Date(ts*1000).toLocaleString(); }
+    function ago(ts){ if(!ts) return ""; var s=Math.floor(Date.now()/1000-ts); if(s<60) return s+"s ago"; if(s<3600) return Math.floor(s/60)+"m ago"; if(s<86400) return Math.floor(s/3600)+"h ago"; return Math.floor(s/86400)+"d ago"; }
+    function draw(history){
+      var c=document.getElementById("chart"), ctx=c.getContext("2d");
+      var W=c.width=c.offsetWidth, H=c.height=140; ctx.clearRect(0,0,W,H);
+      if(!history || history.length<2) return;
+      ctx.strokeStyle="#374151"; ctx.beginPath(); ctx.moveTo(0,H-20); ctx.lineTo(W,H-20); ctx.stroke();
+      function line(key,color,max){
+        ctx.strokeStyle=color; ctx.lineWidth=2; ctx.beginPath();
+        history.forEach(function(s,i){
+          var x=i/(history.length-1)*W, v=s[key];
+          if(v==null) return;
+          var y=H-20-(v/max)*(H-40);
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.stroke();
+      }
+      line("tps","#34d399",20);
+      line("players","#60a5fa",20);
+      ctx.fillStyle="#9ca3af"; ctx.font="11px sans-serif";
+      ctx.fillText("TPS (green, /20) and players (blue, /20)",8,14);
+    }
+    async function refresh(){
+      try{
+        var r=await fetch("/api/status"); var d=await r.json();
+        document.getElementById("subtitle").textContent = d.online ? "Server is up" : "Server is DOWN — showing last known values";
+        var st=document.getElementById("status");
+        st.textContent = d.online ? "Online" : "Offline";
+        st.className = "big " + (d.online ? "ok" : "bad");
+        document.getElementById("session").textContent = d.online && d.session_start ? "Up since " + fmtTime(d.session_start) : (d.last_up ? "Last seen up " + ago(d.last_up) : "");
+        document.getElementById("players").textContent = d.players_online + " / " + d.players_max;
+        document.getElementById("names").textContent = (d.player_names && d.player_names.length) ? d.player_names.join(", ") : "No players online";
+        document.getElementById("tps").textContent = d.tps_overall==null ? "—" : d.tps_overall.toFixed(2);
+        document.getElementById("tick").textContent = d.tick_ms_overall==null ? "" : "Mean tick " + d.tick_ms_overall.toFixed(2) + " ms";
+        document.getElementById("tps0").textContent = d.tps_dim0==null ? "—" : d.tps_dim0.toFixed(2);
+        document.getElementById("tick0").textContent = d.tick_ms_dim0==null ? "" : "Mean tick " + d.tick_ms_dim0.toFixed(2) + " ms";
+        document.getElementById("mem").textContent = d.pod_mem_mib==null ? "—" : d.pod_mem_mib + " MiB";
+        document.getElementById("cpu").textContent = d.pod_cpu_m==null ? "" : "CPU " + d.pod_cpu_m + "m";
+        document.getElementById("uptime").textContent = d.uptime_pct==null ? "—" : d.uptime_pct + "%";
+        document.getElementById("uptime-sub").textContent = "Since dashboard started";
+        document.getElementById("version").textContent = d.version || "—";
+        document.getElementById("motd").textContent = d.motd || "—";
+        document.getElementById("vd").textContent = d.view_distance==null ? "—" : d.view_distance;
+        document.getElementById("poll").textContent = d.last_poll ? fmtTime(d.last_poll) + " (" + ago(d.last_poll) + ")" : "—";
+        document.getElementById("err").textContent = d.last_error || "none";
+        draw(d.history);
+      }catch(e){
+        document.getElementById("subtitle").textContent = "Could not reach the dashboard backend.";
+      }
+    }
+    refresh(); setInterval(refresh, 15000);
+    </script>
+    </body>
+    </html>
+    """
+
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def _send(self, code, body, ctype):
+            data = body.encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            if self.path == "/" or self.path == "/index.html":
+                self._send(200, HTML_PAGE, "text/html; charset=utf-8")
+            elif self.path == "/api/status":
+                self._send(200, json.dumps(DASH.status()), "application/json")
+            elif self.path == "/healthz":
+                self._send(200, "ok", "text/plain")
+            else:
+                self._send(404, "not found", "text/plain")
+
+
+    def main():
+        t = threading.Thread(target=collector_loop, daemon=True)
+        t.start()
+        server = ThreadingHTTPServer(("0.0.0.0", HTTP_PORT), Handler)
+        print("gtnh-dashboard listening on :%d" % HTTP_PORT, flush=True)
+        server.serve_forever()
+
+
+    if __name__ == "__main__":
+        main()
+kind: ConfigMap
+metadata:
+  name: gtnh-dashboard-app
+  namespace: gtnh-dashboard
