@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gtnh-dashboard
+  namespace: gtnh-dashboard
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: gtnh-dashboard
+  template:
+    metadata:
+      labels:
+        app: gtnh-dashboard
+    spec:
+      serviceAccountName: gtnh-dashboard
+      automountServiceAccountToken: true
+      containers:
+        - name: gtnh-dashboard
+          image: python:3.14-slim
+          imagePullPolicy: Always
+          command:
+            - python
+            - /app/app.py
+          env:
+            - name: RCON_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gtnh-rcon
+                  key: rcon-password
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "128Mi"
+          volumeMounts:
+            - name: app
+              mountPath: /app/app.py
+              subPath: app.py
+              readOnly: true
+            - name: state
+              mountPath: /data
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: app
+          configMap:
+            name: gtnh-dashboard-app
+        - name: state
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gtnh-dashboard
+  namespace: gtnh-dashboard
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: gtnh-dashboard
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gtnh-dashboard
+  namespace: gtnh-dashboard
+  annotations:
+    external-dns.kubernetes.io/target: "140.238.159.81"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`gtnh-dash.forcebyte.org`)
+      kind: Rule
+      middlewares:
+        - name: github-oauth
+          namespace: kube-system
+      services:
+        - name: gtnh-dashboard
+          port: 8080

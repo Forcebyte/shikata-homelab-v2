@@ -13,6 +13,7 @@ resources:
   - ./image-automation
   - ./github-oauth
   - ./gregtech
+  - ./gtnh-dashboard
   - ./homepage
   - ./hytale
   - ./minecraft

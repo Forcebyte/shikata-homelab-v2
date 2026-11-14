@@ -29,6 +29,19 @@ spec:
       ports:
         - protocol: TCP
           port: 25565
+    # Allow GTNH dashboard (RCON + ping) from its namespace
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: gtnh-dashboard
+          podSelector:
+            matchLabels:
+              app: gtnh-dashboard
+      ports:
+        - protocol: TCP
+          port: 25565
+        - protocol: TCP
+          port: 25575
   egress:
     # Allow DNS
     - to:
