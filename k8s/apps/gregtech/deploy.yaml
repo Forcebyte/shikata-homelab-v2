@@ -29,6 +29,10 @@ spec:
         app: gregtech
     spec:
       automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: gregtech
           image: itzg/minecraft-server:java25
