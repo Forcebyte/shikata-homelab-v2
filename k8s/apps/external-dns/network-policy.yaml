@@ -13,19 +13,12 @@ spec:
   # No ingress: external-dns only makes outbound calls.
   ingress: []
   egress:
-    # Allow DNS
-    - to:
-        - namespaceSelector: {}
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-    # Cloudflare API, and the in-cluster apiserver (its ClusterIP is
-    # matched pre-DNAT, so this rule covers both)
+    # Broad egress: external-dns must reach the in-cluster apiserver
+    # (ClusterIP 10.43.0.1:443) and the Cloudflare API. A port-443-only
+    # rule does NOT match ClusterIP traffic on this CNI (verified
+    # 2026-11-15: a labelled pod got curl exit 7 to the apiserver with
+    # a 443-only rule, but connected fine with unrestricted egress),
+    # so the port must not be restricted here.
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-      ports:
-        - protocol: TCP
-          port: 443
