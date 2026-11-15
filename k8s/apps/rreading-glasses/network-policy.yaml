@@ -19,6 +19,14 @@ spec:
       ports:
         - protocol: TCP
           port: 8788
+    # Allow return traffic from Postgres (its replies to our queries)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: postgres
+          podSelector:
+            matchLabels:
+              app: postgres
   egress:
     # Allow DNS
     - to:
