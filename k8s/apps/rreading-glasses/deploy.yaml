@@ -31,6 +31,8 @@ spec:
               value: "postgres.postgres.svc.cluster.local"
             - name: POSTGRES_DATABASE
               value: "rreading_glasses"
+            - name: PGSSLMODE
+              value: "disable"
             - name: POSTGRES_USER
               value: "rreading_glasses"
             - name: POSTGRES_PASSWORD
