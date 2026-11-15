@@ -29,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: n8n
-          image: n8nio/n8n:latest@sha256:8602f5dfacbe2c931eeafd010de0e68182310e9f309921e780ab69182e92b3ae # {"$imagepolicy": "flux-system:n8n"}
+          image: n8nio/n8n:latest@sha256:b4b90747b81fcda7e76550c0d3aa7f0f64917a1e9573cff40d6834eaf2e0f8ea # {"$imagepolicy": "flux-system:n8n"}
           imagePullPolicy: Always
           ports:
             - containerPort: 5678
