@@ -24,3 +24,11 @@ GRANT ALL PRIVILEGES ON DATABASE rreading_glasses TO rreading_glasses;
 GRANT ALL ON SCHEMA public TO rreading_glasses;
 ALTER SCHEMA public OWNER TO rreading_glasses;
 ```
+
+## Postgres TLS note
+The app builds its Postgres DSN without an sslmode (see PGConfig.DSN() in
+upstream), so pgx defaults to sslmode=prefer and tries TLS first. The shared
+Postgres has SSL off, and the TLS handshake hangs instead of falling back,
+leaving backends stuck in authentication until max_connections is hit
+(102 stuck backends, Nov 15 2026 — took down umami too). Fix: PGSSLMODE=disable in the deployment env so pgx skips TLS entirely. Do not remove it unless the
+shared Postgres gets SSL enabled.
