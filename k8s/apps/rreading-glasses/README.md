@@ -7,6 +7,13 @@ Postgres cache on the shared Rybbit Postgres.
 > Automation's manifest rewrites strip comments from files it pins, so the
 > documentation lives here now, where the bot can't eat it.
 
+## Scaled to 0 (Nov 15, 2026)
+Replicas set to 0 as a stopgap: the app's Postgres connections hang during the
+auth handshake (backends stuck in 'authentication', one per crashloop cycle),
+which was refilling the shared Postgres connection pool. Postgres itself is up;
+the hang affects new connections from this app (and intermittently umami too).
+Do not scale back to 1 until the auth hang is diagnosed and fixed.
+
 ## Required secrets (create manually, NOT in git)
 
 - `rreading-glasses` (namespace: qbittorrent):
