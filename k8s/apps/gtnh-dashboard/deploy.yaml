@@ -83,6 +83,7 @@ metadata:
   namespace: gtnh-dashboard
   annotations:
     external-dns.kubernetes.io/target: "140.238.159.81"
+    external-dns.kubernetes.io/cloudflare-proxied: "true"
     kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
