@@ -31,7 +31,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: cs2-modded-server
-          image: ghcr.io/kus/cs2-modded-server:latest@sha256:ea76481e78c586b30a23d23cf280ef0821858db5c6f0c4b804f06075c41da5a4 # {"$imagepolicy": "flux-system:cs2"}
+          image: ghcr.io/kus/cs2-modded-server:latest@sha256:de34bf591780b74ae2f26b256fcc75e2350aca2ddb4a616f336bc3bf46c1f748 # {"$imagepolicy": "flux-system:cs2"}
           ports:
             - containerPort: 27015
               protocol: TCP

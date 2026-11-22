@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: init-config
-          image: ghcr.io/openclaw/openclaw:latest@sha256:e73f689d663567f0fe3c5a85c54beb3e102dc21f0814bf375e9039ee2d2df51b # {"$imagepolicy": "flux-system:openclaw"}
+          image: ghcr.io/openclaw/openclaw:latest@sha256:65e229536a2698f0ab211c8a3d1c5c8e2685d19379d153e95f93ff76f22779cf # {"$imagepolicy": "flux-system:openclaw"}
           imagePullPolicy: IfNotPresent
           command:
             - sh

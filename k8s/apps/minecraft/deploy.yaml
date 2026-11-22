@@ -31,7 +31,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:latest@sha256:3b2a8e7e59baa266f1b3622efcefbbdff11999c42c303d7951c66b8e32513135 # {"$imagepolicy": "flux-system:minecraft"}
+          image: itzg/minecraft-server:latest@sha256:dc15f05423064860968043de873316dbd0c027a7d9c8354826229d7c20dd4619 # {"$imagepolicy": "flux-system:minecraft"}
           imagePullPolicy: Always
           resources:
             requests:

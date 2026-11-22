@@ -130,7 +130,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: calibre
-          image: linuxserver/calibre:latest@sha256:fa5ae5f55859544ec026f82165b01bff913e812c7d67078744fcd119c1531ea3 # {"$imagepolicy": "flux-system:calibre"}
+          image: linuxserver/calibre:latest@sha256:b7b1d5d64d510d8b7b890ff5ed1692bdceb13bd6290d371859c9eeb973395d6f # {"$imagepolicy": "flux-system:calibre"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080 # Default port for Calibre
